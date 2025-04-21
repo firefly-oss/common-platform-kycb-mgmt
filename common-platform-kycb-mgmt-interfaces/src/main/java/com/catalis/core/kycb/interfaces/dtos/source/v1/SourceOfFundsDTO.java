@@ -1,0 +1,39 @@
+package com.catalis.core.kycb.interfaces.dtos.source.v1;
+
+import com.catalis.core.kycb.interfaces.dtos.BaseDTO;
+import com.catalis.core.utils.annotations.FilterableId;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+/**
+ * DTO for source of funds data.
+ */
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class SourceOfFundsDTO extends BaseDTO {
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Long sourceOfFundsId;
+
+    @FilterableId
+    private Long partyId;
+
+    private String sourceType;
+    private String sourceDescription;
+    private BigDecimal estimatedAnnualAmount;
+    private String currency;
+    private Boolean isVerified;
+    private String verificationMethod;
+    private String supportingDocuments;
+    private LocalDateTime verificationDate;
+}
