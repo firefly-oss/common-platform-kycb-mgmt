@@ -3,7 +3,6 @@ package com.catalis.core.kycb.web.controllers.identity.v1;
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.queries.PaginationResponse;
 import com.catalis.core.kycb.core.services.kyc.v1.KycVerificationService;
-import com.catalis.core.kycb.interfaces.dtos.kyb.v1.KybVerificationDTO;
 import com.catalis.core.kycb.interfaces.dtos.kyc.v1.KycVerificationDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -36,7 +36,7 @@ public class KycVerificationController {
                     )
             }
     )
-    public Mono<PaginationResponse<KycVerificationDTO>> listKycVerifications(
+    public Mono<ResponseEntity<PaginationResponse<KycVerificationDTO>>> listKycVerifications(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @ModelAttribute FilterRequest<KycVerificationDTO> filterRequest
@@ -46,8 +46,10 @@ public class KycVerificationController {
         filter.setPartyId(partyId);
         filterRequest.setFilters(filter);
 
-        return kycVerificationService.findAll(filterRequest);
+        return kycVerificationService.findAll(filterRequest)
+                .map(ResponseEntity::ok);
     }
+
 
     @GetMapping("/{verificationId}")
     @Operation(
@@ -65,13 +67,15 @@ public class KycVerificationController {
                     )
             }
     )
-    public Mono<KycVerificationDTO> getKycVerification(
+    public Mono<ResponseEntity<KycVerificationDTO>> getKycVerification(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the verification", required = true)
             @PathVariable Long verificationId
     ) {
-        return kycVerificationService.getById(verificationId);
+        return kycVerificationService.getById(verificationId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -87,14 +91,15 @@ public class KycVerificationController {
                     )
             }
     )
-    public Mono<KycVerificationDTO> createKycVerification(
+    public Mono<ResponseEntity<KycVerificationDTO>> createKycVerification(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "KYC verification data", required = true)
             @RequestBody KycVerificationDTO kycVerificationDTO
     ) {
         kycVerificationDTO.setPartyId(partyId);
-        return kycVerificationService.create(kycVerificationDTO);
+        return kycVerificationService.create(kycVerificationDTO)
+                .map(dto -> ResponseEntity.status(HttpStatus.CREATED).body(dto));
     }
 
     @PatchMapping("/{verificationId}")
@@ -113,7 +118,7 @@ public class KycVerificationController {
                     )
             }
     )
-    public Mono<KycVerificationDTO> updateKycVerification(
+    public Mono<ResponseEntity<KycVerificationDTO>> updateKycVerification(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the verification", required = true)
@@ -122,18 +127,19 @@ public class KycVerificationController {
             @RequestBody KycVerificationDTO kycVerificationDTO
     ) {
         kycVerificationDTO.setPartyId(partyId);
-        return kycVerificationService.update(verificationId, kycVerificationDTO);
+        return kycVerificationService.update(verificationId, kycVerificationDTO)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/{verificationId}/complete")
+    @DeleteMapping("/{verificationId}")
     @Operation(
-            summary = "Complete KYC verification",
-            description = "Marks a KYC verification as complete",
+            summary = "Delete KYC verification",
+            description = "Deletes a KYC verification",
             responses = {
                     @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully completed KYC verification",
-                            content = @Content(schema = @Schema(implementation = KycVerificationDTO.class))
+                            responseCode = "204",
+                            description = "Successfully deleted KYC verification"
                     ),
                     @ApiResponse(
                             responseCode = "404",
@@ -141,12 +147,13 @@ public class KycVerificationController {
                     )
             }
     )
-    public Mono<KycVerificationDTO> completeKycVerification(
+    public Mono<ResponseEntity<Void>> deleteKycVerification(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the verification", required = true)
             @PathVariable Long verificationId
     ) {
-        return kycVerificationService.complete(verificationId);
+        return kycVerificationService.delete(verificationId)
+                .then(Mono.just(ResponseEntity.noContent().<Void>build()));
     }
 }

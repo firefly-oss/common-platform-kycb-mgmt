@@ -12,8 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -27,7 +27,7 @@ public class RiskAssessmentController {
     @GetMapping
     @Operation(
             summary = "List risk assessments",
-            description = "Retrieves all risk assessments for the specified party ID with optional filtering",
+            description = "Retrieves all risk assessments for the specified party ID with filtering capabilities",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -36,11 +36,19 @@ public class RiskAssessmentController {
                     )
             }
     )
-    public Flux<RiskAssessmentDTO> listRiskAssessments(
+    public Mono<ResponseEntity<PaginationResponse<RiskAssessmentDTO>>> listRiskAssessments(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
+            @PathVariable Long partyId,
+            @Parameter(description = "Filter criteria")
+            @ModelAttribute FilterRequest<RiskAssessmentDTO> filterRequest
     ) {
-        return riskAssessmentService.findByPartyId(partyId);
+        // Set party ID filter
+        RiskAssessmentDTO filter = filterRequest.getFilters() != null ? filterRequest.getFilters() : new RiskAssessmentDTO();
+        filter.setPartyId(partyId);
+        filterRequest.setFilters(filter);
+
+        return riskAssessmentService.findAll(filterRequest)
+                .map(ResponseEntity::ok);
     }
 
     @PostMapping
@@ -56,14 +64,15 @@ public class RiskAssessmentController {
                     )
             }
     )
-    public Mono<RiskAssessmentDTO> createRiskAssessment(
+    public Mono<ResponseEntity<RiskAssessmentDTO>> createRiskAssessment(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "Risk assessment data", required = true)
             @RequestBody RiskAssessmentDTO riskAssessmentDTO
     ) {
         riskAssessmentDTO.setPartyId(partyId);
-        return riskAssessmentService.create(riskAssessmentDTO);
+        return riskAssessmentService.create(riskAssessmentDTO)
+                .map(dto -> ResponseEntity.status(HttpStatus.CREATED).body(dto));
     }
 
     @GetMapping("/{assessmentId}")
@@ -82,56 +91,69 @@ public class RiskAssessmentController {
                     )
             }
     )
-    public Mono<RiskAssessmentDTO> getRiskAssessment(
+    public Mono<ResponseEntity<RiskAssessmentDTO>> getRiskAssessment(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the assessment", required = true)
             @PathVariable Long assessmentId
     ) {
-        return riskAssessmentService.getById(assessmentId);
+        return riskAssessmentService.getById(assessmentId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/calculate")
+    @PatchMapping("/{assessmentId}")
     @Operation(
-            summary = "Calculate risk score",
-            description = "Calculates a risk score for the specified party",
+            summary = "Update risk assessment",
+            description = "Updates an existing risk assessment",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successfully calculated risk score",
-                            content = @Content(schema = @Schema(implementation = RiskAssessmentDTO.class))
-                    )
-            }
-    )
-    public Mono<RiskAssessmentDTO> calculateRiskScore(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "Assessment type", required = true)
-            @RequestParam String assessmentType
-    ) {
-        return riskAssessmentService.calculateRiskScore(partyId, assessmentType);
-    }
-
-    @GetMapping("/latest")
-    @Operation(
-            summary = "Get latest assessment",
-            description = "Retrieves the latest risk assessment for the specified party",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved latest risk assessment",
+                            description = "Successfully updated risk assessment",
                             content = @Content(schema = @Schema(implementation = RiskAssessmentDTO.class))
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "No risk assessments found for party"
+                            description = "Risk assessment not found"
                     )
             }
     )
-    public Mono<RiskAssessmentDTO> getLatestRiskAssessment(
+    public Mono<ResponseEntity<RiskAssessmentDTO>> updateRiskAssessment(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
+            @PathVariable Long partyId,
+            @Parameter(description = "ID of the assessment", required = true)
+            @PathVariable Long assessmentId,
+            @Parameter(description = "Updated risk assessment data", required = true)
+            @RequestBody RiskAssessmentDTO riskAssessmentDTO
     ) {
-        return riskAssessmentService.getLatestByPartyId(partyId);
+        riskAssessmentDTO.setPartyId(partyId);
+        return riskAssessmentService.update(assessmentId, riskAssessmentDTO)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{assessmentId}")
+    @Operation(
+            summary = "Delete risk assessment",
+            description = "Deletes a risk assessment",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "Successfully deleted risk assessment"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Risk assessment not found"
+                    )
+            }
+    )
+    public Mono<ResponseEntity<Void>> deleteRiskAssessment(
+            @Parameter(description = "ID of the party", required = true)
+            @PathVariable Long partyId,
+            @Parameter(description = "ID of the assessment", required = true)
+            @PathVariable Long assessmentId
+    ) {
+        return riskAssessmentService.delete(assessmentId)
+                .then(Mono.just(ResponseEntity.noContent().<Void>build()));
     }
 }

@@ -12,8 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -32,15 +32,23 @@ public class SourceOfFundsController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully retrieved sources of funds",
-                            content = @Content(schema = @Schema(implementation = SourceOfFundsDTO.class))
+                            content = @Content(schema = @Schema(implementation = PaginationResponse.class))
                     )
             }
     )
-    public Flux<SourceOfFundsDTO> listSourcesOfFunds(
+    public Mono<ResponseEntity<PaginationResponse<SourceOfFundsDTO>>> listSourcesOfFunds(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
+            @PathVariable Long partyId,
+            @Parameter(description = "Filter criteria")
+            @ModelAttribute FilterRequest<SourceOfFundsDTO> filterRequest
     ) {
-        return sourceOfFundsService.findByPartyId(partyId);
+        // Set party ID filter
+        SourceOfFundsDTO filter = filterRequest.getFilters() != null ? filterRequest.getFilters() : new SourceOfFundsDTO();
+        filter.setPartyId(partyId);
+        filterRequest.setFilters(filter);
+
+        return sourceOfFundsService.findAll(filterRequest)
+                .map(ResponseEntity::ok);
     }
 
     @PostMapping
@@ -56,14 +64,15 @@ public class SourceOfFundsController {
                     )
             }
     )
-    public Mono<SourceOfFundsDTO> addSourceOfFunds(
+    public Mono<ResponseEntity<SourceOfFundsDTO>> addSourceOfFunds(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "Source of funds data", required = true)
             @RequestBody SourceOfFundsDTO sourceOfFundsDTO
     ) {
         sourceOfFundsDTO.setPartyId(partyId);
-        return sourceOfFundsService.create(sourceOfFundsDTO);
+        return sourceOfFundsService.create(sourceOfFundsDTO)
+                .map(dto -> ResponseEntity.status(HttpStatus.CREATED).body(dto));
     }
 
     @GetMapping("/{sourceId}")
@@ -82,13 +91,15 @@ public class SourceOfFundsController {
                     )
             }
     )
-    public Mono<SourceOfFundsDTO> getSourceOfFunds(
+    public Mono<ResponseEntity<SourceOfFundsDTO>> getSourceOfFunds(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the source", required = true)
             @PathVariable Long sourceId
     ) {
-        return sourceOfFundsService.getById(sourceId);
+        return sourceOfFundsService.getById(sourceId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/{sourceId}")
@@ -107,7 +118,7 @@ public class SourceOfFundsController {
                     )
             }
     )
-    public Mono<SourceOfFundsDTO> updateSourceOfFunds(
+    public Mono<ResponseEntity<SourceOfFundsDTO>> updateSourceOfFunds(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the source", required = true)
@@ -116,7 +127,9 @@ public class SourceOfFundsController {
             @RequestBody SourceOfFundsDTO sourceOfFundsDTO
     ) {
         sourceOfFundsDTO.setPartyId(partyId);
-        return sourceOfFundsService.update(sourceId, sourceOfFundsDTO);
+        return sourceOfFundsService.update(sourceId, sourceOfFundsDTO)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{sourceId}")
@@ -135,86 +148,13 @@ public class SourceOfFundsController {
                     )
             }
     )
-    public Mono<Void> deleteSourceOfFunds(
+    public Mono<ResponseEntity<Void>> deleteSourceOfFunds(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the source", required = true)
             @PathVariable Long sourceId
     ) {
-        return sourceOfFundsService.delete(sourceId);
-    }
-
-    @PostMapping("/{sourceId}/verify")
-    @Operation(
-            summary = "Verify source of funds",
-            description = "Marks a source of funds as verified",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully verified source of funds",
-                            content = @Content(schema = @Schema(implementation = SourceOfFundsDTO.class))
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "Source of funds not found"
-                    )
-            }
-    )
-    public Mono<SourceOfFundsDTO> verifySourceOfFunds(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "ID of the source", required = true)
-            @PathVariable Long sourceId,
-            @Parameter(description = "Verification notes")
-            @RequestParam(required = false) String verificationNotes
-    ) {
-        return sourceOfFundsService.verifySource(sourceId, verificationNotes);
-    }
-
-    @PostMapping("/{sourceId}/set-primary")
-    @Operation(
-            summary = "Set primary source",
-            description = "Sets a source of funds as the primary source for the party",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully set primary source",
-                            content = @Content(schema = @Schema(implementation = SourceOfFundsDTO.class))
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "Source of funds not found"
-                    )
-            }
-    )
-    public Mono<SourceOfFundsDTO> setPrimarySource(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "ID of the source", required = true)
-            @PathVariable Long sourceId
-    ) {
-        return sourceOfFundsService.setPrimarySource(sourceId);
-    }
-
-    @GetMapping("/type/{sourceType}")
-    @Operation(
-            summary = "Get sources by type",
-            description = "Retrieves all sources of funds of a specific type for the party",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved sources of funds",
-                            content = @Content(schema = @Schema(implementation = SourceOfFundsDTO.class))
-                    )
-            }
-    )
-    public Flux<SourceOfFundsDTO> getSourcesByType(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "Type of source", required = true)
-            @PathVariable String sourceType
-    ) {
-        return sourceOfFundsService.findBySourceType(sourceType)
-                .filter(source -> source.getPartyId().equals(partyId));
+        return sourceOfFundsService.delete(sourceId)
+                .then(Mono.just(ResponseEntity.noContent().<Void>build()));
     }
 }

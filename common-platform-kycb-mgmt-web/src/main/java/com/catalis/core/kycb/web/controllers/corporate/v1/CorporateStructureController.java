@@ -12,8 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -26,25 +26,32 @@ public class CorporateStructureController {
 
     @GetMapping
     @Operation(
-            summary = "Get corporate structure",
-            description = "Retrieves all corporate structure relationships for the specified party",
+            summary = "List structure relationships",
+            description = "Retrieves all corporate structure relationships with filtering capabilities",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully retrieved corporate structure relationships",
-                            content = @Content(schema = @Schema(implementation = CorporateStructureDTO.class))
+                            content = @Content(schema = @Schema(implementation = PaginationResponse.class))
                     )
             }
     )
-    public Flux<CorporateStructureDTO> getCorporateStructure(
+    public Mono<ResponseEntity<PaginationResponse<CorporateStructureDTO>>> listStructureRelationships(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
+            @PathVariable Long partyId,
+            @Parameter(description = "Filter criteria")
+            @ModelAttribute FilterRequest<CorporateStructureDTO> filterRequest
     ) {
-        return corporateStructureService.findByPartyId(partyId);
+        // Set party ID filter
+        CorporateStructureDTO filter = filterRequest.getFilters() != null ? filterRequest.getFilters() : new CorporateStructureDTO();
+        filter.setPartyId(partyId);
+        filterRequest.setFilters(filter);
+
+        return corporateStructureService.findAll(filterRequest)
+                .map(ResponseEntity::ok);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(
             summary = "Add structure relationship",
             description = "Adds a new structure relationship to the specified party",
@@ -56,14 +63,15 @@ public class CorporateStructureController {
                     )
             }
     )
-    public Mono<CorporateStructureDTO> addStructureRelationship(
+    public Mono<ResponseEntity<CorporateStructureDTO>> addStructureRelationship(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "Structure relationship data", required = true)
             @RequestBody CorporateStructureDTO corporateStructureDTO
     ) {
         corporateStructureDTO.setPartyId(partyId);
-        return corporateStructureService.create(corporateStructureDTO);
+        return corporateStructureService.create(corporateStructureDTO)
+                .map(dto -> ResponseEntity.status(HttpStatus.CREATED).body(dto));
     }
 
     @GetMapping("/{structureId}")
@@ -82,13 +90,15 @@ public class CorporateStructureController {
                     )
             }
     )
-    public Mono<CorporateStructureDTO> getStructureRelationship(
+    public Mono<ResponseEntity<CorporateStructureDTO>> getStructureRelationship(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the structure relationship", required = true)
             @PathVariable Long structureId
     ) {
-        return corporateStructureService.getById(structureId);
+        return corporateStructureService.getById(structureId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/{structureId}")
@@ -107,7 +117,7 @@ public class CorporateStructureController {
                     )
             }
     )
-    public Mono<CorporateStructureDTO> updateStructureRelationship(
+    public Mono<ResponseEntity<CorporateStructureDTO>> updateStructureRelationship(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the structure relationship", required = true)
@@ -116,11 +126,12 @@ public class CorporateStructureController {
             @RequestBody CorporateStructureDTO corporateStructureDTO
     ) {
         corporateStructureDTO.setPartyId(partyId);
-        return corporateStructureService.update(structureId, corporateStructureDTO);
+        return corporateStructureService.update(structureId, corporateStructureDTO)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{structureId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
             summary = "Delete structure relationship",
             description = "Deletes a structure relationship",
@@ -135,83 +146,13 @@ public class CorporateStructureController {
                     )
             }
     )
-    public Mono<Void> deleteStructureRelationship(
+    public Mono<ResponseEntity<Void>> deleteStructureRelationship(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the structure relationship", required = true)
             @PathVariable Long structureId
     ) {
-        return corporateStructureService.delete(structureId);
-    }
-
-    @PostMapping("/{structureId}/verify")
-    @Operation(
-            summary = "Verify structure relationship",
-            description = "Marks a structure relationship as verified",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully verified structure relationship",
-                            content = @Content(schema = @Schema(implementation = CorporateStructureDTO.class))
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "Structure relationship not found"
-                    )
-            }
-    )
-    public Mono<CorporateStructureDTO> verifyStructureRelationship(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "ID of the structure relationship", required = true)
-            @PathVariable Long structureId,
-            @Parameter(description = "Verification notes")
-            @RequestParam(required = false) String verificationNotes
-    ) {
-        return corporateStructureService.verifyStructure(structureId, verificationNotes);
-    }
-
-    @GetMapping("/parent/{parentId}")
-    @Operation(
-            summary = "Get structure by parent",
-            description = "Retrieves all structure relationships where the specified entity is the parent",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved structure relationships",
-                            content = @Content(schema = @Schema(implementation = CorporateStructureDTO.class))
-                    )
-            }
-    )
-    public Flux<CorporateStructureDTO> getStructureByParent(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "ID of the parent entity", required = true)
-            @PathVariable Long parentId
-    ) {
-        return corporateStructureService.findByParentId(parentId)
-                .filter(structure -> structure.getPartyId().equals(partyId));
-    }
-
-    @GetMapping("/type/{relationshipType}")
-    @Operation(
-            summary = "Get structure by type",
-            description = "Retrieves all structure relationships of a specific type",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved structure relationships",
-                            content = @Content(schema = @Schema(implementation = CorporateStructureDTO.class))
-                    )
-            }
-    )
-    public Flux<CorporateStructureDTO> getStructureByType(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "Type of relationship", required = true)
-            @PathVariable String relationshipType
-    ) {
-        return corporateStructureService.findByRelationshipType(relationshipType)
-                .filter(structure -> structure.getPartyId().equals(partyId));
+        return corporateStructureService.delete(structureId)
+                .then(Mono.just(ResponseEntity.noContent().<Void>build()));
     }
 }

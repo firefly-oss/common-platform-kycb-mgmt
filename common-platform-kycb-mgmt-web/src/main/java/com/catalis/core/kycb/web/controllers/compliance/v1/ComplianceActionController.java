@@ -1,5 +1,7 @@
 package com.catalis.core.kycb.web.controllers.compliance.v1;
 
+import com.catalis.common.core.filters.FilterRequest;
+import com.catalis.common.core.queries.PaginationResponse;
 import com.catalis.core.kycb.core.services.compliance.v1.ComplianceActionService;
 import com.catalis.core.kycb.interfaces.dtos.compliance.v1.ComplianceActionDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,8 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -25,24 +27,31 @@ public class ComplianceActionController {
     @GetMapping
     @Operation(
             summary = "List case actions",
-            description = "Retrieves all actions for the specified compliance case",
+            description = "Retrieves all actions for the specified compliance case with filtering capabilities",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully retrieved compliance actions",
-                            content = @Content(schema = @Schema(implementation = ComplianceActionDTO.class))
+                            content = @Content(schema = @Schema(implementation = PaginationResponse.class))
                     )
             }
     )
-    public Flux<ComplianceActionDTO> listCaseActions(
+    public Mono<ResponseEntity<PaginationResponse<ComplianceActionDTO>>> listCaseActions(
             @Parameter(description = "ID of the case", required = true)
-            @PathVariable Long caseId
+            @PathVariable Long caseId,
+            @Parameter(description = "Filter criteria")
+            @ModelAttribute FilterRequest<ComplianceActionDTO> filterRequest
     ) {
-        return complianceActionService.findByCaseId(caseId);
+        // Set case ID filter
+        ComplianceActionDTO filter = filterRequest.getFilters() != null ? filterRequest.getFilters() : new ComplianceActionDTO();
+        filter.setComplianceCaseId(caseId);
+        filterRequest.setFilters(filter);
+
+        return complianceActionService.findAll(filterRequest)
+                .map(ResponseEntity::ok);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(
             summary = "Create case action",
             description = "Creates a new action for the specified compliance case",
@@ -54,14 +63,15 @@ public class ComplianceActionController {
                     )
             }
     )
-    public Mono<ComplianceActionDTO> createCaseAction(
+    public Mono<ResponseEntity<ComplianceActionDTO>> createCaseAction(
             @Parameter(description = "ID of the case", required = true)
             @PathVariable Long caseId,
             @Parameter(description = "Compliance action data", required = true)
             @RequestBody ComplianceActionDTO complianceActionDTO
     ) {
         complianceActionDTO.setComplianceCaseId(caseId);
-        return complianceActionService.create(complianceActionDTO);
+        return complianceActionService.create(complianceActionDTO)
+                .map(dto -> ResponseEntity.status(HttpStatus.CREATED).body(dto));
     }
 
     @GetMapping("/{actionId}")
@@ -80,13 +90,15 @@ public class ComplianceActionController {
                     )
             }
     )
-    public Mono<ComplianceActionDTO> getCaseAction(
+    public Mono<ResponseEntity<ComplianceActionDTO>> getCaseAction(
             @Parameter(description = "ID of the case", required = true)
             @PathVariable Long caseId,
             @Parameter(description = "ID of the action", required = true)
             @PathVariable Long actionId
     ) {
-        return complianceActionService.getById(actionId);
+        return complianceActionService.getById(actionId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/{actionId}")
@@ -105,7 +117,7 @@ public class ComplianceActionController {
                     )
             }
     )
-    public Mono<ComplianceActionDTO> updateCaseAction(
+    public Mono<ResponseEntity<ComplianceActionDTO>> updateCaseAction(
             @Parameter(description = "ID of the case", required = true)
             @PathVariable Long caseId,
             @Parameter(description = "ID of the action", required = true)
@@ -114,18 +126,19 @@ public class ComplianceActionController {
             @RequestBody ComplianceActionDTO complianceActionDTO
     ) {
         complianceActionDTO.setComplianceCaseId(caseId);
-        return complianceActionService.update(actionId, complianceActionDTO);
+        return complianceActionService.update(actionId, complianceActionDTO)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/{actionId}/complete")
+    @DeleteMapping("/{actionId}")
     @Operation(
-            summary = "Complete action",
-            description = "Marks a compliance action as completed",
+            summary = "Delete case action",
+            description = "Deletes a compliance action",
             responses = {
                     @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully completed compliance action",
-                            content = @Content(schema = @Schema(implementation = ComplianceActionDTO.class))
+                            responseCode = "204",
+                            description = "Successfully deleted compliance action"
                     ),
                     @ApiResponse(
                             responseCode = "404",
@@ -133,16 +146,13 @@ public class ComplianceActionController {
                     )
             }
     )
-    public Mono<ComplianceActionDTO> completeAction(
+    public Mono<ResponseEntity<Void>> deleteCaseAction(
             @Parameter(description = "ID of the case", required = true)
             @PathVariable Long caseId,
             @Parameter(description = "ID of the action", required = true)
-            @PathVariable Long actionId,
-            @Parameter(description = "Completion notes")
-            @RequestParam(required = false) String completionNotes,
-            @Parameter(description = "Completed by", required = true)
-            @RequestParam String completedBy
+            @PathVariable Long actionId
     ) {
-        return complianceActionService.completeAction(actionId, completionNotes, completedBy);
+        return complianceActionService.delete(actionId)
+                .then(Mono.just(ResponseEntity.noContent().<Void>build()));
     }
 }

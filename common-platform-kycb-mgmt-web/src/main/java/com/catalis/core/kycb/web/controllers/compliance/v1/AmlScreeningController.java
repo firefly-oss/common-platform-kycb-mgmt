@@ -12,8 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -27,7 +27,7 @@ public class AmlScreeningController {
     @GetMapping
     @Operation(
             summary = "List AML screenings",
-            description = "Retrieves all AML screenings for the specified party ID with optional filtering",
+            description = "Retrieves all AML screenings for the specified party ID with filtering capabilities",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -36,33 +36,42 @@ public class AmlScreeningController {
                     )
             }
     )
-    public Flux<AmlScreeningDTO> listAmlScreenings(
+    public Mono<ResponseEntity<PaginationResponse<AmlScreeningDTO>>> listAmlScreenings(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
+            @PathVariable Long partyId,
+            @Parameter(description = "Filter criteria")
+            @ModelAttribute FilterRequest<AmlScreeningDTO> filterRequest
     ) {
-        return amlScreeningService.findByPartyId(partyId);
+        // Set party ID filter
+        AmlScreeningDTO filter = filterRequest.getFilters() != null ? filterRequest.getFilters() : new AmlScreeningDTO();
+        filter.setPartyId(partyId);
+        filterRequest.setFilters(filter);
+
+        return amlScreeningService.findAll(filterRequest)
+                .map(ResponseEntity::ok);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(
-            summary = "Execute new AML screening",
-            description = "Executes a new AML screening for the specified party",
+            summary = "Create AML screening",
+            description = "Creates a new AML screening for the specified party",
             responses = {
                     @ApiResponse(
                             responseCode = "201",
-                            description = "Successfully executed AML screening",
+                            description = "Successfully created AML screening",
                             content = @Content(schema = @Schema(implementation = AmlScreeningDTO.class))
                     )
             }
     )
-    public Mono<AmlScreeningDTO> executeAmlScreening(
+    public Mono<ResponseEntity<AmlScreeningDTO>> createAmlScreening(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
-            @Parameter(description = "Screening type", required = true)
-            @RequestParam String screeningType
+            @Parameter(description = "AML screening data", required = true)
+            @RequestBody AmlScreeningDTO amlScreeningDTO
     ) {
-        return amlScreeningService.executeScreening(partyId, screeningType);
+        amlScreeningDTO.setPartyId(partyId);
+        return amlScreeningService.create(amlScreeningDTO)
+                .map(dto -> ResponseEntity.status(HttpStatus.CREATED).body(dto));
     }
 
     @GetMapping("/{screeningId}")
@@ -81,13 +90,15 @@ public class AmlScreeningController {
                     )
             }
     )
-    public Mono<AmlScreeningDTO> getAmlScreening(
+    public Mono<ResponseEntity<AmlScreeningDTO>> getAmlScreening(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the screening", required = true)
             @PathVariable Long screeningId
     ) {
-        return amlScreeningService.getById(screeningId);
+        return amlScreeningService.getById(screeningId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/{screeningId}")
@@ -106,7 +117,7 @@ public class AmlScreeningController {
                     )
             }
     )
-    public Mono<AmlScreeningDTO> updateAmlScreening(
+    public Mono<ResponseEntity<AmlScreeningDTO>> updateAmlScreening(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the screening", required = true)
@@ -115,29 +126,33 @@ public class AmlScreeningController {
             @RequestBody AmlScreeningDTO amlScreeningDTO
     ) {
         amlScreeningDTO.setPartyId(partyId);
-        return amlScreeningService.update(screeningId, amlScreeningDTO);
+        return amlScreeningService.update(screeningId, amlScreeningDTO)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/latest")
+    @DeleteMapping("/{screeningId}")
     @Operation(
-            summary = "Get latest screening",
-            description = "Retrieves the latest AML screening for the specified party",
+            summary = "Delete AML screening",
+            description = "Deletes an AML screening",
             responses = {
                     @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved latest AML screening",
-                            content = @Content(schema = @Schema(implementation = AmlScreeningDTO.class))
+                            responseCode = "204",
+                            description = "Successfully deleted AML screening"
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "No AML screenings found for party"
+                            description = "AML screening not found"
                     )
             }
     )
-    public Mono<AmlScreeningDTO> getLatestAmlScreening(
+    public Mono<ResponseEntity<Void>> deleteAmlScreening(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
+            @PathVariable Long partyId,
+            @Parameter(description = "ID of the screening", required = true)
+            @PathVariable Long screeningId
     ) {
-        return amlScreeningService.getLatestByPartyId(partyId);
+        return amlScreeningService.delete(screeningId)
+                .then(Mono.just(ResponseEntity.noContent().<Void>build()));
     }
 }

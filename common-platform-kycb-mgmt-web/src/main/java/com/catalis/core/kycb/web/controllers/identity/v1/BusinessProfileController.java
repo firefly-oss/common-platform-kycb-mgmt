@@ -12,8 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -24,10 +24,10 @@ public class BusinessProfileController {
     @Autowired
     private BusinessProfileService businessProfileService;
 
-    @GetMapping
+    @GetMapping("/{businessProfileId}")
     @Operation(
             summary = "Get business profile",
-            description = "Retrieves the business profile for a specific party",
+            description = "Retrieves a business profile by its ID",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -40,15 +40,18 @@ public class BusinessProfileController {
                     )
             }
     )
-    public Mono<BusinessProfileDTO> getBusinessProfile(
+    public Mono<ResponseEntity<BusinessProfileDTO>> getBusinessProfile(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
+            @PathVariable Long partyId,
+            @Parameter(description = "ID of the business profile", required = true)
+            @PathVariable Long businessProfileId
     ) {
-        return businessProfileService.getLatestByPartyId(partyId);
+        return businessProfileService.getById(businessProfileId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(
             summary = "Create business profile",
             description = "Creates a new business profile for a specific party",
@@ -60,20 +63,21 @@ public class BusinessProfileController {
                     )
             }
     )
-    public Mono<BusinessProfileDTO> createBusinessProfile(
+    public Mono<ResponseEntity<BusinessProfileDTO>> createBusinessProfile(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "Business profile data", required = true)
             @RequestBody BusinessProfileDTO businessProfileDTO
     ) {
         businessProfileDTO.setPartyId(partyId);
-        return businessProfileService.create(businessProfileDTO);
+        return businessProfileService.create(businessProfileDTO)
+                .map(dto -> ResponseEntity.status(HttpStatus.CREATED).body(dto));
     }
 
-    @PatchMapping
+    @PatchMapping("/{businessProfileId}")
     @Operation(
             summary = "Update business profile",
-            description = "Updates the business profile for a specific party",
+            description = "Updates a business profile by its ID",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -86,43 +90,49 @@ public class BusinessProfileController {
                     )
             }
     )
-    public Mono<BusinessProfileDTO> updateBusinessProfile(
+    public Mono<ResponseEntity<BusinessProfileDTO>> updateBusinessProfile(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
+            @Parameter(description = "ID of the business profile", required = true)
+            @PathVariable Long businessProfileId,
             @Parameter(description = "Updated business profile data", required = true)
             @RequestBody BusinessProfileDTO businessProfileDTO
     ) {
-        return businessProfileService.getLatestByPartyId(partyId)
-                .flatMap(existingProfile -> {
-                    businessProfileDTO.setBusinessProfileId(existingProfile.getBusinessProfileId());
-                    businessProfileDTO.setPartyId(partyId);
-                    return businessProfileService.update(existingProfile.getBusinessProfileId(), businessProfileDTO);
-                });
+        businessProfileDTO.setPartyId(partyId);
+        return businessProfileService.update(businessProfileId, businessProfileDTO)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/history")
+    @DeleteMapping("/{businessProfileId}")
     @Operation(
-            summary = "Get business profile history",
-            description = "Retrieves all business profiles for a specific party",
+            summary = "Delete business profile",
+            description = "Deletes a business profile by its ID",
             responses = {
                     @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved business profile history",
-                            content = @Content(schema = @Schema(implementation = BusinessProfileDTO.class))
+                            responseCode = "204",
+                            description = "Successfully deleted business profile"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Business profile not found"
                     )
             }
     )
-    public Flux<BusinessProfileDTO> getBusinessProfileHistory(
+    public Mono<ResponseEntity<Void>> deleteBusinessProfile(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
+            @PathVariable Long partyId,
+            @Parameter(description = "ID of the business profile", required = true)
+            @PathVariable Long businessProfileId
     ) {
-        return businessProfileService.findByPartyId(partyId);
+        return businessProfileService.delete(businessProfileId)
+                .then(Mono.just(ResponseEntity.noContent().<Void>build()));
     }
 
-    @GetMapping("/all")
+    @GetMapping
     @Operation(
-            summary = "List all business profiles",
-            description = "Retrieves all business profiles with optional filtering",
+            summary = "List business profiles",
+            description = "Retrieves all business profiles with filtering capabilities",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -131,17 +141,18 @@ public class BusinessProfileController {
                     )
             }
     )
-    public Mono<PaginationResponse<BusinessProfileDTO>> listBusinessProfiles(
+    public Mono<ResponseEntity<PaginationResponse<BusinessProfileDTO>>> listBusinessProfiles(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "Filter criteria")
             @ModelAttribute FilterRequest<BusinessProfileDTO> filterRequest
     ) {
-        // Create a filter with the party ID
-        BusinessProfileDTO filter = new BusinessProfileDTO();
+        // Set party ID filter
+        BusinessProfileDTO filter = filterRequest.getFilters() != null ? filterRequest.getFilters() : new BusinessProfileDTO();
         filter.setPartyId(partyId);
         filterRequest.setFilters(filter);
 
-        return businessProfileService.findAll(filterRequest);
+        return businessProfileService.findAll(filterRequest)
+                .map(ResponseEntity::ok);
     }
 }

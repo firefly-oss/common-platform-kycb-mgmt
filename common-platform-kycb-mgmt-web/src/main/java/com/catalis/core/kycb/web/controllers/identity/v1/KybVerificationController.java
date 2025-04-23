@@ -4,7 +4,6 @@ import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.queries.PaginationResponse;
 import com.catalis.core.kycb.core.services.kyb.v1.KybVerificationService;
 import com.catalis.core.kycb.interfaces.dtos.kyb.v1.KybVerificationDTO;
-import com.catalis.core.kycb.interfaces.dtos.kyc.v1.KycVerificationDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -36,7 +36,7 @@ public class KybVerificationController {
                     )
             }
     )
-    public Mono<PaginationResponse<KybVerificationDTO>> listKybVerifications(
+    public Mono<ResponseEntity<PaginationResponse<KybVerificationDTO>>> listKybVerifications(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @ModelAttribute FilterRequest<KybVerificationDTO> filterRequest
@@ -47,7 +47,8 @@ public class KybVerificationController {
         filter.setPartyId(partyId);
         filterRequest.setFilters(filter);
 
-        return kybVerificationService.findAll(filterRequest);
+        return kybVerificationService.findAll(filterRequest)
+                .map(ResponseEntity::ok);
     }
 
     @GetMapping("/{verificationId}")
@@ -66,13 +67,15 @@ public class KybVerificationController {
                     )
             }
     )
-    public Mono<KybVerificationDTO> getKybVerification(
+    public Mono<ResponseEntity<KybVerificationDTO>> getKybVerification(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the verification", required = true)
             @PathVariable Long verificationId
     ) {
-        return kybVerificationService.getById(verificationId);
+        return kybVerificationService.getById(verificationId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -88,14 +91,15 @@ public class KybVerificationController {
                     )
             }
     )
-    public Mono<KybVerificationDTO> createKybVerification(
+    public Mono<ResponseEntity<KybVerificationDTO>> createKybVerification(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "KYB verification data", required = true)
             @RequestBody KybVerificationDTO kybVerificationDTO
     ) {
         kybVerificationDTO.setPartyId(partyId);
-        return kybVerificationService.create(kybVerificationDTO);
+        return kybVerificationService.create(kybVerificationDTO)
+                .map(dto -> ResponseEntity.status(HttpStatus.CREATED).body(dto));
     }
 
     @PatchMapping("/{verificationId}")
@@ -114,7 +118,7 @@ public class KybVerificationController {
                     )
             }
     )
-    public Mono<KybVerificationDTO> updateKybVerification(
+    public Mono<ResponseEntity<KybVerificationDTO>> updateKybVerification(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the verification", required = true)
@@ -123,18 +127,19 @@ public class KybVerificationController {
             @RequestBody KybVerificationDTO kybVerificationDTO
     ) {
         kybVerificationDTO.setPartyId(partyId);
-        return kybVerificationService.update(verificationId, kybVerificationDTO);
+        return kybVerificationService.update(verificationId, kybVerificationDTO)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/{verificationId}/complete")
+    @DeleteMapping("/{verificationId}")
     @Operation(
-            summary = "Complete KYB verification",
-            description = "Marks a KYB verification as complete",
+            summary = "Delete KYB verification",
+            description = "Deletes a KYB verification",
             responses = {
                     @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully completed KYB verification",
-                            content = @Content(schema = @Schema(implementation = KybVerificationDTO.class))
+                            responseCode = "204",
+                            description = "Successfully deleted KYB verification"
                     ),
                     @ApiResponse(
                             responseCode = "404",
@@ -142,12 +147,13 @@ public class KybVerificationController {
                     )
             }
     )
-    public Mono<KybVerificationDTO> completeKybVerification(
+    public Mono<ResponseEntity<Void>> deleteKybVerification(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the verification", required = true)
             @PathVariable Long verificationId
     ) {
-        return kybVerificationService.complete(verificationId);
+        return kybVerificationService.delete(verificationId)
+                .then(Mono.just(ResponseEntity.noContent().<Void>build()));
     }
 }

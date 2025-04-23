@@ -12,8 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -24,23 +24,24 @@ public class PowerOfAttorneyController {
     @Autowired
     private PowerOfAttorneyService powerOfAttorneyService;
 
-    @GetMapping("/corporate/{documentId}")
+    @GetMapping
     @Operation(
-            summary = "List powers from document",
-            description = "Retrieves all powers of attorney from a specific corporate document",
+            summary = "List powers of attorney",
+            description = "Retrieves all powers of attorney with filtering capabilities",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully retrieved powers of attorney",
-                            content = @Content(schema = @Schema(implementation = PowerOfAttorneyDTO.class))
+                            content = @Content(schema = @Schema(implementation = PaginationResponse.class))
                     )
             }
     )
-    public Flux<PowerOfAttorneyDTO> listPowersFromDocument(
-            @Parameter(description = "ID of the corporate document", required = true)
-            @PathVariable Long documentId
+    public Mono<ResponseEntity<PaginationResponse<PowerOfAttorneyDTO>>> listPowersOfAttorney(
+            @Parameter(description = "Filter criteria")
+            @ModelAttribute FilterRequest<PowerOfAttorneyDTO> filterRequest
     ) {
-        return powerOfAttorneyService.findByDocumentId(documentId);
+        return powerOfAttorneyService.findAll(filterRequest)
+                .map(ResponseEntity::ok);
     }
 
     @PostMapping
@@ -56,30 +57,12 @@ public class PowerOfAttorneyController {
                     )
             }
     )
-    public Mono<PowerOfAttorneyDTO> addPowerOfAttorney(
+    public Mono<ResponseEntity<PowerOfAttorneyDTO>> addPowerOfAttorney(
             @Parameter(description = "Power of attorney data", required = true)
             @RequestBody PowerOfAttorneyDTO powerOfAttorneyDTO
     ) {
-        return powerOfAttorneyService.create(powerOfAttorneyDTO);
-    }
-
-    @GetMapping("/parties/{partyId}")
-    @Operation(
-            summary = "List powers for party",
-            description = "Retrieves all powers of attorney for a specific party",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved powers of attorney",
-                            content = @Content(schema = @Schema(implementation = PowerOfAttorneyDTO.class))
-                    )
-            }
-    )
-    public Flux<PowerOfAttorneyDTO> listPowersForParty(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
-    ) {
-        return powerOfAttorneyService.findByPartyId(partyId);
+        return powerOfAttorneyService.create(powerOfAttorneyDTO)
+                .map(dto -> ResponseEntity.status(HttpStatus.CREATED).body(dto));
     }
 
     @GetMapping("/{powerId}")
@@ -98,11 +81,13 @@ public class PowerOfAttorneyController {
                     )
             }
     )
-    public Mono<PowerOfAttorneyDTO> getPowerOfAttorney(
+    public Mono<ResponseEntity<PowerOfAttorneyDTO>> getPowerOfAttorney(
             @Parameter(description = "ID of the power of attorney", required = true)
             @PathVariable Long powerId
     ) {
-        return powerOfAttorneyService.getById(powerId);
+        return powerOfAttorneyService.getById(powerId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/{powerId}")
@@ -121,17 +106,18 @@ public class PowerOfAttorneyController {
                     )
             }
     )
-    public Mono<PowerOfAttorneyDTO> updatePowerOfAttorney(
+    public Mono<ResponseEntity<PowerOfAttorneyDTO>> updatePowerOfAttorney(
             @Parameter(description = "ID of the power of attorney", required = true)
             @PathVariable Long powerId,
             @Parameter(description = "Updated power of attorney data", required = true)
             @RequestBody PowerOfAttorneyDTO powerOfAttorneyDTO
     ) {
-        return powerOfAttorneyService.update(powerId, powerOfAttorneyDTO);
+        return powerOfAttorneyService.update(powerId, powerOfAttorneyDTO)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{powerId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
             summary = "Delete power of attorney",
             description = "Deletes a power of attorney",
@@ -146,35 +132,11 @@ public class PowerOfAttorneyController {
                     )
             }
     )
-    public Mono<Void> deletePowerOfAttorney(
+    public Mono<ResponseEntity<Void>> deletePowerOfAttorney(
             @Parameter(description = "ID of the power of attorney", required = true)
             @PathVariable Long powerId
     ) {
-        return powerOfAttorneyService.delete(powerId);
-    }
-
-    @PostMapping("/{powerId}/verify")
-    @Operation(
-            summary = "Verify power of attorney",
-            description = "Marks a power of attorney as verified",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully verified power of attorney",
-                            content = @Content(schema = @Schema(implementation = PowerOfAttorneyDTO.class))
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "Power of attorney not found"
-                    )
-            }
-    )
-    public Mono<PowerOfAttorneyDTO> verifyPowerOfAttorney(
-            @Parameter(description = "ID of the power of attorney", required = true)
-            @PathVariable Long powerId,
-            @Parameter(description = "Verification notes")
-            @RequestParam(required = false) String verificationNotes
-    ) {
-        return powerOfAttorneyService.verifyPower(powerId, verificationNotes);
+        return powerOfAttorneyService.delete(powerId)
+                .then(Mono.just(ResponseEntity.noContent().<Void>build()));
     }
 }

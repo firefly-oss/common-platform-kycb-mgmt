@@ -12,11 +12,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api/v1/activity/parties/{partyId}/expected-activities")
@@ -29,24 +27,31 @@ public class ExpectedActivityController {
     @GetMapping
     @Operation(
             summary = "List expected activities",
-            description = "Retrieves all expected activities for the specified party",
+            description = "Retrieves all expected activities for the specified party with filtering capabilities",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully retrieved expected activities",
-                            content = @Content(schema = @Schema(implementation = ExpectedActivityDTO.class))
+                            content = @Content(schema = @Schema(implementation = PaginationResponse.class))
                     )
             }
     )
-    public Flux<ExpectedActivityDTO> listExpectedActivities(
+    public Mono<ResponseEntity<PaginationResponse<ExpectedActivityDTO>>> listExpectedActivities(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
+            @PathVariable Long partyId,
+            @Parameter(description = "Filter criteria")
+            @ModelAttribute FilterRequest<ExpectedActivityDTO> filterRequest
     ) {
-        return expectedActivityService.findByPartyId(partyId);
+        // Set party ID filter
+        ExpectedActivityDTO filter = filterRequest.getFilters() != null ? filterRequest.getFilters() : new ExpectedActivityDTO();
+        filter.setPartyId(partyId);
+        filterRequest.setFilters(filter);
+
+        return expectedActivityService.findAll(filterRequest)
+                .map(ResponseEntity::ok);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(
             summary = "Add expected activity",
             description = "Adds a new expected activity for the specified party",
@@ -58,14 +63,15 @@ public class ExpectedActivityController {
                     )
             }
     )
-    public Mono<ExpectedActivityDTO> addExpectedActivity(
+    public Mono<ResponseEntity<ExpectedActivityDTO>> addExpectedActivity(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "Expected activity data", required = true)
             @RequestBody ExpectedActivityDTO expectedActivityDTO
     ) {
         expectedActivityDTO.setPartyId(partyId);
-        return expectedActivityService.create(expectedActivityDTO);
+        return expectedActivityService.create(expectedActivityDTO)
+                .map(dto -> ResponseEntity.status(HttpStatus.CREATED).body(dto));
     }
 
     @GetMapping("/{activityId}")
@@ -84,13 +90,15 @@ public class ExpectedActivityController {
                     )
             }
     )
-    public Mono<ExpectedActivityDTO> getExpectedActivity(
+    public Mono<ResponseEntity<ExpectedActivityDTO>> getExpectedActivity(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the activity", required = true)
             @PathVariable Long activityId
     ) {
-        return expectedActivityService.getById(activityId);
+        return expectedActivityService.getById(activityId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/{activityId}")
@@ -109,7 +117,7 @@ public class ExpectedActivityController {
                     )
             }
     )
-    public Mono<ExpectedActivityDTO> updateExpectedActivity(
+    public Mono<ResponseEntity<ExpectedActivityDTO>> updateExpectedActivity(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the activity", required = true)
@@ -118,11 +126,12 @@ public class ExpectedActivityController {
             @RequestBody ExpectedActivityDTO expectedActivityDTO
     ) {
         expectedActivityDTO.setPartyId(partyId);
-        return expectedActivityService.update(activityId, expectedActivityDTO);
+        return expectedActivityService.update(activityId, expectedActivityDTO)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{activityId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
             summary = "Delete expected activity",
             description = "Deletes an expected activity",
@@ -137,139 +146,13 @@ public class ExpectedActivityController {
                     )
             }
     )
-    public Mono<Void> deleteExpectedActivity(
+    public Mono<ResponseEntity<Void>> deleteExpectedActivity(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the activity", required = true)
             @PathVariable Long activityId
     ) {
-        return expectedActivityService.delete(activityId);
-    }
-
-    @GetMapping("/latest")
-    @Operation(
-            summary = "Get latest expected activity",
-            description = "Retrieves the latest expected activity for the specified party",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved latest expected activity",
-                            content = @Content(schema = @Schema(implementation = ExpectedActivityDTO.class))
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "No expected activities found for party"
-                    )
-            }
-    )
-    public Mono<ExpectedActivityDTO> getLatestExpectedActivity(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
-    ) {
-        return expectedActivityService.getLatestByPartyId(partyId);
-    }
-
-    @GetMapping("/type/{activityTypeCode}")
-    @Operation(
-            summary = "Get activities by type",
-            description = "Retrieves all expected activities of a specific type for the party",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved expected activities",
-                            content = @Content(schema = @Schema(implementation = ExpectedActivityDTO.class))
-                    )
-            }
-    )
-    public Flux<ExpectedActivityDTO> getActivitiesByType(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "Activity type code", required = true)
-            @PathVariable String activityTypeCode
-    ) {
-        return expectedActivityService.findByActivityTypeCode(activityTypeCode)
-                .filter(activity -> activity.getPartyId().equals(partyId));
-    }
-
-    @GetMapping("/high-value")
-    @Operation(
-            summary = "Get high-value activities",
-            description = "Retrieves all high-value expected activities for the party",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved high-value activities",
-                            content = @Content(schema = @Schema(implementation = ExpectedActivityDTO.class))
-                    )
-            }
-    )
-    public Flux<ExpectedActivityDTO> getHighValueActivities(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
-    ) {
-        return expectedActivityService.findHighValueActivities()
-                .filter(activity -> activity.getPartyId().equals(partyId));
-    }
-
-    @GetMapping("/cash-intensive")
-    @Operation(
-            summary = "Get cash-intensive activities",
-            description = "Retrieves all cash-intensive expected activities for the party",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved cash-intensive activities",
-                            content = @Content(schema = @Schema(implementation = ExpectedActivityDTO.class))
-                    )
-            }
-    )
-    public Flux<ExpectedActivityDTO> getCashIntensiveActivities(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
-    ) {
-        return expectedActivityService.findCashIntensiveActivities()
-                .filter(activity -> activity.getPartyId().equals(partyId));
-    }
-
-    @GetMapping("/tax-haven")
-    @Operation(
-            summary = "Get tax haven activities",
-            description = "Retrieves all expected activities with tax haven transactions for the party",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved tax haven activities",
-                            content = @Content(schema = @Schema(implementation = ExpectedActivityDTO.class))
-                    )
-            }
-    )
-    public Flux<ExpectedActivityDTO> getTaxHavenActivities(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
-    ) {
-        return expectedActivityService.findTaxHavenActivities()
-                .filter(activity -> activity.getPartyId().equals(partyId));
-    }
-
-    @GetMapping("/monthly-volume-above/{threshold}")
-    @Operation(
-            summary = "Get activities by monthly volume",
-            description = "Retrieves all expected activities with monthly volume above the specified threshold for the party",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved expected activities",
-                            content = @Content(schema = @Schema(implementation = ExpectedActivityDTO.class))
-                    )
-            }
-    )
-    public Flux<ExpectedActivityDTO> getActivitiesByMonthlyVolume(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "Monthly volume threshold", required = true)
-            @PathVariable BigDecimal threshold
-    ) {
-        return expectedActivityService.findByMonthlyVolumeAbove(threshold)
-                .filter(activity -> activity.getPartyId().equals(partyId));
+        return expectedActivityService.delete(activityId)
+                .then(Mono.just(ResponseEntity.noContent().<Void>build()));
     }
 }

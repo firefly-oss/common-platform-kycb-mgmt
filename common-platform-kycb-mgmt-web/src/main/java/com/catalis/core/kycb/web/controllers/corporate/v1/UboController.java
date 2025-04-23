@@ -12,8 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -32,19 +32,26 @@ public class UboController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully retrieved UBOs",
-                            content = @Content(schema = @Schema(implementation = UboDTO.class))
+                            content = @Content(schema = @Schema(implementation = PaginationResponse.class))
                     )
             }
     )
-    public Flux<UboDTO> listUbos(
+    public Mono<ResponseEntity<PaginationResponse<UboDTO>>> listUbos(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
+            @PathVariable Long partyId,
+            @Parameter(description = "Filter criteria")
+            @ModelAttribute FilterRequest<UboDTO> filterRequest
     ) {
-        return uboService.findByPartyId(partyId);
+        // Set party ID filter
+        UboDTO filter = filterRequest.getFilters() != null ? filterRequest.getFilters() : new UboDTO();
+        filter.setPartyId(partyId);
+        filterRequest.setFilters(filter);
+
+        return uboService.findAll(filterRequest)
+                .map(ResponseEntity::ok);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(
             summary = "Add UBO",
             description = "Adds a new UBO to the specified party",
@@ -56,14 +63,15 @@ public class UboController {
                     )
             }
     )
-    public Mono<UboDTO> addUbo(
+    public Mono<ResponseEntity<UboDTO>> addUbo(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "UBO data", required = true)
             @RequestBody UboDTO uboDTO
     ) {
         uboDTO.setPartyId(partyId);
-        return uboService.create(uboDTO);
+        return uboService.create(uboDTO)
+                .map(dto -> ResponseEntity.status(HttpStatus.CREATED).body(dto));
     }
 
     @GetMapping("/{uboId}")
@@ -82,13 +90,15 @@ public class UboController {
                     )
             }
     )
-    public Mono<UboDTO> getUbo(
+    public Mono<ResponseEntity<UboDTO>> getUbo(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the UBO", required = true)
             @PathVariable Long uboId
     ) {
-        return uboService.getById(uboId);
+        return uboService.getById(uboId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/{uboId}")
@@ -107,7 +117,7 @@ public class UboController {
                     )
             }
     )
-    public Mono<UboDTO> updateUbo(
+    public Mono<ResponseEntity<UboDTO>> updateUbo(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the UBO", required = true)
@@ -116,11 +126,12 @@ public class UboController {
             @RequestBody UboDTO uboDTO
     ) {
         uboDTO.setPartyId(partyId);
-        return uboService.update(uboId, uboDTO);
+        return uboService.update(uboId, uboDTO)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{uboId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
             summary = "Delete UBO",
             description = "Deletes a UBO",
@@ -135,61 +146,13 @@ public class UboController {
                     )
             }
     )
-    public Mono<Void> deleteUbo(
+    public Mono<ResponseEntity<Void>> deleteUbo(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the UBO", required = true)
             @PathVariable Long uboId
     ) {
-        return uboService.delete(uboId);
-    }
-
-    @PostMapping("/{uboId}/verify")
-    @Operation(
-            summary = "Verify UBO",
-            description = "Marks a UBO as verified",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully verified UBO",
-                            content = @Content(schema = @Schema(implementation = UboDTO.class))
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "UBO not found"
-                    )
-            }
-    )
-    public Mono<UboDTO> verifyUbo(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "ID of the UBO", required = true)
-            @PathVariable Long uboId,
-            @Parameter(description = "Verification notes")
-            @RequestParam(required = false) String verificationNotes
-    ) {
-        return uboService.verifyUbo(uboId, verificationNotes);
-    }
-
-    @GetMapping("/threshold/{threshold}")
-    @Operation(
-            summary = "List UBOs above threshold",
-            description = "Retrieves all UBOs with ownership percentage above the specified threshold",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved UBOs",
-                            content = @Content(schema = @Schema(implementation = UboDTO.class))
-                    )
-            }
-    )
-    public Flux<UboDTO> listUbosAboveThreshold(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "Ownership percentage threshold", required = true)
-            @PathVariable Double threshold
-    ) {
-        return uboService.findByOwnershipPercentageGreaterThan(threshold)
-                .filter(ubo -> ubo.getPartyId().equals(partyId));
+        return uboService.delete(uboId)
+                .then(Mono.just(ResponseEntity.noContent().<Void>build()));
     }
 }

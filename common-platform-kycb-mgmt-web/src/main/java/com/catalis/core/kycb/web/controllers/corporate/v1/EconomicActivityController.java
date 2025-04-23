@@ -12,8 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -27,24 +27,31 @@ public class EconomicActivityController {
     @GetMapping
     @Operation(
             summary = "List economic activities",
-            description = "Retrieves all economic activities for the specified legal person",
+            description = "Retrieves all economic activities for the specified legal person with filtering capabilities",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully retrieved economic activities",
-                            content = @Content(schema = @Schema(implementation = EconomicActivityDTO.class))
+                            content = @Content(schema = @Schema(implementation = PaginationResponse.class))
                     )
             }
     )
-    public Flux<EconomicActivityDTO> listEconomicActivities(
+    public Mono<ResponseEntity<PaginationResponse<EconomicActivityDTO>>> listEconomicActivities(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
+            @PathVariable Long partyId,
+            @Parameter(description = "Filter criteria")
+            @ModelAttribute FilterRequest<EconomicActivityDTO> filterRequest
     ) {
-        return economicActivityService.findByPartyId(partyId);
+        // Set party ID filter
+        EconomicActivityDTO filter = filterRequest.getFilters() != null ? filterRequest.getFilters() : new EconomicActivityDTO();
+        filter.setPartyId(partyId);
+        filterRequest.setFilters(filter);
+
+        return economicActivityService.findAll(filterRequest)
+                .map(ResponseEntity::ok);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(
             summary = "Add economic activity",
             description = "Adds a new economic activity to the specified legal person",
@@ -56,14 +63,15 @@ public class EconomicActivityController {
                     )
             }
     )
-    public Mono<EconomicActivityDTO> addEconomicActivity(
+    public Mono<ResponseEntity<EconomicActivityDTO>> addEconomicActivity(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "Economic activity data", required = true)
             @RequestBody EconomicActivityDTO economicActivityDTO
     ) {
         economicActivityDTO.setPartyId(partyId);
-        return economicActivityService.create(economicActivityDTO);
+        return economicActivityService.create(economicActivityDTO)
+                .map(dto -> ResponseEntity.status(HttpStatus.CREATED).body(dto));
     }
 
     @GetMapping("/{activityId}")
@@ -82,13 +90,15 @@ public class EconomicActivityController {
                     )
             }
     )
-    public Mono<EconomicActivityDTO> getEconomicActivity(
+    public Mono<ResponseEntity<EconomicActivityDTO>> getEconomicActivity(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the activity", required = true)
             @PathVariable Long activityId
     ) {
-        return economicActivityService.getById(activityId);
+        return economicActivityService.getById(activityId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/{activityId}")
@@ -107,7 +117,7 @@ public class EconomicActivityController {
                     )
             }
     )
-    public Mono<EconomicActivityDTO> updateEconomicActivity(
+    public Mono<ResponseEntity<EconomicActivityDTO>> updateEconomicActivity(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the activity", required = true)
@@ -116,11 +126,12 @@ public class EconomicActivityController {
             @RequestBody EconomicActivityDTO economicActivityDTO
     ) {
         economicActivityDTO.setPartyId(partyId);
-        return economicActivityService.update(activityId, economicActivityDTO);
+        return economicActivityService.update(activityId, economicActivityDTO)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{activityId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
             summary = "Delete economic activity",
             description = "Deletes an economic activity",
@@ -135,81 +146,13 @@ public class EconomicActivityController {
                     )
             }
     )
-    public Mono<Void> deleteEconomicActivity(
+    public Mono<ResponseEntity<Void>> deleteEconomicActivity(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the activity", required = true)
             @PathVariable Long activityId
     ) {
-        return economicActivityService.delete(activityId);
-    }
-
-    @PostMapping("/{activityId}/set-primary")
-    @Operation(
-            summary = "Set primary activity",
-            description = "Sets an economic activity as the primary activity for the legal person",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully set primary activity",
-                            content = @Content(schema = @Schema(implementation = EconomicActivityDTO.class))
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "Economic activity not found"
-                    )
-            }
-    )
-    public Mono<EconomicActivityDTO> setPrimaryActivity(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "ID of the activity", required = true)
-            @PathVariable Long activityId
-    ) {
-        return economicActivityService.setPrimaryActivity(activityId);
-    }
-
-    @GetMapping("/code/{activityCode}")
-    @Operation(
-            summary = "Get activities by code",
-            description = "Retrieves all economic activities with the specified activity code",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved economic activities",
-                            content = @Content(schema = @Schema(implementation = EconomicActivityDTO.class))
-                    )
-            }
-    )
-    public Flux<EconomicActivityDTO> getActivitiesByCode(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "Activity code", required = true)
-            @PathVariable String activityCode
-    ) {
-        return economicActivityService.findByActivityCode(activityCode)
-                .filter(activity -> activity.getPartyId().equals(partyId));
-    }
-
-    @GetMapping("/risk/{riskLevel}")
-    @Operation(
-            summary = "Get activities by risk level",
-            description = "Retrieves all economic activities with the specified risk level",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved economic activities",
-                            content = @Content(schema = @Schema(implementation = EconomicActivityDTO.class))
-                    )
-            }
-    )
-    public Flux<EconomicActivityDTO> getActivitiesByRiskLevel(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "Risk level", required = true)
-            @PathVariable String riskLevel
-    ) {
-        return economicActivityService.findByRiskLevel(riskLevel)
-                .filter(activity -> activity.getPartyId().equals(partyId));
+        return economicActivityService.delete(activityId)
+                .then(Mono.just(ResponseEntity.noContent().<Void>build()));
     }
 }

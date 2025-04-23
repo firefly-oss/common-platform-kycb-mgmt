@@ -11,13 +11,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/v1/identity/parties/{partyId}/kyc/{verificationId}/edd")
@@ -30,26 +27,33 @@ public class EnhancedDueDiligenceController {
     @GetMapping
     @Operation(
             summary = "List EDD processes",
-            description = "Retrieves all enhanced due diligence processes for the specified KYC verification",
+            description = "Retrieves all enhanced due diligence processes for the specified KYC verification with filtering capabilities",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully retrieved EDD processes",
-                            content = @Content(schema = @Schema(implementation = EnhancedDueDiligenceDTO.class))
+                            content = @Content(schema = @Schema(implementation = PaginationResponse.class))
                     )
             }
     )
-    public Flux<EnhancedDueDiligenceDTO> listEddProcesses(
+    public Mono<ResponseEntity<PaginationResponse<EnhancedDueDiligenceDTO>>> listEddProcesses(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the KYC verification", required = true)
-            @PathVariable Long verificationId
+            @PathVariable Long verificationId,
+            @Parameter(description = "Filter criteria")
+            @ModelAttribute FilterRequest<EnhancedDueDiligenceDTO> filterRequest
     ) {
-        return enhancedDueDiligenceService.findByKycVerificationId(verificationId);
+        // Set verification ID filter
+        EnhancedDueDiligenceDTO filter = filterRequest.getFilters() != null ? filterRequest.getFilters() : new EnhancedDueDiligenceDTO();
+        filter.setKycVerificationId(verificationId);
+        filterRequest.setFilters(filter);
+
+        return enhancedDueDiligenceService.findAll(filterRequest)
+                .map(ResponseEntity::ok);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(
             summary = "Start new EDD process",
             description = "Creates a new enhanced due diligence process for the specified KYC verification",
@@ -61,7 +65,7 @@ public class EnhancedDueDiligenceController {
                     )
             }
     )
-    public Mono<EnhancedDueDiligenceDTO> startEddProcess(
+    public Mono<ResponseEntity<EnhancedDueDiligenceDTO>> startEddProcess(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the KYC verification", required = true)
@@ -70,7 +74,8 @@ public class EnhancedDueDiligenceController {
             @RequestBody EnhancedDueDiligenceDTO enhancedDueDiligenceDTO
     ) {
         enhancedDueDiligenceDTO.setKycVerificationId(verificationId);
-        return enhancedDueDiligenceService.create(enhancedDueDiligenceDTO);
+        return enhancedDueDiligenceService.create(enhancedDueDiligenceDTO)
+                .map(dto -> ResponseEntity.status(HttpStatus.CREATED).body(dto));
     }
 
     @PatchMapping("/{eddId}")
@@ -89,7 +94,7 @@ public class EnhancedDueDiligenceController {
                     )
             }
     )
-    public Mono<EnhancedDueDiligenceDTO> updateEddProcess(
+    public Mono<ResponseEntity<EnhancedDueDiligenceDTO>> updateEddProcess(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the KYC verification", required = true)
@@ -100,7 +105,9 @@ public class EnhancedDueDiligenceController {
             @RequestBody EnhancedDueDiligenceDTO enhancedDueDiligenceDTO
     ) {
         enhancedDueDiligenceDTO.setKycVerificationId(verificationId);
-        return enhancedDueDiligenceService.update(eddId, enhancedDueDiligenceDTO);
+        return enhancedDueDiligenceService.update(eddId, enhancedDueDiligenceDTO)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/{eddId}")
@@ -119,7 +126,7 @@ public class EnhancedDueDiligenceController {
                     )
             }
     )
-    public Mono<EnhancedDueDiligenceDTO> getEddProcess(
+    public Mono<ResponseEntity<EnhancedDueDiligenceDTO>> getEddProcess(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the KYC verification", required = true)
@@ -127,11 +134,12 @@ public class EnhancedDueDiligenceController {
             @Parameter(description = "ID of the EDD process", required = true)
             @PathVariable Long eddId
     ) {
-        return enhancedDueDiligenceService.getById(eddId);
+        return enhancedDueDiligenceService.getById(eddId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{eddId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
             summary = "Delete EDD process",
             description = "Deletes an enhanced due diligence process",
@@ -146,7 +154,7 @@ public class EnhancedDueDiligenceController {
                     )
             }
     )
-    public Mono<Void> deleteEddProcess(
+    public Mono<ResponseEntity<Void>> deleteEddProcess(
             @Parameter(description = "ID of the party", required = true)
             @PathVariable Long partyId,
             @Parameter(description = "ID of the KYC verification", required = true)
@@ -154,172 +162,7 @@ public class EnhancedDueDiligenceController {
             @Parameter(description = "ID of the EDD process", required = true)
             @PathVariable Long eddId
     ) {
-        return enhancedDueDiligenceService.delete(eddId);
-    }
-
-    @PostMapping("/{eddId}/complete")
-    @Operation(
-            summary = "Complete EDD process",
-            description = "Marks an enhanced due diligence process as completed",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully completed EDD process",
-                            content = @Content(schema = @Schema(implementation = EnhancedDueDiligenceDTO.class))
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "EDD process not found"
-                    )
-            }
-    )
-    public Mono<EnhancedDueDiligenceDTO> completeEddProcess(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "ID of the KYC verification", required = true)
-            @PathVariable Long verificationId,
-            @Parameter(description = "ID of the EDD process", required = true)
-            @PathVariable Long eddId,
-            @Parameter(description = "User completing the EDD", required = true)
-            @RequestParam String completedBy,
-            @Parameter(description = "Completion notes")
-            @RequestParam(required = false) String completionNotes
-    ) {
-        return enhancedDueDiligenceService.completeEdd(eddId, completedBy, completionNotes);
-    }
-
-    @PostMapping("/{eddId}/approve")
-    @Operation(
-            summary = "Approve EDD process",
-            description = "Approves an enhanced due diligence process",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully approved EDD process",
-                            content = @Content(schema = @Schema(implementation = EnhancedDueDiligenceDTO.class))
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "EDD process not found"
-                    )
-            }
-    )
-    public Mono<EnhancedDueDiligenceDTO> approveEddProcess(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "ID of the KYC verification", required = true)
-            @PathVariable Long verificationId,
-            @Parameter(description = "ID of the EDD process", required = true)
-            @PathVariable Long eddId,
-            @Parameter(description = "Approving authority", required = true)
-            @RequestParam String approvingAuthority,
-            @Parameter(description = "Approval notes")
-            @RequestParam(required = false) String approvalNotes
-    ) {
-        return enhancedDueDiligenceService.approveEdd(eddId, approvingAuthority, approvalNotes);
-    }
-
-    @PostMapping("/{eddId}/waive")
-    @Operation(
-            summary = "Waive EDD process",
-            description = "Waives an enhanced due diligence process",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully waived EDD process",
-                            content = @Content(schema = @Schema(implementation = EnhancedDueDiligenceDTO.class))
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "EDD process not found"
-                    )
-            }
-    )
-    public Mono<EnhancedDueDiligenceDTO> waiveEddProcess(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "ID of the KYC verification", required = true)
-            @PathVariable Long verificationId,
-            @Parameter(description = "ID of the EDD process", required = true)
-            @PathVariable Long eddId,
-            @Parameter(description = "Waive reason", required = true)
-            @RequestParam String waiveReason,
-            @Parameter(description = "Waive authority", required = true)
-            @RequestParam String waiveAuthority
-    ) {
-        return enhancedDueDiligenceService.waiveEdd(eddId, waiveReason, waiveAuthority);
-    }
-
-    @GetMapping("/status/{status}")
-    @Operation(
-            summary = "Get EDD processes by status",
-            description = "Retrieves all enhanced due diligence processes with a specific status for the KYC verification",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved EDD processes",
-                            content = @Content(schema = @Schema(implementation = EnhancedDueDiligenceDTO.class))
-                    )
-            }
-    )
-    public Flux<EnhancedDueDiligenceDTO> getEddProcessesByStatus(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "ID of the KYC verification", required = true)
-            @PathVariable Long verificationId,
-            @Parameter(description = "Status of the EDD processes", required = true)
-            @PathVariable String status
-    ) {
-        return enhancedDueDiligenceService.findByEddStatus(status)
-                .filter(edd -> edd.getKycVerificationId().equals(verificationId));
-    }
-
-    @GetMapping("/reason/{reason}")
-    @Operation(
-            summary = "Get EDD processes by reason",
-            description = "Retrieves all enhanced due diligence processes with a specific reason for the KYC verification",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved EDD processes",
-                            content = @Content(schema = @Schema(implementation = EnhancedDueDiligenceDTO.class))
-                    )
-            }
-    )
-    public Flux<EnhancedDueDiligenceDTO> getEddProcessesByReason(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "ID of the KYC verification", required = true)
-            @PathVariable Long verificationId,
-            @Parameter(description = "Reason for the EDD processes", required = true)
-            @PathVariable String reason
-    ) {
-        return enhancedDueDiligenceService.findByEddReason(reason)
-                .filter(edd -> edd.getKycVerificationId().equals(verificationId));
-    }
-
-    @GetMapping("/latest")
-    @Operation(
-            summary = "Get latest EDD process",
-            description = "Retrieves the latest enhanced due diligence process for the KYC verification",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved latest EDD process",
-                            content = @Content(schema = @Schema(implementation = EnhancedDueDiligenceDTO.class))
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "No EDD processes found for KYC verification"
-                    )
-            }
-    )
-    public Mono<EnhancedDueDiligenceDTO> getLatestEddProcess(
-            @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
-            @Parameter(description = "ID of the KYC verification", required = true)
-            @PathVariable Long verificationId
-    ) {
-        return enhancedDueDiligenceService.getLatestByKycVerificationId(verificationId);
+        return enhancedDueDiligenceService.delete(eddId)
+                .then(Mono.just(ResponseEntity.noContent().<Void>build()));
     }
 }
