@@ -1,19 +1,22 @@
 # Firefly - KYC/B & AML Management
+
 A comprehensive microservice for managing Know Your Customer (KYC), Know Your Business (KYB), and Anti-Money Laundering (AML) processes in financial institutions.
 
 ## Table of Contents
 
 - [Overview](#overview)
-- [Quickstart](#quickstart)
 - [Key Features](#key-features)
-- [Architecture](#architecture)
+- [Technology Stack](#technology-stack)
+- [Quickstart](#quickstart)
+- [Project Structure](#project-structure)
 - [API Documentation](#api-documentation)
-- [Setup and Installation](#setup-and-installation)
-- [Configuration](#configuration)
 - [Usage Examples](#usage-examples)
-- [Troubleshooting](#troubleshooting)
+- [Complete Process Workflows](#complete-process-workflows)
+- [Configuration](#configuration)
 - [Development Guidelines](#development-guidelines)
+- [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
+- [License](#license)
 
 ## Overview
 
@@ -30,39 +33,58 @@ Built with a reactive architecture using Spring WebFlux, this microservice is de
 
 ## Quickstart
 
-Follow these steps to get the microservice up and running quickly:
+Get up and running with the KYC/B & AML Management microservice in minutes:
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/firefly-oss/common-platform-kycb-mgmt.git
-   cd common-platform-kycb-mgmt
-   ```
+### Prerequisites
+- Java 21 or higher
+- Docker and Docker Compose
+- PostgreSQL 12+ (or use the provided Docker Compose setup)
+- Maven 3.6+
 
-2. **Set up environment variables**
-   ```bash
-   # Create a .env file with the following variables
-   echo "DB_HOST=localhost
-   DB_PORT=5432
-   DB_NAME=kycb_mgmt
-   DB_USERNAME=postgres
-   DB_PASSWORD=postgres
-   DB_SSL_MODE=disable" > .env
-   ```
+### Clone and Build
+```bash
+# Clone the repository
+git clone https://github.com/firefly-oss/common-platform-kycb-mgmt.git
+cd common-platform-kycb-mgmt
 
-3. **Build the application**
-   ```bash
-   mvn clean install
-   ```
+# Build the application
+mvn clean install
+```
 
-4. **Run with Docker**
-   ```bash
-   docker build -t firefly-kycb-mgmt .
-   docker run -p 8080:8080 --env-file .env firefly-kycb-mgmt
-   ```
+### Run with Docker
+```bash
+# Create a .env file with required environment variables
+cat > .env << EOF
+DB_HOST=postgres
+DB_PORT=5432
+DB_NAME=kycb_mgmt
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+DB_SSL_MODE=disable
+EOF
 
-5. **Access the API documentation**
+# Start the application and database
+docker-compose up -d
+```
 
-   Open your browser and navigate to [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+### Run Locally
+```bash
+# Set environment variables
+export DB_HOST=localhost
+export DB_PORT=5432
+export DB_NAME=kycb_mgmt
+export DB_USERNAME=postgres
+export DB_PASSWORD=postgres
+export DB_SSL_MODE=disable
+
+# Run the application
+java -jar common-platform-kycb-mgmt-web/target/common-platform-kycb-mgmt.jar
+```
+
+### Access the API
+- API Documentation: http://localhost:8080/swagger-ui.html
+- OpenAPI Specification: http://localhost:8080/v3/api-docs
+- Health Check: http://localhost:8080/actuator/health
 
 ## Key Features
 
@@ -107,18 +129,39 @@ Follow these steps to get the microservice up and running quickly:
 - **Verification Status**: Track the verification status of each document
 - **Document Retrieval**: Quick access to stored documents
 
-## Architecture
+## Technology Stack
 
-### Technology Stack
-- **Framework**: Spring Boot with WebFlux for reactive programming
-- **Database**: PostgreSQL with R2DBC for reactive database access
-- **Migration**: Flyway for database schema management
-- **Documentation**: OpenAPI/Swagger for API documentation
-- **Monitoring**: Spring Actuator for health checks and metrics
-- **Security**: JWT-based authentication and authorization
-- **Containerization**: Docker for deployment
+### Core Technologies
+- **Java 21**: Latest LTS version of Java
+- **Spring Boot 3.x**: Framework for building microservices
+- **Spring WebFlux**: Reactive web framework
+- **Project Reactor**: Reactive programming library
+- **R2DBC**: Reactive Relational Database Connectivity
+- **PostgreSQL**: Relational database
+- **Flyway**: Database migration tool
+- **Maven**: Build and dependency management
 
-### Modular Structure
+### API & Documentation
+- **OpenAPI/Swagger**: API documentation
+- **Spring Validation**: Input validation
+
+### Monitoring & Metrics
+- **Spring Actuator**: Health checks and metrics
+- **Micrometer**: Metrics collection
+- **Prometheus**: Metrics storage
+
+### Development Tools
+- **Lombok**: Reduces boilerplate code
+- **MapStruct**: Object mapping
+- **JUnit 5**: Testing framework
+- **Mockito**: Mocking framework
+- **Reactor Test**: Testing reactive code
+
+### Containerization
+- **Docker**: Containerization
+- **Docker Compose**: Multi-container applications
+
+## Project Structure
 The application follows a clean, modular architecture divided into four main modules:
 
 1. **common-platform-kycb-mgmt-interfaces**
@@ -156,42 +199,46 @@ The application follows a clean, modular architecture divided into four main mod
 
 The API is documented using OpenAPI/Swagger, providing a comprehensive and interactive documentation of all endpoints.
 
+### API Categories
+
+The API follows RESTful principles and is organized into the following main categories:
+
+#### Identity Management
+- `/api/v1/identity/parties/{partyId}/kyc`: KYC verification endpoints
+- `/api/v1/identity/parties/{partyId}/kyb`: KYB verification endpoints
+- `/api/v1/identity/parties/{partyId}/sanctions-questionnaire`: Sanctions questionnaire endpoints
+
+#### Compliance
+- `/api/v1/compliance/parties/{partyId}/aml-screenings`: AML screening endpoints
+- `/api/v1/compliance/parties/{partyId}/risk-assessments`: Risk assessment endpoints
+- `/api/v1/compliance/cases`: Compliance case management endpoints
+- `/api/v1/compliance/cases/{caseId}/reports`: Regulatory reporting endpoints
+
+#### Document Management
+- `/api/v1/documents/verification`: Identity document endpoints
+- `/api/v1/documents/corporate`: Corporate document endpoints
+- `/api/v1/documents/power-of-attorney`: Power of attorney document endpoints
+
+#### Corporate Structure
+- `/api/v1/corporate/parties/{partyId}/structure`: Business structure endpoints
+- `/api/v1/corporate/parties/{partyId}/ubos`: UBO management endpoints
+- `/api/v1/corporate/parties/{partyId}/locations`: Business location endpoints
+- `/api/v1/corporate/parties/{partyId}/economic-activities`: Economic activity endpoints
+
 ### Accessing Documentation
 When running the application, the documentation is available at:
 - `/swagger-ui.html` - Interactive Swagger UI
 - `/v3/api-docs` - OpenAPI JSON specification
 
-### API Categories
-The API follows RESTful principles and is organized into the following main categories:
 
-1. **Identity Management**
-   - KYC verification endpoints
-   - KYB verification endpoints
-   - Document verification
+## Configuration
 
-2. **Compliance**
-   - AML screening
-   - Risk assessment
-   - Compliance case management
-   - Regulatory reporting
+The application supports different profiles for various environments:
 
-3. **Document Management**
-   - Document upload/download
-   - Document verification
-   - Document classification
-
-4. **Corporate Structure**
-   - Business structure management
-   - UBO management
-   - Ownership relationships
-
-## Setup and Installation
-
-### Prerequisites
-- Java 17 or higher
-- PostgreSQL 12 or higher
-- Maven 3.6 or higher
-- Docker (optional, for containerized deployment)
+### Profiles
+- `dev` - Development environment with detailed logging
+- `testing` - Testing environment with API documentation enabled
+- `prod` - Production environment with minimal logging and API documentation disabled
 
 ### Environment Variables
 The following environment variables need to be configured:
@@ -207,77 +254,11 @@ The following environment variables need to be configured:
 | `SERVER_PORT` | Application port (optional) | 8080 |
 | `LOGGING_LEVEL` | Logging level (optional) | INFO |
 
-### Building the Application
-```bash
-# Build all modules
-mvn clean install
-
-# Skip tests
-mvn clean install -DskipTests
-```
-
-### Running the Application
-```bash
-# Run with Java
-java -jar common-platform-kycb-mgmt-web/target/common-platform-kycb-mgmt-web.jar
-
-# Run with Maven
-mvn spring-boot:run -pl common-platform-kycb-mgmt-web
-```
-
-### Docker Deployment
-```bash
-# Build Docker image
-docker build -t firefly-kycb-mgmt .
-
-# Run Docker container
-docker run -p 8080:8080 --env-file .env firefly-kycb-mgmt
-
-# Run with Docker Compose
-docker-compose up -d
-```
-
-## Configuration
-
-The application supports different profiles for various environments:
-
-### Profiles
-- `dev` - Development environment with detailed logging
-- `testing` - Testing environment with API documentation enabled
-- `prod` - Production environment with minimal logging and API documentation disabled
-
 ### Configuration Files
 Configuration can be customized through:
 - `application.yaml` - Main configuration file
 - `application-{profile}.yaml` - Profile-specific configurations
 - Environment variables - Override configuration at runtime
-
-### Example Configuration
-```yaml
-spring:
-  r2dbc:
-    url: r2dbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-    properties:
-      sslMode: ${DB_SSL_MODE}
-
-  flyway:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
-    user: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-
-logging:
-  level:
-    root: INFO
-    com.catalis: DEBUG
-
-springdoc:
-  api-docs:
-    enabled: true
-  swagger-ui:
-    enabled: true
-```
 
 ## Usage Examples
 
@@ -690,9 +671,9 @@ webClient.post()
     });
 ```
 
-## Complete KYC/KYB Process Workflows
+## Complete Process Workflows
 
-This section illustrates the complete process flows for performing KYC for natural persons and KYB for legal entities, including how legal entities must point to natural persons as directors, shareholders, and Ultimate Beneficial Owners (UBOs).
+This section illustrates the complete process flows for performing KYC for natural persons and KYB for legal entities.
 
 ### KYC Process for Natural Persons
 
@@ -705,225 +686,11 @@ The Know Your Customer (KYC) process for natural persons typically follows these
 5. **Apply Enhanced Due Diligence (if necessary)**
 6. **Complete the KYC Verification**
 
-Here's a detailed walkthrough of each step:
-
-#### Step 1: Create a KYC Verification
-
-First, create a new KYC verification for the natural person:
-
-```
-// Create a new KYC verification
-KycVerificationDTO verification = new KycVerificationDTO();
-verification.setPartyId(123L); // ID of the natural person
-verification.setVerificationType(VerificationTypeEnum.IDENTITY);
-verification.setStatus(VerificationStatusEnum.PENDING);
-verification.setRiskLevel(RiskLevelEnum.MEDIUM); // Initial risk level
-verification.setVerificationMethod(VerificationMethodEnum.DOCUMENT);
-
-// Submit the verification
-Long verificationId = kycVerificationService.create(verification).block().getKycVerificationId();
-```
-
-#### Step 2: Upload and Verify Identity Documents
-
-Next, upload and verify the identity documents for the natural person:
-
-```
-// Add identity document to the KYC verification
-VerificationDocumentDTO document = new VerificationDocumentDTO();
-document.setDocumentType(DocumentTypeEnum.PASSPORT);
-document.setDocumentNumber("AB123456");
-document.setIssuingCountry("US");
-document.setIssueDate(LocalDate.now().minusYears(2));
-document.setExpiryDate(LocalDate.now().plusYears(8));
-document.setDocumentUrl("https://document-storage.example.com/docs/passport-123.pdf");
-
-// Submit the document
-Long documentId = verificationDocumentService.create(document).block().getVerificationDocumentId();
-
-// Verify the document
-VerificationDocumentDTO verifyDocument = new VerificationDocumentDTO();
-verifyDocument.setIsVerified(true);
-verifyDocument.setVerificationDate(LocalDateTime.now());
-verifyDocument.setVerificationMethod(VerificationMethodEnum.MANUAL);
-verifyDocument.setVerificationNotes("Document verified by compliance officer");
-
-// Update the document verification status
-verificationDocumentService.update(documentId, verifyDocument).block();
-```
-
-#### Step 3: Perform AML Screening
-
-Perform AML (Anti-Money Laundering) screening to check against sanctions lists, PEP lists, and adverse media:
-
-```
-// Perform AML screening
-AmlScreeningDTO screening = new AmlScreeningDTO();
-screening.setPartyId(123L);
-screening.setScreeningType(ScreeningTypeEnum.SANCTIONS);
-screening.setScreeningSource("OFAC");
-screening.setScreeningDate(LocalDateTime.now());
-
-// Submit the screening
-Long screeningId = amlScreeningService.create(screening).block().getAmlScreeningId();
-
-// Check for matches
-PaginationResponse<AmlMatchDTO> matches = amlMatchService.findAll(
-    new FilterRequest<AmlMatchDTO>().setFilters(
-        new AmlMatchDTO().setAmlScreeningId(screeningId)
-    )
-).block();
-
-// Process matches if any
-if (matches.getTotalElements() > 0) {
-    for (AmlMatchDTO match : matches.getContent()) {
-        // Resolve match (e.g., as false positive)
-        AmlMatchDTO updateMatch = new AmlMatchDTO();
-        updateMatch.setResolutionStatus(ResolutionStatusEnum.FALSE_POSITIVE);
-        updateMatch.setResolutionNotes("Verified not a match due to different date of birth");
-        updateMatch.setResolvedBy("compliance-officer-1");
-
-        // Update the match resolution
-        amlMatchService.update(match.getAmlMatchId(), updateMatch).block();
-    }
-}
-```
-
-#### Step 4: Conduct Risk Assessment
-
-Assess the risk level of the natural person based on various factors:
-
-```
-// Perform risk assessment
-RiskAssessmentDTO assessment = new RiskAssessmentDTO();
-assessment.setPartyId(123L);
-assessment.setRiskFactors(Arrays.asList("COUNTRY_RISK", "OCCUPATION_RISK", "TRANSACTION_VOLUME"));
-assessment.setAssessmentType(AssessmentTypeEnum.INITIAL);
-assessment.setAssessmentDate(LocalDateTime.now());
-
-// Submit the risk assessment
-RiskAssessmentDTO result = riskAssessmentService.create(assessment).block();
-
-// Check if high risk
-if (result.getRiskLevel() == RiskLevelEnum.HIGH) {
-    // Proceed to Step 5 (Enhanced Due Diligence)
-} else {
-    // Skip to Step 6 (Complete the KYC Verification)
-}
-```
-
-#### Step 5: Apply Enhanced Due Diligence (if necessary)
-
-If the risk assessment identifies the natural person as high-risk, perform Enhanced Due Diligence (EDD):
-
-```
-// Only for high-risk customers
-EnhancedDueDiligenceDTO edd = new EnhancedDueDiligenceDTO();
-edd.setKycVerificationId(verificationId);
-edd.setEddType(EddTypeEnum.HIGH_RISK_CUSTOMER);
-edd.setEddStatus(EddStatusEnum.PENDING);
-edd.setAssignedTo("senior-compliance-officer");
-
-// Submit the EDD request
-Long eddId = enhancedDueDiligenceService.create(edd).block().getEddId();
-
-// After completing EDD investigation, update the EDD status
-EnhancedDueDiligenceDTO updateEdd = new EnhancedDueDiligenceDTO();
-updateEdd.setEddStatus(EddStatusEnum.COMPLETED);
-updateEdd.setCompletionDate(LocalDateTime.now());
-updateEdd.setCompletedBy("senior-compliance-officer");
-updateEdd.setNotes("All additional checks completed. Customer approved with conditions.");
-
-// Update the EDD status
-enhancedDueDiligenceService.update(eddId, updateEdd).block();
-```
-
-#### Step 6: Complete the KYC Verification
-
-Finally, update the KYC verification status to complete the process:
-
-```
-// Update KYC verification status
-KycVerificationDTO updateVerification = new KycVerificationDTO();
-updateVerification.setStatus(VerificationStatusEnum.COMPLETED);
-updateVerification.setVerificationDate(LocalDateTime.now());
-updateVerification.setVerifiedBy("compliance-officer-1");
-updateVerification.setNotes("All verification steps completed successfully");
-
-// Update the verification status
-kycVerificationService.update(verificationId, updateVerification).block();
-```
-
-### Sanctions and Embargo Questionnaire
-
-For legal entities and self-employed individuals, a sanctions and embargo questionnaire must be completed to gather information about their activities related to sanctions and embargoes:
-
-```
-// Import the enum
-import com.catalis.core.kycb.interfaces.enums.sanctions.v1.EntitySanctionsQuestionnaireTypeEnum;
-
-// Create a new sanctions questionnaire
-SanctionsQuestionnaireDTO questionnaire = new SanctionsQuestionnaireDTO();
-questionnaire.setPartyId(456L);
-questionnaire.setEntitySanctionsQuestionnaire(EntitySanctionsQuestionnaireTypeEnum.LEGAL_ENTITY_ONLY); // Only the legal entity
-questionnaire.setActivityOutsideEu(true); // Has activity outside EU
-questionnaire.setEconomicSanctions(false); // Not subject to economic sanctions
-questionnaire.setResidentCountriesSanctions(false); // Not in sanctioned countries
-questionnaire.setInvolvedSanctions(false); // Not involved with sanctioned entities
-
-webClient.post()
-    .uri("/api/v1/identity/parties/456/sanctions-questionnaire")
-    .bodyValue(questionnaire)
-    .retrieve()
-    .bodyToMono(SanctionsQuestionnaireDTO.class)
-    .subscribe(response -> {
-        System.out.println("Questionnaire created with ID: " + response.getSanctionsQuestionnaireId());
-    });
-```
-
-#### Retrieve Latest Sanctions Questionnaire
-
-To retrieve the latest sanctions questionnaire for a party:
-
-```
-// Get the latest sanctions questionnaire for a party
-webClient.get()
-    .uri("/api/v1/identity/parties/456/sanctions-questionnaire/latest")
-    .retrieve()
-    .bodyToMono(SanctionsQuestionnaireDTO.class)
-    .subscribe(questionnaire -> {
-        System.out.println("Questionnaire ID: " + questionnaire.getSanctionsQuestionnaireId());
-        System.out.println("Activity outside EU: " + (questionnaire.getActivityOutsideEu() ? "Yes" : "No"));
-        if (questionnaire.getActivityOutsideEu()) {
-            System.out.println("Economic sanctions: " + (questionnaire.getEconomicSanctions() ? "Yes" : "No"));
-            System.out.println("Resident in sanctioned countries: " + (questionnaire.getResidentCountriesSanctions() ? "Yes" : "No"));
-            System.out.println("Involved with sanctioned entities: " + (questionnaire.getInvolvedSanctions() ? "Yes" : "No"));
-        }
-    });
-```
-
-#### Update Sanctions Questionnaire
-
-When the sanctions status changes, update the questionnaire:
-
-```
-// Update sanctions questionnaire
-SanctionsQuestionnaireDTO updateQuestionnaire = new SanctionsQuestionnaireDTO();
-updateQuestionnaire.setActivityOutsideEu(false); // No longer has activity outside EU
-
-webClient.patch()
-    .uri("/api/v1/identity/parties/456/sanctions-questionnaire/789")
-    .bodyValue(updateQuestionnaire)
-    .retrieve()
-    .bodyToMono(SanctionsQuestionnaireDTO.class)
-    .subscribe(response -> {
-        System.out.println("Questionnaire updated: " + response.getSanctionsQuestionnaireId());
-    });
-```
+For a detailed walkthrough with code examples, see the [KYC Process Documentation](docs/kyc-process.md).
 
 ### KYB Process for Legal Entities
 
-The Know Your Business (KYB) process for legal entities is more complex than KYC for natural persons, as it involves verifying the business itself as well as its ownership structure, including Ultimate Beneficial Owners (UBOs). The process typically follows these steps:
+The Know Your Business (KYB) process for legal entities follows these steps:
 
 1. **Create a KYB Verification**
 2. **Register Business Profile and Locations**
@@ -937,232 +704,7 @@ The Know Your Business (KYB) process for legal entities is more complex than KYC
 10. **Apply Enhanced Due Diligence (if necessary)**
 11. **Complete the KYB Verification**
 
-Here's a detailed walkthrough of each step:
-
-#### Step 1: Create a KYB Verification
-
-First, create a new KYB verification for the legal entity:
-
-```
-// Create a new KYB verification
-KybVerificationDTO verification = new KybVerificationDTO();
-verification.setPartyId(456L); // ID of the legal entity
-verification.setVerificationType(VerificationTypeEnum.BUSINESS_IDENTITY);
-verification.setStatus(VerificationStatusEnum.PENDING);
-verification.setRiskLevel(RiskLevelEnum.MEDIUM); // Initial risk level
-verification.setVerificationMethod(VerificationMethodEnum.DOCUMENT);
-
-// Submit the verification
-Long verificationId = kybVerificationService.create(verification).block().getKybVerificationId();
-```
-
-#### Step 2: Register Business Profile and Locations
-
-Register the business profile and its locations:
-
-```
-// Create business profile
-BusinessProfileDTO profile = new BusinessProfileDTO();
-profile.setPartyId(456L);
-profile.setLegalName("Acme Corporation");
-profile.setTradingName("Acme Corp");
-profile.setLegalForm("Corporation");
-profile.setIncorporationCountry("US");
-profile.setIncorporationDate(LocalDate.of(2010, 1, 15));
-profile.setTaxId("12-3456789");
-profile.setRegistrationNumber("C123456-2010");
-profile.setIndustryCode("NAICS-541512");
-profile.setIndustryName("Computer Systems Design Services");
-
-// Submit the business profile
-Long profileId = businessProfileService.create(profile).block().getBusinessProfileId();
-
-// Add business location (headquarters)
-BusinessLocationDTO location = new BusinessLocationDTO();
-location.setPartyId(456L);
-location.setLocationType("HEADQUARTERS");
-location.setAddressLine1("123 Main Street");
-location.setAddressLine2("Suite 400");
-location.setCity("San Francisco");
-location.setState("CA");
-location.setPostalCode("94105");
-location.setCountry("US");
-location.setIsPrimary(true);
-
-// Submit the business location
-Long locationId = businessLocationService.create(location).block().getBusinessLocationId();
-```
-
-#### Step 3: Complete Sanctions and Embargo Questionnaire
-
-For legal entities and self-employed individuals, complete the sanctions and embargo questionnaire:
-
-```
-// Import the enum
-import com.catalis.core.kycb.interfaces.enums.sanctions.v1.EntitySanctionsQuestionnaireTypeEnum;
-
-// Create sanctions questionnaire
-SanctionsQuestionnaireDTO questionnaire = new SanctionsQuestionnaireDTO();
-questionnaire.setPartyId(456L);
-questionnaire.setEntitySanctionsQuestionnaire(EntitySanctionsQuestionnaireTypeEnum.LEGAL_ENTITY_ONLY); // Only the legal entity
-questionnaire.setActivityOutsideEu(true); // Has activity outside EU
-questionnaire.setEconomicSanctions(false); // Not subject to economic sanctions
-questionnaire.setResidentCountriesSanctions(false); // Not in sanctioned countries
-questionnaire.setInvolvedSanctions(false); // Not involved with sanctioned entities
-
-// Submit the sanctions questionnaire
-Long questionnaireId = sanctionsQuestionnaireService.create(questionnaire).block().getSanctionsQuestionnaireId();
-```
-
-#### Step 4: Upload and Verify Corporate Documents
-
-Upload and verify the corporate documents for the legal entity:
-
-```
-// Upload certificate of incorporation
-CorporateDocumentDTO document1 = new CorporateDocumentDTO();
-document1.setPartyId(456L);
-document1.setDocumentType(CorporateDocumentTypeEnum.CERTIFICATE_OF_INCORPORATION);
-document1.setDocumentNumber("CERT-2010-12345");
-document1.setIssueDate(LocalDate.of(2010, 1, 15));
-document1.setIssuingAuthority("Delaware Secretary of State");
-document1.setDocumentUrl("https://document-storage.example.com/docs/certificate-456.pdf");
-
-// Submit the document
-Long docId1 = corporateDocumentService.create(document1).block().getCorporateDocumentId();
-
-// Verify the document
-CorporateDocumentDTO verifyDocument = new CorporateDocumentDTO();
-verifyDocument.setIsVerified(true);
-verifyDocument.setVerificationDate(LocalDateTime.now());
-verifyDocument.setVerificationNotes("Document verified against official registry");
-verifyDocument.setVerificationAgent("compliance-officer-2");
-
-// Update the document verification status
-corporateDocumentService.update(docId1, verifyDocument).block();
-```
-
-#### Step 4: Define Corporate Structure
-
-Define the corporate structure, including parent-subsidiary relationships:
-
-```
-// If this is a subsidiary, define relationship with parent company
-CorporateStructureDTO structure = new CorporateStructureDTO();
-structure.setPartyId(456L); // This entity
-structure.setRelatedPartyId(789L); // Parent company
-structure.setRelationshipType("SUBSIDIARY");
-structure.setOwnershipPercentage(new BigDecimal("100.00")); // Wholly owned subsidiary
-structure.setStartDate(LocalDateTime.of(2010, 1, 15, 0, 0));
-structure.setIsVerified(true);
-structure.setVerificationDate(LocalDateTime.now());
-
-// Submit the corporate structure relationship
-Long structureId = corporateStructureService.create(structure).block().getCorporateStructureId();
-```
-
-#### Step 5: Register Ultimate Beneficial Owners (UBOs)
-
-Register the Ultimate Beneficial Owners (UBOs) of the legal entity. UBOs are natural persons who ultimately own or control the legal entity:
-
-```
-// Register a UBO (natural person who owns >25% of the company)
-UboDTO ubo1 = new UboDTO();
-ubo1.setPartyId(456L); // Legal entity
-ubo1.setIndividualPartyId(123L); // Natural person (already KYC verified)
-ubo1.setOwnershipPercentage(new BigDecimal("30.00"));
-ubo1.setOwnershipType(OwnershipTypeEnum.DIRECT);
-ubo1.setIsControlling(true);
-ubo1.setStartDate(LocalDateTime.of(2010, 1, 15, 0, 0));
-
-// Submit the UBO
-Long uboId = uboService.create(ubo1).block().getUboId();
-
-// Verify the UBO information
-UboDTO verifyUbo = new UboDTO();
-verifyUbo.setIsVerified(true);
-verifyUbo.setVerificationDate(LocalDateTime.now());
-verifyUbo.setVerificationMethod(VerificationMethodEnum.DOCUMENT);
-verifyUbo.setTitularidadRealDocument("https://document-storage.example.com/docs/ownership-proof-123.pdf");
-
-// Update the UBO verification status
-uboService.update(uboId, verifyUbo).block();
-```
-
-#### Step 6-9: Complete Remaining Steps
-
-The remaining steps (Register Directors, Perform AML Screening, Conduct Risk Assessment, Apply Enhanced Due Diligence) follow a similar pattern to the corresponding steps in the KYC process, but with business-specific data and checks.
-
-#### Step 10: Complete the KYB Verification
-
-Finally, update the KYB verification status to complete the process:
-
-```
-// Update KYB verification status
-KybVerificationDTO updateVerification = new KybVerificationDTO();
-updateVerification.setStatus(VerificationStatusEnum.COMPLETED);
-updateVerification.setVerificationDate(LocalDateTime.now());
-updateVerification.setVerifiedBy("compliance-officer-1");
-updateVerification.setNotes("All verification steps completed successfully");
-
-// Update the verification status
-kybVerificationService.update(verificationId, updateVerification).block();
-```
-
-### Linking Natural Persons to Legal Entities
-
-A critical aspect of the KYB process is establishing and verifying the links between legal entities and the natural persons who own or control them. This is done through several mechanisms:
-
-1. **Ultimate Beneficial Owners (UBOs)**: Natural persons who ultimately own or control the legal entity, typically with ownership of 25% or more.
-2. **Directors and Officers**: Natural persons who serve as directors, officers, or in other key management positions.
-3. **Authorized Signatories**: Natural persons authorized to act on behalf of the legal entity.
-4. **Power of Attorney Holders**: Natural persons granted legal authority to act on behalf of the legal entity.
-
-Each of these natural persons should have completed their own KYC process before being linked to the legal entity. The linking process ensures transparency in the ownership and control structure of the legal entity, which is essential for regulatory compliance.
-
-Here's an example of how these relationships are established and maintained:
-
-```
-// 1. First, ensure the natural person has completed KYC
-// (as shown in the KYC Process for Natural Persons section)
-
-// 2. Then link the natural person to the legal entity as a UBO
-UboDTO ubo = new UboDTO();
-ubo.setPartyId(456L); // Legal entity
-ubo.setIndividualPartyId(123L); // Natural person (already KYC verified)
-ubo.setOwnershipPercentage(new BigDecimal("30.00"));
-ubo.setOwnershipType(OwnershipTypeEnum.DIRECT);
-ubo.setIsControlling(true);
-ubo.setStartDate(LocalDateTime.of(2010, 1, 15, 0, 0));
-
-// Submit the UBO relationship
-Long uboId = uboService.create(ubo).block().getUboId();
-
-// 3. Link the natural person as a director
-DirectorDTO director = new DirectorDTO();
-director.setPartyId(456L); // Legal entity
-director.setIndividualPartyId(125L); // Natural person (already KYC verified)
-director.setPosition("DIRECTOR");
-director.setIsExecutive(true);
-director.setStartDate(LocalDateTime.of(2010, 1, 15, 0, 0));
-
-// Submit the director relationship
-Long directorId = directorService.create(director).block().getDirectorId();
-
-// 4. Grant power of attorney to a natural person
-PowerOfAttorneyDTO poa = new PowerOfAttorneyDTO();
-poa.setGrantorPartyId(456L); // Legal entity granting the power
-poa.setGranteePartyId(127L); // Natural person receiving the power
-poa.setPoaType(PoaTypeEnum.BUSINESS);
-poa.setScope("LIMITED");
-poa.setDescription("Authority to sign contracts up to $10,000");
-poa.setEffectiveDate(LocalDate.now());
-poa.setExpiryDate(LocalDate.now().plusYears(1));
-poa.setDocumentUrl("https://document-storage.example.com/docs/poa-456-127.pdf");
-
-// Submit the power of attorney
-Long poaId = powerOfAttorneyService.create(poa).block().getPowerOfAttorneyId();
-```
+For a detailed walkthrough with code examples, see the [KYB Process Documentation](docs/kyb-process.md).
 
 ## Troubleshooting
 
@@ -1265,3 +807,7 @@ We welcome contributions to improve the Firefly KYC/B & AML Management microserv
 5. Open a Pull Request
 
 Please ensure your code follows our coding standards and includes appropriate tests.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
