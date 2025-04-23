@@ -179,15 +179,12 @@ POST /api/v1/identity/parties/{partyId}/sanctions-questionnaire
 // Complete sanctions questionnaire
 SanctionsQuestionnaireDTO questionnaire = new SanctionsQuestionnaireDTO();
 questionnaire.setPartyId(123L);
-questionnaire.setQuestionnaireType(EntitySanctionsQuestionnaireTypeEnum.LEGAL_ENTITY);
-questionnaire.setHasSanctionedCountryOperations(false);
-questionnaire.setHasSanctionedCountryClients(false);
-questionnaire.setHasSanctionedCountrySuppliers(false);
-questionnaire.setHasPoliticallyExposedPersons(false);
-questionnaire.setHasHighRiskBusinessActivities(false);
-questionnaire.setAdditionalInformation("The company operates exclusively in the United States and European Union.");
-questionnaire.setCompletedBy("compliance-officer-1");
-questionnaire.setCompletionDate(LocalDateTime.now());
+questionnaire.setEntitySanctionsQuestionnaire(EntitySanctionsQuestionnaireTypeEnum.LEGAL_ENTITY_ONLY);
+questionnaire.setActivityOutsideEu(false);
+questionnaire.setEconomicSanctions(false);
+questionnaire.setResidentCountriesSanctions(false);
+questionnaire.setInvolvedSanctions(false);
+questionnaire.setQuestionnaireDate(LocalDateTime.now());
 
 webClient.post()
     .uri("/api/v1/identity/parties/123/sanctions-questionnaire")
@@ -205,15 +202,12 @@ webClient.post()
 {
   "sanctionsQuestionnaireId": 789,
   "partyId": 123,
-  "questionnaireType": "LEGAL_ENTITY",
-  "hasSanctionedCountryOperations": false,
-  "hasSanctionedCountryClients": false,
-  "hasSanctionedCountrySuppliers": false,
-  "hasPoliticallyExposedPersons": false,
-  "hasHighRiskBusinessActivities": false,
-  "additionalInformation": "The company operates exclusively in the United States and European Union.",
-  "completedBy": "compliance-officer-1",
-  "completionDate": "2023-06-15T11:15:30Z",
+  "entitySanctionsQuestionnaire": "LEGAL_ENTITY_ONLY",
+  "activityOutsideEu": false,
+  "economicSanctions": false,
+  "residentCountriesSanctions": false,
+  "involvedSanctions": false,
+  "questionnaireDate": "2023-06-15T11:15:30Z",
   "createdDate": "2023-06-15T11:15:30Z",
   "lastModifiedDate": "2023-06-15T11:15:30Z"
 }
@@ -640,7 +634,7 @@ webClient.patch()
     .bodyToMono(CorporateDocumentDTO.class)
     .subscribe(response -> {
         System.out.println("Document verification failed: " + response.getVerificationNotes());
-        
+
         // Notify the business
         // Code to send notification...
     });
@@ -665,7 +659,7 @@ webClient.patch()
     .bodyToMono(AmlMatchDTO.class)
     .subscribe(updatedMatch -> {
         System.out.println("True match confirmed: " + updatedMatch.getResolutionStatus());
-        
+
         // Create a compliance case
         ComplianceCaseDTO complianceCase = new ComplianceCaseDTO();
         complianceCase.setPartyId(123L);
@@ -674,7 +668,7 @@ webClient.patch()
         complianceCase.setCaseStatus(CaseStatusEnum.OPEN);
         complianceCase.setAssignedTo("compliance-team-lead");
         complianceCase.setDescription("True match found in OFAC sanctions list for business entity");
-        
+
         webClient.post()
             .uri("/api/v1/compliance/cases")
             .bodyValue(complianceCase)
@@ -704,7 +698,7 @@ webClient.patch()
     .bodyToMono(UboDTO.class)
     .subscribe(response -> {
         System.out.println("UBO verification failed: " + response.getVerificationNotes());
-        
+
         // Request additional documentation
         DocumentRequestDTO request = new DocumentRequestDTO();
         request.setPartyId(123L);
@@ -712,7 +706,7 @@ webClient.patch()
         request.setRequestNotes("Please provide official documentation confirming ownership percentage.");
         request.setRequestedBy("compliance-officer-1");
         request.setDueDate(LocalDate.now().plusDays(14));
-        
+
         webClient.post()
             .uri("/api/v1/documents/requests")
             .bodyValue(request)
