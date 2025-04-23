@@ -3,7 +3,6 @@ package com.catalis.core.kycb.core.services.aml.v1;
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.queries.PaginationResponse;
 import com.catalis.core.kycb.interfaces.dtos.aml.v1.AmlScreeningDTO;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -17,15 +16,7 @@ public interface AmlScreeningService {
      * @return A {@link Mono} containing a paginated response of AML screening DTOs that match the filter criteria.
      */
     Mono<PaginationResponse<AmlScreeningDTO>> findAll(FilterRequest<AmlScreeningDTO> filterRequest);
-    
-    /**
-     * Retrieves all AML screenings for a specific party.
-     *
-     * @param partyId The ID of the party.
-     * @return A {@link Flux} of AML screening DTOs.
-     */
-    Flux<AmlScreeningDTO> findByPartyId(Long partyId);
-    
+
     /**
      * Creates a new AML screening entry based on the provided data transfer object.
      *
@@ -33,7 +24,7 @@ public interface AmlScreeningService {
      * @return A Mono containing the created AmlScreeningDTO
      */
     Mono<AmlScreeningDTO> create(AmlScreeningDTO dto);
-    
+
     /**
      * Retrieves an AmlScreeningDTO by its unique identifier.
      *
@@ -41,7 +32,7 @@ public interface AmlScreeningService {
      * @return A Mono containing the AmlScreeningDTO if found, otherwise an empty mono.
      */
     Mono<AmlScreeningDTO> getById(Long amlScreeningId);
-    
+
     /**
      * Updates an existing AmlScreening entry with new data provided in the DTO.
      *
@@ -50,21 +41,12 @@ public interface AmlScreeningService {
      * @return A Mono containing the updated AmlScreeningDTO if successful.
      */
     Mono<AmlScreeningDTO> update(Long amlScreeningId, AmlScreeningDTO dto);
-    
+
     /**
-     * Executes a new AML screening for a party.
+     * Deletes an AML Screening by its ID.
      *
-     * @param partyId The ID of the party to screen.
-     * @param screeningType The type of screening to perform.
-     * @return A Mono containing the AmlScreeningDTO with the screening results.
+     * @param amlScreeningId The ID of the AML Screening to delete.
+     * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<AmlScreeningDTO> executeScreening(Long partyId, String screeningType);
-    
-    /**
-     * Retrieves the latest AML screening for a party.
-     *
-     * @param partyId The ID of the party.
-     * @return A Mono containing the latest AmlScreeningDTO.
-     */
-    Mono<AmlScreeningDTO> getLatestByPartyId(Long partyId);
+    Mono<Void> delete(Long amlScreeningId);
 }

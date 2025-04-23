@@ -5,19 +5,12 @@ import com.catalis.common.core.filters.FilterUtils;
 import com.catalis.common.core.queries.PaginationResponse;
 import com.catalis.core.kycb.core.mappers.risk.v1.RiskAssessmentMapper;
 import com.catalis.core.kycb.interfaces.dtos.risk.v1.RiskAssessmentDTO;
-import com.catalis.core.kycb.interfaces.enums.assessment.v1.AssessmentTypeEnum;
-import com.catalis.core.kycb.interfaces.enums.risk.v1.RiskCategoryEnum;
-import com.catalis.core.kycb.interfaces.enums.risk.v1.RiskLevelEnum;
 import com.catalis.core.kycb.models.entities.risk.v1.RiskAssessment;
 import com.catalis.core.kycb.models.repositories.risk.v1.RiskAssessmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.time.LocalDateTime;
-import java.util.Random;
 
 /**
  * Implementation of the risk assessment service.
@@ -40,11 +33,6 @@ public class RiskAssessmentServiceImpl implements RiskAssessmentService {
         ).filter(filterRequest);
     }
 
-    @Override
-    public Flux<RiskAssessmentDTO> findByPartyId(Long partyId) {
-        return repository.findByPartyId(partyId)
-                .map(mapper::toDTO);
-    }
 
     @Override
     public Mono<RiskAssessmentDTO> create(RiskAssessmentDTO dto) {
@@ -73,49 +61,7 @@ public class RiskAssessmentServiceImpl implements RiskAssessmentService {
     }
 
     @Override
-    public Mono<RiskAssessmentDTO> calculateRiskScore(Long partyId, String assessmentType) {
-        // In a real implementation, this would calculate a risk score based on various factors
-        // For now, we'll create a simulated risk assessment
-        
-        RiskAssessment assessment = new RiskAssessment();
-        assessment.setPartyId(partyId);
-        assessment.setAssessmentDate(LocalDateTime.now());
-        assessment.setAssessmentType(AssessmentTypeEnum.valueOf(assessmentType));
-        
-        // Simulate random risk score between 0 and 100
-        Random random = new Random();
-        int riskScore = random.nextInt(101);
-        assessment.setRiskScore(riskScore);
-        
-        // Determine risk level based on score
-        RiskLevelEnum riskLevel;
-        if (riskScore < 25) {
-            riskLevel = RiskLevelEnum.LOW;
-        } else if (riskScore < 50) {
-            riskLevel = RiskLevelEnum.MEDIUM;
-        } else if (riskScore < 75) {
-            riskLevel = RiskLevelEnum.HIGH;
-        } else {
-            riskLevel = RiskLevelEnum.EXTREME;
-        }
-        assessment.setRiskLevel(riskLevel);
-        
-        // Set risk category
-        assessment.setRiskCategory(RiskCategoryEnum.CUSTOMER);
-        
-        // Set assessment notes
-        assessment.setAssessmentNotes("Automated risk assessment generated on " + LocalDateTime.now());
-        
-        // Set next assessment date to 1 year from now
-        assessment.setNextAssessmentDate(LocalDateTime.now().plusYears(1));
-        
-        return repository.save(assessment)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Mono<RiskAssessmentDTO> getLatestByPartyId(Long partyId) {
-        return repository.findFirstByPartyIdOrderByAssessmentDateDesc(partyId)
-                .map(mapper::toDTO);
+    public Mono<Void> delete(Long riskAssessmentId) {
+        return repository.deleteById(riskAssessmentId);
     }
 }

@@ -13,7 +13,7 @@ public interface KybVerificationService {
      * @return A {@link Mono} containing a paginated response of KYB verification DTOs that match the filter criteria.
      */
     Mono<PaginationResponse<KybVerificationDTO>> findAll(FilterRequest<KybVerificationDTO> filterRequest);
-    
+
     /**
      * Creates a new KYB verification entry based on the provided data transfer object.
      *
@@ -21,7 +21,7 @@ public interface KybVerificationService {
      * @return A Mono containing the created KybVerificationDTO
      */
     Mono<KybVerificationDTO> create(KybVerificationDTO dto);
-    
+
     /**
      * Retrieves a KybVerificationDTO by its unique identifier.
      *
@@ -29,7 +29,7 @@ public interface KybVerificationService {
      * @return A Mono containing the KybVerificationDTO if found, otherwise an empty mono.
      */
     Mono<KybVerificationDTO> getById(Long kybVerificationId);
-    
+
     /**
      * Updates an existing KybVerification entry with new data provided in the DTO.
      *
@@ -38,7 +38,7 @@ public interface KybVerificationService {
      * @return A Mono containing the updated KybVerificationDTO if successful.
      */
     Mono<KybVerificationDTO> update(Long kybVerificationId, KybVerificationDTO dto);
-    
+
     /**
      * Deletes a KYB Verification by its ID.
      *
@@ -46,12 +46,5 @@ public interface KybVerificationService {
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
     Mono<Void> delete(Long kybVerificationId);
-    
-    /**
-     * Completes the KYB verification process for the specified verification ID.
-     *
-     * @param kybVerificationId The ID of the KYB verification to complete.
-     * @return A Mono containing the updated KybVerificationDTO after completion.
-     */
-    Mono<KybVerificationDTO> complete(Long kybVerificationId);
+
 }

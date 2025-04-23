@@ -10,7 +10,6 @@ import com.catalis.core.kycb.models.repositories.document.v1.VerificationDocumen
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -29,12 +28,6 @@ public class VerificationDocumentServiceImpl implements VerificationDocumentServ
                 VerificationDocument.class,
                 mapper::toDTO
         ).filter(filterRequest);
-    }
-
-    @Override
-    public Flux<VerificationDocumentDTO> findByKycVerificationId(Long kycVerificationId) {
-        return repository.findByKycVerificationId(kycVerificationId)
-                .map(mapper::toDTO);
     }
 
     @Override
@@ -66,15 +59,5 @@ public class VerificationDocumentServiceImpl implements VerificationDocumentServ
     @Override
     public Mono<Void> delete(Long verificationDocumentId) {
         return repository.deleteById(verificationDocumentId);
-    }
-
-    @Override
-    public Mono<VerificationDocumentDTO> verify(Long verificationDocumentId) {
-        return repository.findById(verificationDocumentId)
-                .flatMap(entity -> {
-                    entity.setIsVerified(true);
-                    return repository.save(entity);
-                })
-                .map(mapper::toDTO);
     }
 }

@@ -10,10 +10,7 @@ import com.catalis.core.kycb.models.repositories.location.v1.BusinessLocationRep
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.time.LocalDateTime;
 
 /**
  * Implementation of the business location service.
@@ -34,12 +31,6 @@ public class BusinessLocationServiceImpl implements BusinessLocationService {
                 BusinessLocation.class,
                 mapper::toDTO
         ).filter(filterRequest);
-    }
-
-    @Override
-    public Flux<BusinessLocationDTO> findByPartyId(Long partyId) {
-        return repository.findByPartyId(partyId)
-                .map(mapper::toDTO);
     }
 
     @Override
@@ -102,92 +93,5 @@ public class BusinessLocationServiceImpl implements BusinessLocationService {
     @Override
     public Mono<Void> delete(Long locationId) {
         return repository.deleteById(locationId);
-    }
-
-    @Override
-    public Flux<BusinessLocationDTO> findByLocationTypeCode(String locationTypeCode) {
-        return repository.findByLocationTypeCode(locationTypeCode)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<BusinessLocationDTO> findPrimaryLocations() {
-        return repository.findByIsPrimary(true)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<BusinessLocationDTO> findByCountry(String countryIsoCode) {
-        return repository.findByCountryIsoCode(countryIsoCode)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<BusinessLocationDTO> findByCity(String city) {
-        return repository.findByCity(city)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<BusinessLocationDTO> findByEmployeeCountBetween(Integer minEmployees, Integer maxEmployees) {
-        return repository.findByEmployeeCountBetween(minEmployees, maxEmployees)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<BusinessLocationDTO> findVerifiedLocations() {
-        return repository.findByIsVerified(true)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<BusinessLocationDTO> findByVerificationMethod(String verificationMethod) {
-        return repository.findByVerificationMethod(verificationMethod)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<BusinessLocationDTO> findByVerificationDateBetween(LocalDateTime startDate, LocalDateTime endDate) {
-        return repository.findByVerificationDateBetween(startDate, endDate)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Mono<BusinessLocationDTO> getPrimaryLocationByPartyId(Long partyId) {
-        return repository.findByPartyIdAndIsPrimaryTrue(partyId)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Mono<BusinessLocationDTO> setPrimaryLocation(Long locationId) {
-        return repository.findById(locationId)
-                .flatMap(entity -> {
-                    // First, find and update any existing primary location for this party
-                    return repository.findByPartyIdAndIsPrimaryTrue(entity.getPartyId())
-                            .flatMap(existingPrimary -> {
-                                existingPrimary.setIsPrimary(false);
-                                return repository.save(existingPrimary);
-                            })
-                            .then(Mono.just(entity))
-                            .switchIfEmpty(Mono.just(entity))
-                            .flatMap(updatedEntity -> {
-                                // Then set this location as primary
-                                updatedEntity.setIsPrimary(true);
-                                return repository.save(updatedEntity);
-                            })
-                            .map(mapper::toDTO);
-                });
-    }
-
-    @Override
-    public Mono<BusinessLocationDTO> verifyLocation(Long locationId, String verificationMethod) {
-        return repository.findById(locationId)
-                .flatMap(entity -> {
-                    entity.setIsVerified(true);
-                    entity.setVerificationDate(LocalDateTime.now());
-                    entity.setVerificationMethod(verificationMethod);
-                    return repository.save(entity);
-                })
-                .map(mapper::toDTO);
     }
 }

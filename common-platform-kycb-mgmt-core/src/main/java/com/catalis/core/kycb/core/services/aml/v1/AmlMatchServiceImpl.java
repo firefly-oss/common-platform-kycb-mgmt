@@ -5,16 +5,12 @@ import com.catalis.common.core.filters.FilterUtils;
 import com.catalis.common.core.queries.PaginationResponse;
 import com.catalis.core.kycb.core.mappers.aml.v1.AmlMatchMapper;
 import com.catalis.core.kycb.interfaces.dtos.aml.v1.AmlMatchDTO;
-import com.catalis.core.kycb.interfaces.enums.resolution.v1.ResolutionStatusEnum;
 import com.catalis.core.kycb.models.entities.aml.v1.AmlMatch;
 import com.catalis.core.kycb.models.repositories.aml.v1.AmlMatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.time.LocalDateTime;
 
 /**
  * Implementation of the AML match service.
@@ -35,12 +31,6 @@ public class AmlMatchServiceImpl implements AmlMatchService {
                 AmlMatch.class,
                 mapper::toDTO
         ).filter(filterRequest);
-    }
-
-    @Override
-    public Flux<AmlMatchDTO> findByAmlScreeningId(Long amlScreeningId) {
-        return repository.findByAmlScreeningId(amlScreeningId)
-                .map(mapper::toDTO);
     }
 
     @Override
@@ -70,15 +60,7 @@ public class AmlMatchServiceImpl implements AmlMatchService {
     }
 
     @Override
-    public Mono<AmlMatchDTO> updateResolution(Long amlMatchId, String resolutionStatus, String resolutionNotes, String resolutionAgent) {
-        return repository.findById(amlMatchId)
-                .flatMap(entity -> {
-                    entity.setResolutionStatus(ResolutionStatusEnum.valueOf(resolutionStatus));
-                    entity.setResolutionNotes(resolutionNotes);
-                    entity.setResolutionAgent(resolutionAgent);
-                    entity.setResolutionDate(LocalDateTime.now());
-                    return repository.save(entity);
-                })
-                .map(mapper::toDTO);
+    public Mono<Void> delete(Long amlMatchId) {
+        return repository.deleteById(amlMatchId);
     }
 }

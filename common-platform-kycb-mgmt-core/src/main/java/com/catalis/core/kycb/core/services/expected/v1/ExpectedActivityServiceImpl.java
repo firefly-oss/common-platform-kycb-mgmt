@@ -10,10 +10,7 @@ import com.catalis.core.kycb.models.repositories.expected.v1.ExpectedActivityRep
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.math.BigDecimal;
 
 /**
  * Implementation of the expected activity service.
@@ -34,12 +31,6 @@ public class ExpectedActivityServiceImpl implements ExpectedActivityService {
                 ExpectedActivity.class,
                 mapper::toDTO
         ).filter(filterRequest);
-    }
-
-    @Override
-    public Flux<ExpectedActivityDTO> findByPartyId(Long partyId) {
-        return repository.findByPartyId(partyId)
-                .map(mapper::toDTO);
     }
 
     @Override
@@ -71,53 +62,5 @@ public class ExpectedActivityServiceImpl implements ExpectedActivityService {
     @Override
     public Mono<Void> delete(Long activityId) {
         return repository.deleteById(activityId);
-    }
-
-    @Override
-    public Flux<ExpectedActivityDTO> findByActivityTypeCode(String activityTypeCode) {
-        return repository.findByActivityTypeCode(activityTypeCode)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<ExpectedActivityDTO> findByMonthlyVolumeAbove(BigDecimal threshold) {
-        return repository.findByExpectedMonthlyVolumeGreaterThanEqual(threshold)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<ExpectedActivityDTO> findByAnnualVolumeAbove(BigDecimal threshold) {
-        return repository.findByExpectedAnnualVolumeGreaterThanEqual(threshold)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<ExpectedActivityDTO> findByTransactionCountAbove(Integer threshold) {
-        return repository.findByExpectedTransactionCountGreaterThanEqual(threshold)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<ExpectedActivityDTO> findHighValueActivities() {
-        return repository.findByIsHighValue(true)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<ExpectedActivityDTO> findCashIntensiveActivities() {
-        return repository.findByCashIntensive(true)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<ExpectedActivityDTO> findTaxHavenActivities() {
-        return repository.findByTaxHavenTransactions(true)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Mono<ExpectedActivityDTO> getLatestByPartyId(Long partyId) {
-        return repository.findFirstByPartyIdOrderByDateCreatedDesc(partyId)
-                .map(mapper::toDTO);
     }
 }

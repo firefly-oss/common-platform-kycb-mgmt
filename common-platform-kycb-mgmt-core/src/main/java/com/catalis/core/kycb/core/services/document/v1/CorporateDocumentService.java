@@ -3,7 +3,6 @@ package com.catalis.core.kycb.core.services.document.v1;
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.queries.PaginationResponse;
 import com.catalis.core.kycb.interfaces.dtos.document.v1.CorporateDocumentDTO;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -17,14 +16,6 @@ public interface CorporateDocumentService {
      * @return A {@link Mono} containing a paginated response of corporate document DTOs that match the filter criteria.
      */
     Mono<PaginationResponse<CorporateDocumentDTO>> findAll(FilterRequest<CorporateDocumentDTO> filterRequest);
-
-    /**
-     * Retrieves all corporate documents for a specific party.
-     *
-     * @param partyId The ID of the party.
-     * @return A {@link Flux} of corporate document DTOs.
-     */
-    Flux<CorporateDocumentDTO> findByPartyId(Long partyId);
 
     /**
      * Creates a new corporate document entry based on the provided data transfer object.
@@ -58,21 +49,4 @@ public interface CorporateDocumentService {
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
     Mono<Void> delete(Long documentId);
-
-    /**
-     * Retrieves all corporate documents of a specific type.
-     *
-     * @param documentType The type of the corporate documents to retrieve.
-     * @return A {@link Flux} of corporate document DTOs.
-     */
-    Flux<CorporateDocumentDTO> findByDocumentType(String documentType);
-
-    /**
-     * Verifies a corporate document.
-     *
-     * @param documentId The ID of the corporate document to verify.
-     * @param verificationNotes Notes explaining the verification.
-     * @return A Mono containing the updated CorporateDocumentDTO.
-     */
-    Mono<CorporateDocumentDTO> verifyDocument(Long documentId, String verificationNotes);
 }

@@ -42,12 +42,5 @@ public interface KycVerificationService {
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
     Mono<Void> delete(Long kycVerificationId);
-    /**
-     * Completes the KYC verification process for the specified verification ID.
-     *
-     * @param kycVerificationId The ID of the KYC verification to complete.
-     * @return A Mono containing the updated KycVerificationDTO after completion.
-     */
-    Mono<KycVerificationDTO> complete(Long kycVerificationId);
 
 }

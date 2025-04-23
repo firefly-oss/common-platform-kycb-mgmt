@@ -5,13 +5,11 @@ import com.catalis.common.core.filters.FilterUtils;
 import com.catalis.common.core.queries.PaginationResponse;
 import com.catalis.core.kycb.core.mappers.corporate.v1.CorporateStructureMapper;
 import com.catalis.core.kycb.interfaces.dtos.corporate.v1.CorporateStructureDTO;
-import com.catalis.core.kycb.interfaces.enums.corporate.v1.RelationshipTypeEnum;
 import com.catalis.core.kycb.models.entities.corporate.v1.CorporateStructure;
 import com.catalis.core.kycb.models.repositories.corporate.v1.CorporateStructureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -35,12 +33,6 @@ public class CorporateStructureServiceImpl implements CorporateStructureService 
                 CorporateStructure.class,
                 mapper::toDTO
         ).filter(filterRequest);
-    }
-
-    @Override
-    public Flux<CorporateStructureDTO> findByPartyId(Long partyId) {
-        return repository.findByPartyId(partyId)
-                .map(mapper::toDTO);
     }
 
     @Override
@@ -81,35 +73,5 @@ public class CorporateStructureServiceImpl implements CorporateStructureService 
     @Override
     public Mono<Void> delete(Long structureId) {
         return repository.deleteById(structureId);
-    }
-
-    @Override
-    public Flux<CorporateStructureDTO> findByRelationshipType(String relationshipType) {
-        return repository.findByRelationshipType(RelationshipTypeEnum.valueOf(relationshipType))
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<CorporateStructureDTO> findByParentId(Long parentId) {
-        return repository.findByParentEntityId(parentId)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<CorporateStructureDTO> findBySubsidiaryId(Long subsidiaryId) {
-        return repository.findByPartyId(subsidiaryId)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Mono<CorporateStructureDTO> verifyStructure(Long structureId, String verificationNotes) {
-        return repository.findById(structureId)
-                .flatMap(entity -> {
-                    entity.setIsVerified(true);
-                    entity.setVerificationDate(LocalDateTime.now());
-                    entity.setControlNotes(verificationNotes);
-                    return repository.save(entity);
-                })
-                .map(mapper::toDTO);
     }
 }

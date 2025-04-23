@@ -3,7 +3,6 @@ package com.catalis.core.kycb.core.services.risk.v1;
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.queries.PaginationResponse;
 import com.catalis.core.kycb.interfaces.dtos.risk.v1.RiskAssessmentDTO;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -17,15 +16,7 @@ public interface RiskAssessmentService {
      * @return A {@link Mono} containing a paginated response of risk assessment DTOs that match the filter criteria.
      */
     Mono<PaginationResponse<RiskAssessmentDTO>> findAll(FilterRequest<RiskAssessmentDTO> filterRequest);
-    
-    /**
-     * Retrieves all risk assessments for a specific party.
-     *
-     * @param partyId The ID of the party.
-     * @return A {@link Flux} of risk assessment DTOs.
-     */
-    Flux<RiskAssessmentDTO> findByPartyId(Long partyId);
-    
+
     /**
      * Creates a new risk assessment entry based on the provided data transfer object.
      *
@@ -33,7 +24,7 @@ public interface RiskAssessmentService {
      * @return A Mono containing the created RiskAssessmentDTO
      */
     Mono<RiskAssessmentDTO> create(RiskAssessmentDTO dto);
-    
+
     /**
      * Retrieves a RiskAssessmentDTO by its unique identifier.
      *
@@ -41,7 +32,7 @@ public interface RiskAssessmentService {
      * @return A Mono containing the RiskAssessmentDTO if found, otherwise an empty mono.
      */
     Mono<RiskAssessmentDTO> getById(Long riskAssessmentId);
-    
+
     /**
      * Updates an existing RiskAssessment entry with new data provided in the DTO.
      *
@@ -50,21 +41,12 @@ public interface RiskAssessmentService {
      * @return A Mono containing the updated RiskAssessmentDTO if successful.
      */
     Mono<RiskAssessmentDTO> update(Long riskAssessmentId, RiskAssessmentDTO dto);
-    
+
     /**
-     * Calculates a risk score for a party based on various risk factors.
+     * Deletes a Risk Assessment by its ID.
      *
-     * @param partyId The ID of the party to assess.
-     * @param assessmentType The type of assessment to perform.
-     * @return A Mono containing the RiskAssessmentDTO with the calculated risk score.
+     * @param riskAssessmentId The ID of the Risk Assessment to delete.
+     * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<RiskAssessmentDTO> calculateRiskScore(Long partyId, String assessmentType);
-    
-    /**
-     * Retrieves the latest risk assessment for a party.
-     *
-     * @param partyId The ID of the party.
-     * @return A Mono containing the latest RiskAssessmentDTO.
-     */
-    Mono<RiskAssessmentDTO> getLatestByPartyId(Long partyId);
+    Mono<Void> delete(Long riskAssessmentId);
 }

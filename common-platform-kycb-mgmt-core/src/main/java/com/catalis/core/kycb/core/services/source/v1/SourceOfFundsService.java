@@ -3,7 +3,6 @@ package com.catalis.core.kycb.core.services.source.v1;
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.queries.PaginationResponse;
 import com.catalis.core.kycb.interfaces.dtos.source.v1.SourceOfFundsDTO;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -17,15 +16,7 @@ public interface SourceOfFundsService {
      * @return A {@link Mono} containing a paginated response of source of funds DTOs that match the filter criteria.
      */
     Mono<PaginationResponse<SourceOfFundsDTO>> findAll(FilterRequest<SourceOfFundsDTO> filterRequest);
-    
-    /**
-     * Retrieves all sources of funds for a specific party.
-     *
-     * @param partyId The ID of the party.
-     * @return A {@link Flux} of source of funds DTOs.
-     */
-    Flux<SourceOfFundsDTO> findByPartyId(Long partyId);
-    
+
     /**
      * Creates a new source of funds entry based on the provided data transfer object.
      *
@@ -33,7 +24,7 @@ public interface SourceOfFundsService {
      * @return A Mono containing the created SourceOfFundsDTO
      */
     Mono<SourceOfFundsDTO> create(SourceOfFundsDTO dto);
-    
+
     /**
      * Retrieves a SourceOfFundsDTO by its unique identifier.
      *
@@ -41,7 +32,7 @@ public interface SourceOfFundsService {
      * @return A Mono containing the SourceOfFundsDTO if found, otherwise an empty mono.
      */
     Mono<SourceOfFundsDTO> getById(Long sourceId);
-    
+
     /**
      * Updates an existing SourceOfFunds entry with new data provided in the DTO.
      *
@@ -50,7 +41,7 @@ public interface SourceOfFundsService {
      * @return A Mono containing the updated SourceOfFundsDTO if successful.
      */
     Mono<SourceOfFundsDTO> update(Long sourceId, SourceOfFundsDTO dto);
-    
+
     /**
      * Deletes a Source of Funds by its ID.
      *
@@ -58,29 +49,4 @@ public interface SourceOfFundsService {
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
     Mono<Void> delete(Long sourceId);
-    
-    /**
-     * Retrieves all sources of funds of a specific type.
-     *
-     * @param sourceType The type of the sources of funds to retrieve.
-     * @return A {@link Flux} of source of funds DTOs.
-     */
-    Flux<SourceOfFundsDTO> findBySourceType(String sourceType);
-    
-    /**
-     * Verifies a source of funds.
-     *
-     * @param sourceId The ID of the source of funds to verify.
-     * @param verificationNotes Notes explaining the verification.
-     * @return A Mono containing the updated SourceOfFundsDTO.
-     */
-    Mono<SourceOfFundsDTO> verifySource(Long sourceId, String verificationNotes);
-    
-    /**
-     * Sets a source of funds as the primary source for a party.
-     *
-     * @param sourceId The ID of the source of funds to set as primary.
-     * @return A Mono containing the updated SourceOfFundsDTO.
-     */
-    Mono<SourceOfFundsDTO> setPrimarySource(Long sourceId);
 }

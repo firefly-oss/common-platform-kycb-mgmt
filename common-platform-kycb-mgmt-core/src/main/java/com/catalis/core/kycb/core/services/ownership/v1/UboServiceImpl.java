@@ -39,12 +39,6 @@ public class UboServiceImpl implements UboService {
     }
 
     @Override
-    public Flux<UboDTO> findByPartyId(Long partyId) {
-        return repository.findByPartyId(partyId)
-                .map(mapper::toDTO);
-    }
-
-    @Override
     public Mono<UboDTO> create(UboDTO dto) {
         Ubo entity = mapper.toEntity(dto);
         // Set start date to now if not provided
@@ -84,25 +78,5 @@ public class UboServiceImpl implements UboService {
     @Override
     public Mono<Void> delete(Long uboId) {
         return repository.deleteById(uboId);
-    }
-
-    @Override
-    public Flux<UboDTO> findByOwnershipPercentageGreaterThan(Double threshold) {
-        return repository.findByOwnershipPercentageGreaterThanEqual(BigDecimal.valueOf(threshold))
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Mono<UboDTO> verifyUbo(Long uboId, String verificationNotes) {
-        return repository.findById(uboId)
-                .flatMap(entity -> {
-                    entity.setIsVerified(true);
-                    entity.setVerificationDate(LocalDateTime.now());
-                    // In a real implementation, we would set the verification method
-                    entity.setVerificationMethod("Manual Verification");
-                    entity.setTitularidadRealDocument(verificationNotes);
-                    return repository.save(entity);
-                })
-                .map(mapper::toDTO);
     }
 }

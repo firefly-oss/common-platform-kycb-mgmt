@@ -5,16 +5,12 @@ import com.catalis.common.core.filters.FilterUtils;
 import com.catalis.common.core.queries.PaginationResponse;
 import com.catalis.core.kycb.core.mappers.source.v1.SourceOfFundsMapper;
 import com.catalis.core.kycb.interfaces.dtos.source.v1.SourceOfFundsDTO;
-import com.catalis.core.kycb.interfaces.enums.source.v1.SourceTypeEnum;
 import com.catalis.core.kycb.models.entities.source.v1.SourceOfFunds;
 import com.catalis.core.kycb.models.repositories.source.v1.SourceOfFundsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.time.LocalDateTime;
 
 /**
  * Implementation of the source of funds service.
@@ -35,12 +31,6 @@ public class SourceOfFundsServiceImpl implements SourceOfFundsService {
                 SourceOfFunds.class,
                 mapper::toDTO
         ).filter(filterRequest);
-    }
-
-    @Override
-    public Flux<SourceOfFundsDTO> findByPartyId(Long partyId) {
-        return repository.findByPartyId(partyId)
-                .map(mapper::toDTO);
     }
 
     @Override
@@ -78,33 +68,5 @@ public class SourceOfFundsServiceImpl implements SourceOfFundsService {
     @Override
     public Mono<Void> delete(Long sourceId) {
         return repository.deleteById(sourceId);
-    }
-
-    @Override
-    public Flux<SourceOfFundsDTO> findBySourceType(String sourceType) {
-        return repository.findBySourceType(SourceTypeEnum.valueOf(sourceType))
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Mono<SourceOfFundsDTO> verifySource(Long sourceId, String verificationNotes) {
-        return repository.findById(sourceId)
-                .flatMap(entity -> {
-                    entity.setIsVerified(true);
-                    entity.setVerificationDate(LocalDateTime.now());
-                    entity.setVerificationMethod("Manual Verification");
-                    entity.setSupportingDocuments(verificationNotes);
-                    return repository.save(entity);
-                })
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Mono<SourceOfFundsDTO> setPrimarySource(Long sourceId) {
-        // Since there's no primary source field in the entity, we'll need to implement this
-        // by retrieving the source and returning it. In a real implementation, we would
-        // update a primary source flag or create a separate table to track primary sources.
-        return repository.findById(sourceId)
-                .map(mapper::toDTO);
     }
 }

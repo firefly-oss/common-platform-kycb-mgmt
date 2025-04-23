@@ -3,7 +3,6 @@ package com.catalis.core.kycb.core.services.ownership.v1;
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.queries.PaginationResponse;
 import com.catalis.core.kycb.interfaces.dtos.ownership.v1.UboDTO;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -17,14 +16,6 @@ public interface UboService {
      * @return A {@link Mono} containing a paginated response of UBO DTOs that match the filter criteria.
      */
     Mono<PaginationResponse<UboDTO>> findAll(FilterRequest<UboDTO> filterRequest);
-
-    /**
-     * Retrieves all UBOs for a specific party.
-     *
-     * @param partyId The ID of the party.
-     * @return A {@link Flux} of UBO DTOs.
-     */
-    Flux<UboDTO> findByPartyId(Long partyId);
 
     /**
      * Creates a new UBO entry based on the provided data transfer object.
@@ -58,21 +49,4 @@ public interface UboService {
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
     Mono<Void> delete(Long uboId);
-
-    /**
-     * Retrieves all UBOs with ownership percentage above a threshold.
-     *
-     * @param threshold The ownership percentage threshold.
-     * @return A {@link Flux} of UBO DTOs.
-     */
-    Flux<UboDTO> findByOwnershipPercentageGreaterThan(Double threshold);
-
-    /**
-     * Verifies a UBO.
-     *
-     * @param uboId The ID of the UBO to verify.
-     * @param verificationNotes Notes explaining the verification.
-     * @return A Mono containing the updated UboDTO.
-     */
-    Mono<UboDTO> verifyUbo(Long uboId, String verificationNotes);
 }

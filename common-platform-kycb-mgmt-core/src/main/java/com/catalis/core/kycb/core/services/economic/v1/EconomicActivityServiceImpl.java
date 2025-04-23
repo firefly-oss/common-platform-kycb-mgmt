@@ -10,7 +10,6 @@ import com.catalis.core.kycb.models.repositories.economic.v1.EconomicActivityRep
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -32,12 +31,6 @@ public class EconomicActivityServiceImpl implements EconomicActivityService {
                 EconomicActivity.class,
                 mapper::toDTO
         ).filter(filterRequest);
-    }
-
-    @Override
-    public Flux<EconomicActivityDTO> findByPartyId(Long partyId) {
-        return repository.findByPartyId(partyId)
-                .map(mapper::toDTO);
     }
 
     @Override
@@ -93,40 +86,5 @@ public class EconomicActivityServiceImpl implements EconomicActivityService {
     @Override
     public Mono<Void> delete(Long activityId) {
         return repository.deleteById(activityId);
-    }
-
-    @Override
-    public Flux<EconomicActivityDTO> findByActivityCode(String activityCode) {
-        return repository.findByActivityCode(activityCode)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<EconomicActivityDTO> findByRiskLevel(String riskLevel) {
-        // Since there's no direct risk level field, we'll use the highRiskActivity flag
-        boolean isHighRisk = "HIGH".equalsIgnoreCase(riskLevel) || "EXTREME".equalsIgnoreCase(riskLevel);
-        return repository.findByHighRiskActivity(isHighRisk)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Mono<EconomicActivityDTO> setPrimaryActivity(Long activityId) {
-        return repository.findById(activityId)
-                .flatMap(entity -> {
-                    // First, find and update any existing primary activity for this party
-                    return repository.findByPartyIdAndIsPrimaryTrue(entity.getPartyId())
-                            .flatMap(existingPrimary -> {
-                                existingPrimary.setIsPrimary(false);
-                                return repository.save(existingPrimary);
-                            })
-                            .then(Mono.just(entity))
-                            .switchIfEmpty(Mono.just(entity))
-                            .flatMap(updatedEntity -> {
-                                // Then set this activity as primary
-                                updatedEntity.setIsPrimary(true);
-                                return repository.save(updatedEntity);
-                            })
-                            .map(mapper::toDTO);
-                });
     }
 }

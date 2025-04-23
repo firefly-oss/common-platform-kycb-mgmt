@@ -2,6 +2,7 @@ package com.catalis.core.kycb.core.services.kyb.v1;
 
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.filters.FilterUtils;
+import com.catalis.common.core.queries.PaginationRequest;
 import com.catalis.common.core.queries.PaginationResponse;
 import com.catalis.core.kycb.core.mappers.kyb.v1.KybVerificationMapper;
 import com.catalis.core.kycb.interfaces.dtos.kyb.v1.KybVerificationDTO;
@@ -64,14 +65,4 @@ public class KybVerificationServiceImpl implements KybVerificationService {
         return repository.deleteById(kybVerificationId);
     }
 
-    @Override
-    public Mono<KybVerificationDTO> complete(Long kybVerificationId) {
-        return repository.findById(kybVerificationId)
-                .flatMap(entity -> {
-                    entity.setVerificationStatus(VerificationStatusEnum.VERIFIED);
-                    entity.setVerificationDate(LocalDateTime.now());
-                    return repository.save(entity);
-                })
-                .map(mapper::toDTO);
-    }
 }

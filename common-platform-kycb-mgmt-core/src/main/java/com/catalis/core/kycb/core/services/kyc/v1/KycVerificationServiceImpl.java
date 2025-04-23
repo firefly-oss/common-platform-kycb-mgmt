@@ -2,6 +2,7 @@ package com.catalis.core.kycb.core.services.kyc.v1;
 
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.filters.FilterUtils;
+import com.catalis.common.core.queries.PaginationRequest;
 import com.catalis.common.core.queries.PaginationResponse;
 import com.catalis.core.kycb.core.mappers.kyc.v1.KycVerificationMapper;
 import com.catalis.core.kycb.interfaces.dtos.kyc.v1.KycVerificationDTO;
@@ -62,17 +63,6 @@ public class KycVerificationServiceImpl implements KycVerificationService {
     @Override
     public Mono<Void> delete(Long kycVerificationId) {
         return repository.deleteById(kycVerificationId);
-    }
-
-    @Override
-    public Mono<KycVerificationDTO> complete(Long kycVerificationId) {
-        return repository.findById(kycVerificationId)
-                .flatMap(entity -> {
-                    entity.setVerificationStatus(VerificationStatusEnum.VERIFIED);
-                    entity.setVerificationDate(LocalDateTime.now());
-                    return repository.save(entity);
-                })
-                .map(mapper::toDTO);
     }
 
 }

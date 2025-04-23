@@ -10,10 +10,7 @@ import com.catalis.core.kycb.models.repositories.business.v1.BusinessProfileRepo
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.math.BigDecimal;
 
 /**
  * Implementation of the business profile service.
@@ -34,12 +31,6 @@ public class BusinessProfileServiceImpl implements BusinessProfileService {
                 BusinessProfile.class,
                 mapper::toDTO
         ).filter(filterRequest);
-    }
-
-    @Override
-    public Flux<BusinessProfileDTO> findByPartyId(Long partyId) {
-        return repository.findByPartyId(partyId)
-                .map(mapper::toDTO);
     }
 
     @Override
@@ -71,71 +62,5 @@ public class BusinessProfileServiceImpl implements BusinessProfileService {
     @Override
     public Mono<Void> delete(Long businessProfileId) {
         return repository.deleteById(businessProfileId);
-    }
-
-    @Override
-    public Mono<BusinessProfileDTO> getLatestByPartyId(Long partyId) {
-        return repository.findFirstByPartyIdOrderByDateCreatedDesc(partyId)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<BusinessProfileDTO> findByLegalFormCode(String legalFormCode) {
-        return repository.findByLegalFormCode(legalFormCode)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<BusinessProfileDTO> findByIncorporationYear(Integer incorporationYear) {
-        return repository.findByIncorporationYear(incorporationYear)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<BusinessProfileDTO> findByEmployeeCountBetween(Integer minEmployees, Integer maxEmployees) {
-        return repository.findByEmployeeCountBetween(minEmployees, maxEmployees)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<BusinessProfileDTO> findByEmployeeRangeCode(String employeeRangeCode) {
-        return repository.findByEmployeeRangeCode(employeeRangeCode)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<BusinessProfileDTO> findByAnnualRevenueBetween(BigDecimal minRevenue, BigDecimal maxRevenue) {
-        return repository.findByAnnualRevenueBetween(minRevenue, maxRevenue)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<BusinessProfileDTO> findByRevenueRangeCode(String revenueRangeCode) {
-        return repository.findByRevenueRangeCode(revenueRangeCode)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<BusinessProfileDTO> findByIsRegulated(Boolean isRegulated) {
-        return repository.findByIsRegulated(isRegulated)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<BusinessProfileDTO> findByRegulatoryAuthority(String regulatoryAuthority) {
-        return repository.findByRegulatoryAuthority(regulatoryAuthority)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<BusinessProfileDTO> findByCompanyStatusCode(String companyStatusCode) {
-        return repository.findByCompanyStatusCode(companyStatusCode)
-                .map(mapper::toDTO);
-    }
-
-    @Override
-    public Flux<BusinessProfileDTO> findByIsPublicEntity(Boolean isPublicEntity) {
-        return repository.findByIsPublicEntity(isPublicEntity)
-                .map(mapper::toDTO);
     }
 }
