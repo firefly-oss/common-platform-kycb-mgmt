@@ -32,6 +32,19 @@ The KYC process for natural persons follows these steps:
 5. Apply Enhanced Due Diligence (if necessary)
 6. Complete the KYC Verification
 
+```mermaid
+flowchart TD
+    A[Start KYC Process] --> B[Create KYC Verification]
+    B --> C[Upload and Verify Identity Documents]
+    C --> D[Perform AML Screening]
+    D --> E[Conduct Risk Assessment]
+    E --> F{High Risk?}
+    F -->|Yes| G[Apply Enhanced Due Diligence]
+    F -->|No| H[Complete KYC Verification]
+    G --> H
+    H --> I[End KYC Process]
+```
+
 Each step is detailed below with code examples.
 
 ## Step 1: Create a KYC Verification
@@ -421,7 +434,7 @@ webClient.patch()
     .bodyToMono(VerificationDocumentDTO.class)
     .subscribe(response -> {
         System.out.println("Document verification failed: " + response.getVerificationNotes());
-        
+
         // Notify the customer
         // Code to send notification...
     });
@@ -446,7 +459,7 @@ webClient.patch()
     .bodyToMono(AmlMatchDTO.class)
     .subscribe(updatedMatch -> {
         System.out.println("True match confirmed: " + updatedMatch.getResolutionStatus());
-        
+
         // Create a compliance case
         ComplianceCaseDTO complianceCase = new ComplianceCaseDTO();
         complianceCase.setPartyId(123L);
@@ -455,7 +468,7 @@ webClient.patch()
         complianceCase.setCaseStatus(CaseStatusEnum.OPEN);
         complianceCase.setAssignedTo("compliance-team-lead");
         complianceCase.setDescription("True match found in OFAC sanctions list");
-        
+
         webClient.post()
             .uri("/api/v1/compliance/cases")
             .bodyValue(complianceCase)

@@ -42,6 +42,24 @@ The KYB process for legal entities follows these steps:
 10. Apply Enhanced Due Diligence (if necessary)
 11. Complete the KYB Verification
 
+```mermaid
+flowchart TD
+    A[Start KYB Process] --> B[Create KYB Verification]
+    B --> C[Register Business Profile and Locations]
+    C --> D[Complete Sanctions and Embargo Questionnaire]
+    D --> E[Upload and Verify Corporate Documents]
+    E --> F[Define Corporate Structure]
+    F --> G[Register Ultimate Beneficial Owners]
+    G --> H[Register Directors and Key Personnel]
+    H --> I[Perform AML Screening]
+    I --> J[Conduct Risk Assessment]
+    J --> K{High Risk?}
+    K -->|Yes| L[Apply Enhanced Due Diligence]
+    K -->|No| M[Complete KYB Verification]
+    L --> M
+    M --> N[End KYB Process]
+```
+
 Each step is detailed below with code examples.
 
 ## Step 1: Create a KYB Verification
