@@ -79,6 +79,7 @@ Follow these steps to get the microservice up and running quickly:
 - **Business Structure Verification**: Validate corporate structures and relationships
 - **UBO Verification**: Identify and verify Ultimate Beneficial Owners
 - **Regulatory Compliance**: Verify tax IDs, operating licenses, and mercantile registry information
+- **Sanctions Questionnaire**: Collect and manage sanctions and embargo information for legal entities and self-employed individuals
 
 ### AML Compliance
 - **Global Watchlist Screening**: Screen against sanctions, PEP, and adverse media lists
@@ -853,20 +854,88 @@ updateVerification.setNotes("All verification steps completed successfully");
 kycVerificationService.update(verificationId, updateVerification).block();
 ```
 
+### Sanctions and Embargo Questionnaire
+
+For legal entities and self-employed individuals, a sanctions and embargo questionnaire must be completed to gather information about their activities related to sanctions and embargoes:
+
+```
+// Import the enum
+import com.catalis.core.kycb.interfaces.enums.sanctions.v1.EntitySanctionsQuestionnaireTypeEnum;
+
+// Create a new sanctions questionnaire
+SanctionsQuestionnaireDTO questionnaire = new SanctionsQuestionnaireDTO();
+questionnaire.setPartyId(456L);
+questionnaire.setEntitySanctionsQuestionnaire(EntitySanctionsQuestionnaireTypeEnum.LEGAL_ENTITY_ONLY); // Only the legal entity
+questionnaire.setActivityOutsideEu(true); // Has activity outside EU
+questionnaire.setEconomicSanctions(false); // Not subject to economic sanctions
+questionnaire.setResidentCountriesSanctions(false); // Not in sanctioned countries
+questionnaire.setInvolvedSanctions(false); // Not involved with sanctioned entities
+
+webClient.post()
+    .uri("/api/v1/identity/parties/456/sanctions-questionnaire")
+    .bodyValue(questionnaire)
+    .retrieve()
+    .bodyToMono(SanctionsQuestionnaireDTO.class)
+    .subscribe(response -> {
+        System.out.println("Questionnaire created with ID: " + response.getSanctionsQuestionnaireId());
+    });
+```
+
+#### Retrieve Latest Sanctions Questionnaire
+
+To retrieve the latest sanctions questionnaire for a party:
+
+```
+// Get the latest sanctions questionnaire for a party
+webClient.get()
+    .uri("/api/v1/identity/parties/456/sanctions-questionnaire/latest")
+    .retrieve()
+    .bodyToMono(SanctionsQuestionnaireDTO.class)
+    .subscribe(questionnaire -> {
+        System.out.println("Questionnaire ID: " + questionnaire.getSanctionsQuestionnaireId());
+        System.out.println("Activity outside EU: " + (questionnaire.getActivityOutsideEu() ? "Yes" : "No"));
+        if (questionnaire.getActivityOutsideEu()) {
+            System.out.println("Economic sanctions: " + (questionnaire.getEconomicSanctions() ? "Yes" : "No"));
+            System.out.println("Resident in sanctioned countries: " + (questionnaire.getResidentCountriesSanctions() ? "Yes" : "No"));
+            System.out.println("Involved with sanctioned entities: " + (questionnaire.getInvolvedSanctions() ? "Yes" : "No"));
+        }
+    });
+```
+
+#### Update Sanctions Questionnaire
+
+When the sanctions status changes, update the questionnaire:
+
+```
+// Update sanctions questionnaire
+SanctionsQuestionnaireDTO updateQuestionnaire = new SanctionsQuestionnaireDTO();
+updateQuestionnaire.setActivityOutsideEu(false); // No longer has activity outside EU
+
+webClient.patch()
+    .uri("/api/v1/identity/parties/456/sanctions-questionnaire/789")
+    .bodyValue(updateQuestionnaire)
+    .retrieve()
+    .bodyToMono(SanctionsQuestionnaireDTO.class)
+    .subscribe(response -> {
+        System.out.println("Questionnaire updated: " + response.getSanctionsQuestionnaireId());
+    });
+```
+
 ### KYB Process for Legal Entities
 
 The Know Your Business (KYB) process for legal entities is more complex than KYC for natural persons, as it involves verifying the business itself as well as its ownership structure, including Ultimate Beneficial Owners (UBOs). The process typically follows these steps:
 
 1. **Create a KYB Verification**
 2. **Register Business Profile and Locations**
-3. **Upload and Verify Corporate Documents**
-4. **Define Corporate Structure**
-5. **Register Ultimate Beneficial Owners (UBOs)**
-6. **Register Directors and Key Personnel**
-7. **Perform AML Screening**
-8. **Conduct Risk Assessment**
-9. **Apply Enhanced Due Diligence (if necessary)**
-10. **Complete the KYB Verification**
+3. **Complete Sanctions and Embargo Questionnaire**
+4. **Upload and Verify Corporate Documents**
+5. **Define Corporate Structure**
+6. **Register Ultimate Beneficial Owners (UBOs)**
+7. **Register Directors and Key Personnel**
+8. **Perform AML Screening**
+9. **Conduct Risk Assessment**
+10. **Apply Enhanced Due Diligence (if necessary)**
+11. **Complete the KYB Verification**
 
 Here's a detailed walkthrough of each step:
 
@@ -924,7 +993,28 @@ location.setIsPrimary(true);
 Long locationId = businessLocationService.create(location).block().getBusinessLocationId();
 ```
 
-#### Step 3: Upload and Verify Corporate Documents
+#### Step 3: Complete Sanctions and Embargo Questionnaire
+
+For legal entities and self-employed individuals, complete the sanctions and embargo questionnaire:
+
+```
+// Import the enum
+import com.catalis.core.kycb.interfaces.enums.sanctions.v1.EntitySanctionsQuestionnaireTypeEnum;
+
+// Create sanctions questionnaire
+SanctionsQuestionnaireDTO questionnaire = new SanctionsQuestionnaireDTO();
+questionnaire.setPartyId(456L);
+questionnaire.setEntitySanctionsQuestionnaire(EntitySanctionsQuestionnaireTypeEnum.LEGAL_ENTITY_ONLY); // Only the legal entity
+questionnaire.setActivityOutsideEu(true); // Has activity outside EU
+questionnaire.setEconomicSanctions(false); // Not subject to economic sanctions
+questionnaire.setResidentCountriesSanctions(false); // Not in sanctioned countries
+questionnaire.setInvolvedSanctions(false); // Not involved with sanctioned entities
+
+// Submit the sanctions questionnaire
+Long questionnaireId = sanctionsQuestionnaireService.create(questionnaire).block().getSanctionsQuestionnaireId();
+```
+
+#### Step 4: Upload and Verify Corporate Documents
 
 Upload and verify the corporate documents for the legal entity:
 
