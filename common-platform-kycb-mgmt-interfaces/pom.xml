@@ -31,13 +31,6 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <!-- Utils -->
-        <dependency>
-            <groupId>com.catalis</groupId>
-            <artifactId>lib-utils</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <!-- Spring WebFlux -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
