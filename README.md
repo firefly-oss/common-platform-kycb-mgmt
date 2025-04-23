@@ -34,7 +34,7 @@ Follow these steps to get the microservice up and running quickly:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/catalis/common-platform-kycb-mgmt.git
+   git clone https://github.com/firefly-oss/common-platform-kycb-mgmt.git
    cd common-platform-kycb-mgmt
    ```
 
@@ -1102,10 +1102,6 @@ To enable debug logging, set the following environment variable:
 ```bash
 LOGGING_LEVEL=DEBUG
 ```
-
-### Support
-
-For additional support, contact the development team at [support@catalis.com](mailto:support@catalis.com).
 
 ## Development Guidelines
 
