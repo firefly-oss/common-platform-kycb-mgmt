@@ -33,7 +33,9 @@ public class BusinessProfileDTO extends BaseDTO {
     private Integer incorporationYear;
     private Integer employeeCount;
     private String employeeRangeCode;
+    @ValidAmount
     private BigDecimal annualRevenue;
+    @ValidCurrencyCode
     private String currencyIsoCode;
     private String revenueRangeCode;
     private String stockExchange;

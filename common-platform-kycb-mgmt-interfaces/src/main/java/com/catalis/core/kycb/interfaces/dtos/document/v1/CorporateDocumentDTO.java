@@ -37,11 +37,15 @@ public class CorporateDocumentDTO extends BaseDTO {
     private String notaryLocation;
     private String commercialRegistry;
     private String registryEntry;
+    @ValidDateTime
     private LocalDateTime issueDate;
+    @ValidDateTime
     private LocalDateTime registryDate;
+    @ValidDateTime
     private LocalDateTime expiryDate;
     private Boolean isVerified;
     private String verificationNotes;
+    @ValidDateTime
     private LocalDateTime verificationDate;
     private String verificationAgent;
 }

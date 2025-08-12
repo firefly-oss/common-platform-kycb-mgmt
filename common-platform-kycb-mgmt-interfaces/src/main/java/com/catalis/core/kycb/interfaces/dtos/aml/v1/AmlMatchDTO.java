@@ -31,10 +31,12 @@ public class AmlMatchDTO extends BaseDTO {
     private String listType;
     private String listSource;
     private String matchedName;
+    @ValidAmount
     private BigDecimal matchScore;
     private String matchDetails;
     private String resolutionStatus;
     private String resolutionNotes;
     private String resolutionAgent;
+    @ValidDateTime
     private LocalDateTime resolutionDate;
 }

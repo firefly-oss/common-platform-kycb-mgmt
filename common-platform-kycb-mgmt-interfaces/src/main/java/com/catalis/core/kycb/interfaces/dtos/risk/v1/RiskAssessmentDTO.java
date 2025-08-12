@@ -1,5 +1,6 @@
 package com.catalis.core.kycb.interfaces.dtos.risk.v1;
 
+import com.catalis.annotations.ValidDateTime;
 import com.catalis.core.kycb.interfaces.dtos.BaseDTO;
 import com.catalis.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,6 +29,7 @@ public class RiskAssessmentDTO extends BaseDTO {
     private Long partyId;
 
     private String assessmentType;
+    @ValidDateTime
     private LocalDateTime assessmentDate;
     private String riskCategory;
     private Integer riskScore;
@@ -35,5 +37,6 @@ public class RiskAssessmentDTO extends BaseDTO {
     private String riskFactors;
     private String assessmentNotes;
     private String assessmentAgent;
+    @ValidDateTime
     private LocalDateTime nextAssessmentDate;
 }

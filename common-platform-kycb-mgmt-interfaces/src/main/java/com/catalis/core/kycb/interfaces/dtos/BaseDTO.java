@@ -1,5 +1,6 @@
 package com.catalis.core.kycb.interfaces.dtos;
 
+import com.catalis.annotations.ValidDateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,8 +15,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public abstract class BaseDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @ValidDateTime
     private LocalDateTime dateCreated;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @ValidDateTime
     private LocalDateTime dateUpdated;
 }

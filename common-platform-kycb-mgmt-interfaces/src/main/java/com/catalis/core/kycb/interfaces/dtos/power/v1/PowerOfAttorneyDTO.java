@@ -1,5 +1,8 @@
 package com.catalis.core.kycb.interfaces.dtos.power.v1;
 
+import com.catalis.annotations.ValidAmount;
+import com.catalis.annotations.ValidCurrencyCode;
+import com.catalis.annotations.ValidDateTime;
 import com.catalis.core.kycb.interfaces.dtos.BaseDTO;
 import com.catalis.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -39,13 +42,18 @@ public class PowerOfAttorneyDTO extends BaseDTO {
     private Boolean jointSignatureRequired;
     private Integer jointSignatureCount;
     private String jointSignatureNotes;
+    @ValidAmount
     private BigDecimal financialLimit;
+    @ValidCurrencyCode
     private String currency;
+    @ValidDateTime
     private LocalDateTime effectiveDate;
+    @ValidDateTime
     private LocalDateTime expiryDate;
     private Boolean isVerified;
     private Boolean isBastanteoCompleted;
     private String verificationMethod;
+    @ValidDateTime
     private LocalDateTime verificationDate;
     private String verifyingLegalCounsel;
 }

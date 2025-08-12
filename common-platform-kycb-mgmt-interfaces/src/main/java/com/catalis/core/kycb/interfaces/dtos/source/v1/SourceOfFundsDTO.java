@@ -1,5 +1,8 @@
 package com.catalis.core.kycb.interfaces.dtos.source.v1;
 
+import com.catalis.annotations.ValidAmount;
+import com.catalis.annotations.ValidCurrencyCode;
+import com.catalis.annotations.ValidDateTime;
 import com.catalis.core.kycb.interfaces.dtos.BaseDTO;
 import com.catalis.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -30,10 +33,13 @@ public class SourceOfFundsDTO extends BaseDTO {
 
     private String sourceType;
     private String sourceDescription;
+    @ValidAmount
     private BigDecimal estimatedAnnualAmount;
+    @ValidCurrencyCode
     private String currency;
     private Boolean isVerified;
     private String verificationMethod;
     private String supportingDocuments;
+    @ValidDateTime
     private LocalDateTime verificationDate;
 }

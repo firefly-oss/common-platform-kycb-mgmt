@@ -28,6 +28,7 @@ public class KycVerificationDTO extends BaseDTO {
     private Long partyId;
 
     private String verificationStatus;
+    @ValidDateTime
     private LocalDateTime verificationDate;
     private String verificationMethod;
     private String verificationAgent;
@@ -35,5 +36,6 @@ public class KycVerificationDTO extends BaseDTO {
     private Integer riskScore;
     private String riskLevel;
     private Boolean enhancedDueDiligence;
+    @ValidDateTime
     private LocalDateTime nextReviewDate;
 }

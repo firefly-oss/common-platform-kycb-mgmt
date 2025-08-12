@@ -1,5 +1,6 @@
 package com.catalis.core.kycb.interfaces.dtos.ownership.v1;
 
+import com.catalis.annotations.ValidInterestRate;
 import com.catalis.core.kycb.interfaces.dtos.BaseDTO;
 import com.catalis.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,13 +32,17 @@ public class UboDTO extends BaseDTO {
     @FilterableId
     private Long naturalPersonId;
 
+    @ValidInterestRate
     private BigDecimal ownershipPercentage;
     private String ownershipType;
     private String controlStructure;
     private Boolean isVerified;
     private String verificationMethod;
     private String titularidadRealDocument;
+    @ValidDateTime
     private LocalDateTime verificationDate;
+    @ValidDateTime
     private LocalDateTime startDate;
+    @ValidDateTime
     private LocalDateTime endDate;
 }

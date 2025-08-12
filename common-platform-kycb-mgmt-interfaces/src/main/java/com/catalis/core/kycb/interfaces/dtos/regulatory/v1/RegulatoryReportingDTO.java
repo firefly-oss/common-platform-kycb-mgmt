@@ -31,8 +31,10 @@ public class RegulatoryReportingDTO extends BaseDTO {
     private String reportReference;
     private String regulatoryAuthority;
     private String reportStatus;
+    @ValidDateTime
     private LocalDateTime submissionDate;
     private String submittingAgent;
+    @ValidDateTime
     private LocalDateTime acknowledgmentDate;
     private String reportContentSummary;
 }

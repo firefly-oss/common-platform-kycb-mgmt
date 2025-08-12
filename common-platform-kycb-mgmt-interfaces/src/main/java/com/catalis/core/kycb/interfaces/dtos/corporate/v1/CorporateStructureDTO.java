@@ -1,5 +1,8 @@
 package com.catalis.core.kycb.interfaces.dtos.corporate.v1;
 
+import com.catalis.annotations.ValidAmount;
+import com.catalis.annotations.ValidDateTime;
+import com.catalis.annotations.ValidInterestRate;
 import com.catalis.core.kycb.interfaces.dtos.BaseDTO;
 import com.catalis.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,11 +34,15 @@ public class CorporateStructureDTO extends BaseDTO {
     @FilterableId
     private Long parentEntityId;
 
+    @ValidInterestRate
     private BigDecimal ownershipPercentage;
     private String relationshipType;
     private String controlNotes;
     private Boolean isVerified;
+    @ValidDateTime
     private LocalDateTime verificationDate;
+    @ValidDateTime
     private LocalDateTime startDate;
+    @ValidDateTime
     private LocalDateTime endDate;
 }

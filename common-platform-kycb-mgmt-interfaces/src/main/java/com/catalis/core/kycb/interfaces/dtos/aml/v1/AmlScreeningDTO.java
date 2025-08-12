@@ -27,6 +27,7 @@ public class AmlScreeningDTO extends BaseDTO {
     @FilterableId
     private Long partyId;
 
+    @ValidDateTime
     private LocalDateTime screeningDate;
     private String screeningType;
     private Boolean matchesFound;
@@ -37,5 +38,6 @@ public class AmlScreeningDTO extends BaseDTO {
     private String referenceId;
 
     private String screeningResult;
+    @ValidDateTime
     private LocalDateTime nextScreeningDate;
 }

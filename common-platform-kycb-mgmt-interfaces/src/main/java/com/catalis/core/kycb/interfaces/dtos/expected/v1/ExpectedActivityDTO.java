@@ -1,5 +1,7 @@
 package com.catalis.core.kycb.interfaces.dtos.expected.v1;
 
+import com.catalis.annotations.ValidAmount;
+import com.catalis.annotations.ValidCurrencyCode;
 import com.catalis.core.kycb.interfaces.dtos.BaseDTO;
 import com.catalis.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,9 +30,12 @@ public class ExpectedActivityDTO extends BaseDTO {
     private Long partyId;
 
     private String activityTypeCode;
+    @ValidAmount
     private BigDecimal expectedMonthlyVolume;
+    @ValidAmount
     private BigDecimal expectedAnnualVolume;
     private Integer expectedTransactionCount;
+    @ValidCurrencyCode
     private String currencyIsoCode;
     private String transactionFreqCode;
     private String anticipatedCountries;

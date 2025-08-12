@@ -33,7 +33,9 @@ public class ComplianceCaseDTO extends BaseDTO {
     private String caseReference;
     private String caseSummary;
     private String assignedTo;
+    @ValidDateTime
     private LocalDateTime dueDate;
+    @ValidDateTime
     private LocalDateTime resolutionDate;
     private String resolutionNotes;
     private Boolean reportToSepblacRequired;

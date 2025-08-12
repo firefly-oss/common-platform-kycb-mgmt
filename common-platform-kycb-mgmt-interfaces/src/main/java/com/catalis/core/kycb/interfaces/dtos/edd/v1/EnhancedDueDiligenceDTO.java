@@ -1,5 +1,6 @@
 package com.catalis.core.kycb.interfaces.dtos.edd.v1;
 
+import com.catalis.annotations.ValidDateTime;
 import com.catalis.core.kycb.interfaces.dtos.BaseDTO;
 import com.catalis.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,10 +32,13 @@ public class EnhancedDueDiligenceDTO extends BaseDTO {
     private String eddStatus;
     private String eddDescription;
     private String approvingAuthority;
+    @ValidDateTime
     private LocalDateTime approvalDate;
     private String eddNotes;
     private Boolean internalCommitteeApproval;
+    @ValidDateTime
     private LocalDateTime committeeApprovalDate;
+    @ValidDateTime
     private LocalDateTime completionDate;
     private String completedBy;
 }

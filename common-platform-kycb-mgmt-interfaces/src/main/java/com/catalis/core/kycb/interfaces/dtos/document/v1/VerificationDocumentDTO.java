@@ -1,5 +1,6 @@
 package com.catalis.core.kycb.interfaces.dtos.document.v1;
 
+import com.catalis.annotations.ValidDateTime;
 import com.catalis.core.kycb.interfaces.dtos.BaseDTO;
 import com.catalis.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,5 +37,6 @@ public class VerificationDocumentDTO extends BaseDTO {
     private String documentSystemId;
     private Boolean isVerified;
     private String verificationNotes;
+    @ValidDateTime
     private LocalDateTime expiryDate;
 }

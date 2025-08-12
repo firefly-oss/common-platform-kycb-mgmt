@@ -34,8 +34,10 @@ public class IndustryRiskDTO extends BaseDTO {
     private Boolean fatfHighRisk;
     private Boolean cashIntensive;
     private Boolean complexStructures;
+    @ValidDateTime
     private LocalDateTime assessmentDate;
     private String assessedBy;
+    @ValidDateTime
     private LocalDateTime nextAssessmentDate;
     private Boolean requiresEdd;
 }

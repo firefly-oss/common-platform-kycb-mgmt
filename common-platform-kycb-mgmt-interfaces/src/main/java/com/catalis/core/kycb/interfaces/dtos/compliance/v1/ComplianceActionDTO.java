@@ -31,7 +31,9 @@ public class ComplianceActionDTO extends BaseDTO {
     private String actionStatus;
     private String actionDescription;
     private String actionAgent;
+    @ValidDateTime
     private LocalDateTime dueDate;
+    @ValidDateTime
     private LocalDateTime completionDate;
     private String result;
 }

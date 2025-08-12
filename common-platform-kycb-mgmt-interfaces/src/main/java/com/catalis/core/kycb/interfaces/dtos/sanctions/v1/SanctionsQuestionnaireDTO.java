@@ -1,5 +1,6 @@
 package com.catalis.core.kycb.interfaces.dtos.sanctions.v1;
 
+import com.catalis.annotations.ValidDateTime;
 import com.catalis.core.kycb.interfaces.dtos.BaseDTO;
 import com.catalis.core.kycb.interfaces.enums.sanctions.v1.EntitySanctionsQuestionnaireTypeEnum;
 import com.catalis.core.utils.annotations.FilterableId;
@@ -58,5 +59,6 @@ public class SanctionsQuestionnaireDTO extends BaseDTO {
     /**
      * The date when the questionnaire was completed.
      */
+    @ValidDateTime
     private LocalDateTime questionnaireDate;
 }

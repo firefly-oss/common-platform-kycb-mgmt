@@ -1,5 +1,6 @@
 package com.catalis.core.kycb.interfaces.dtos.kyb.v1;
 
+import com.catalis.annotations.ValidDateTime;
 import com.catalis.core.kycb.interfaces.dtos.BaseDTO;
 import com.catalis.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,6 +29,7 @@ public class KybVerificationDTO extends BaseDTO {
     private Long partyId;
 
     private String verificationStatus;
+    @ValidDateTime
     private LocalDateTime verificationDate;
     private Boolean mercantileRegistryVerified;
     private Boolean deedOfIncorporationVerified;
@@ -38,5 +40,6 @@ public class KybVerificationDTO extends BaseDTO {
     private String verificationNotes;
     private Integer riskScore;
     private String riskLevel;
+    @ValidDateTime
     private LocalDateTime nextReviewDate;
 }
