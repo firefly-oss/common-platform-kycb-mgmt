@@ -1,5 +1,7 @@
 package com.catalis.core.kycb.interfaces.dtos.location.v1;
 
+import com.catalis.annotations.ValidDateTime;
+import com.catalis.annotations.ValidPhoneNumber;
 import com.catalis.core.kycb.interfaces.dtos.BaseDTO;
 import com.catalis.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;

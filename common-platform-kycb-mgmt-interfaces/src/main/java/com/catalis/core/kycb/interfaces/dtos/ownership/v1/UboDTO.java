@@ -1,5 +1,6 @@
 package com.catalis.core.kycb.interfaces.dtos.ownership.v1;
 
+import com.catalis.annotations.ValidDateTime;
 import com.catalis.annotations.ValidInterestRate;
 import com.catalis.core.kycb.interfaces.dtos.BaseDTO;
 import com.catalis.core.utils.annotations.FilterableId;
