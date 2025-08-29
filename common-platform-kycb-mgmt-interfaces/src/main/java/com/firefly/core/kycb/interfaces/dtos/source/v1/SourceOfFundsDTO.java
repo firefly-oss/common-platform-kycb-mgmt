@@ -1,0 +1,45 @@
+package com.firefly.core.kycb.interfaces.dtos.source.v1;
+
+import com.firefly.annotations.ValidAmount;
+import com.firefly.annotations.ValidCurrencyCode;
+import com.firefly.annotations.ValidDateTime;
+import com.firefly.core.kycb.interfaces.dtos.BaseDTO;
+import com.firefly.core.utils.annotations.FilterableId;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+/**
+ * DTO for source of funds data.
+ */
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class SourceOfFundsDTO extends BaseDTO {
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Long sourceOfFundsId;
+
+    @FilterableId
+    private Long partyId;
+
+    private String sourceType;
+    private String sourceDescription;
+    @ValidAmount
+    private BigDecimal estimatedAnnualAmount;
+    @ValidCurrencyCode
+    private String currency;
+    private Boolean isVerified;
+    private String verificationMethod;
+    private String supportingDocuments;
+    @ValidDateTime
+    private LocalDateTime verificationDate;
+}

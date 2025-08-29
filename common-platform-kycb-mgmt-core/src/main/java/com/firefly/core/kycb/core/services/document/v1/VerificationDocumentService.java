@@ -1,0 +1,49 @@
+package com.firefly.core.kycb.core.services.document.v1;
+
+import com.firefly.common.core.filters.FilterRequest;
+import com.firefly.common.core.queries.PaginationResponse;
+import com.firefly.core.kycb.interfaces.dtos.document.v1.VerificationDocumentDTO;
+import reactor.core.publisher.Mono;
+
+public interface VerificationDocumentService {
+    /**
+     * Retrieves all verification documents based on specified filter criteria.
+     *
+     * @param filterRequest The object containing filter criteria to apply for retrieving verification documents.
+     * @return A {@link Mono} containing a paginated response of verification document DTOs that match the filter criteria.
+     */
+    Mono<PaginationResponse<VerificationDocumentDTO>> findAll(FilterRequest<VerificationDocumentDTO> filterRequest);
+
+    /**
+     * Creates a new verification document entry based on the provided data transfer object.
+     *
+     * @param dto The VerificationDocumentDTO containing data to create a new verification document record
+     * @return A Mono containing the created VerificationDocumentDTO
+     */
+    Mono<VerificationDocumentDTO> create(VerificationDocumentDTO dto);
+
+    /**
+     * Retrieves a VerificationDocumentDTO by its unique identifier.
+     *
+     * @param verificationDocumentId The ID of the VerificationDocument to retrieve.
+     * @return A Mono containing the VerificationDocumentDTO if found, otherwise an empty mono.
+     */
+    Mono<VerificationDocumentDTO> getById(Long verificationDocumentId);
+
+    /**
+     * Updates an existing VerificationDocument entry with new data provided in the DTO.
+     *
+     * @param verificationDocumentId The ID of the VerificationDocument to be updated.
+     * @param dto A DTO containing the fields to update for the VerificationDocument.
+     * @return A Mono containing the updated VerificationDocumentDTO if successful.
+     */
+    Mono<VerificationDocumentDTO> update(Long verificationDocumentId, VerificationDocumentDTO dto);
+
+    /**
+     * Deletes a Verification Document by its ID.
+     *
+     * @param verificationDocumentId The ID of the Verification Document to delete.
+     * @return A {@link Mono<Void>} indicating completion of the deletion operation.
+     */
+    Mono<Void> delete(Long verificationDocumentId);
+}
