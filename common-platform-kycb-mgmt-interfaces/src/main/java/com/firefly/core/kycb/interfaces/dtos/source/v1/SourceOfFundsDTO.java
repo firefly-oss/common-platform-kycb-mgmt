@@ -6,6 +6,9 @@ import com.firefly.annotations.ValidDateTime;
 import com.firefly.core.kycb.interfaces.dtos.BaseDTO;
 import com.firefly.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,17 +32,34 @@ public class SourceOfFundsDTO extends BaseDTO {
     private Long sourceOfFundsId;
 
     @FilterableId
+    @NotNull(message = "Party ID is required")
     private Long partyId;
 
+    @NotBlank(message = "Source type is required")
+    @Size(max = 50, message = "Source type must not exceed 50 characters")
     private String sourceType;
+
+    @NotBlank(message = "Source description is required")
+    @Size(max = 500, message = "Source description must not exceed 500 characters")
     private String sourceDescription;
+
+    @NotNull(message = "Estimated annual amount is required")
     @ValidAmount
     private BigDecimal estimatedAnnualAmount;
+
+    @NotBlank(message = "Currency is required")
     @ValidCurrencyCode
     private String currency;
+
+    @NotNull(message = "Verified status is required")
     private Boolean isVerified;
+
+    @Size(max = 50, message = "Verification method must not exceed 50 characters")
     private String verificationMethod;
+
+    @Size(max = 500, message = "Supporting documents must not exceed 500 characters")
     private String supportingDocuments;
+
     @ValidDateTime
     private LocalDateTime verificationDate;
 }

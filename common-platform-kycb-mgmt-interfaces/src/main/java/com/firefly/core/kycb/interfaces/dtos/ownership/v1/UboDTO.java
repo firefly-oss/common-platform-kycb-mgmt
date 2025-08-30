@@ -5,6 +5,9 @@ import com.firefly.annotations.ValidInterestRate;
 import com.firefly.core.kycb.interfaces.dtos.BaseDTO;
 import com.firefly.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,22 +31,40 @@ public class UboDTO extends BaseDTO {
     private Long uboId;
 
     @FilterableId
+    @NotNull(message = "Party ID is required")
     private Long partyId;
 
     @FilterableId
+    @NotNull(message = "Natural person ID is required")
     private Long naturalPersonId;
 
+    @NotNull(message = "Ownership percentage is required")
     @ValidInterestRate
     private BigDecimal ownershipPercentage;
+
+    @NotBlank(message = "Ownership type is required")
+    @Size(max = 50, message = "Ownership type must not exceed 50 characters")
     private String ownershipType;
+
+    @Size(max = 500, message = "Control structure must not exceed 500 characters")
     private String controlStructure;
+
+    @NotNull(message = "Verified status is required")
     private Boolean isVerified;
+
+    @Size(max = 50, message = "Verification method must not exceed 50 characters")
     private String verificationMethod;
+
+    @Size(max = 200, message = "Titularidad real document must not exceed 200 characters")
     private String titularidadRealDocument;
+
     @ValidDateTime
     private LocalDateTime verificationDate;
+
+    @NotNull(message = "Start date is required")
     @ValidDateTime
     private LocalDateTime startDate;
+
     @ValidDateTime
     private LocalDateTime endDate;
 }
