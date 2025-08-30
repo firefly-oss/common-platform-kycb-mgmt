@@ -55,12 +55,12 @@ public interface PowerOfAttorneyRepository extends BaseRepository<PowerOfAttorne
     Flux<PowerOfAttorney> findByIsVerified(Boolean isVerified);
 
     /**
-     * Find powers of attorney by bastanteo status.
+     * Find powers of attorney by POA completion status.
      *
-     * @param isBastanteoCompleted The bastanteo status
+     * @param isPoaCompleted The POA completion status
      * @return A flux of powers of attorney
      */
-    Flux<PowerOfAttorney> findByIsBastanteoCompleted(Boolean isBastanteoCompleted);
+    Flux<PowerOfAttorney> findByIsPoaCompleted(Boolean isPoaCompleted);
 
     /**
      * Find powers of attorney that are about to expire.

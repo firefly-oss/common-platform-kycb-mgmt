@@ -63,7 +63,7 @@ public class PowerOfAttorneyServiceImplTest {
         powerOfAttorneyDTO.setEffectiveDate(LocalDateTime.now());
         powerOfAttorneyDTO.setExpiryDate(LocalDateTime.now().plusYears(1));
         powerOfAttorneyDTO.setIsVerified(false);
-        powerOfAttorneyDTO.setIsBastanteoCompleted(false);
+        powerOfAttorneyDTO.setIsPoaCompleted(false);
         
         powerOfAttorney = new PowerOfAttorney();
         powerOfAttorney.setPowerOfAttorneyId(POWER_OF_ATTORNEY_ID);
@@ -80,7 +80,7 @@ public class PowerOfAttorneyServiceImplTest {
         powerOfAttorney.setEffectiveDate(LocalDateTime.now());
         powerOfAttorney.setExpiryDate(LocalDateTime.now().plusYears(1));
         powerOfAttorney.setIsVerified(false);
-        powerOfAttorney.setIsBastanteoCompleted(false);
+        powerOfAttorney.setIsPoaCompleted(false);
         powerOfAttorney.setDateCreated(LocalDateTime.now());
     }
 

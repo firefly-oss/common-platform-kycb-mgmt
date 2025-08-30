@@ -66,8 +66,8 @@ public class PowerOfAttorney extends BaseEntity {
     @Column("is_verified")
     private Boolean isVerified;
 
-    @Column("is_bastanteo_completed")
-    private Boolean isBastanteoCompleted;
+    @Column("is_poa_completed")
+    private Boolean isPoaCompleted;
 
     @Column("verification_method")
     private String verificationMethod;
