@@ -3,6 +3,9 @@ package com.firefly.core.kycb.interfaces.dtos.economic.v1;
 import com.firefly.core.kycb.interfaces.dtos.BaseDTO;
 import com.firefly.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,17 +26,41 @@ public class EconomicActivityDTO extends BaseDTO {
     private Long economicActivityId;
 
     @FilterableId
+    @NotNull(message = "Party ID is required")
     private Long partyId;
 
+    @NotBlank(message = "Activity code is required")
+    @Size(max = 20, message = "Activity code must not exceed 20 characters")
     private String activityCode;
+
+    @NotNull(message = "Primary activity flag is required")
     private Boolean isPrimary;
+
+    @NotBlank(message = "Sector code is required")
+    @Size(max = 20, message = "Sector code must not exceed 20 characters")
     private String sectorCode;
+
+    @Size(max = 100, message = "Subsector must not exceed 100 characters")
     private String subsector;
+
+    @NotNull(message = "High risk activity flag is required")
     private Boolean highRiskActivity;
+
+    @Size(max = 1000, message = "Activity details must not exceed 1000 characters")
     private String activityDetails;
+
+    @Size(max = 20, message = "Geographic scope code must not exceed 20 characters")
     private String geographicScopeCode;
+
+    @Size(max = 500, message = "Export markets must not exceed 500 characters")
     private String exportMarkets;
+
+    @Size(max = 500, message = "Import markets must not exceed 500 characters")
     private String importMarkets;
+
+    @NotNull(message = "Regulated activity flag is required")
     private Boolean regulatedActivity;
+
+    @Size(max = 1000, message = "Regulatory details must not exceed 1000 characters")
     private String regulatoryDetails;
 }

@@ -3,6 +3,11 @@ package com.firefly.core.kycb.interfaces.dtos.industry.v1;
 import com.firefly.annotations.ValidDateTime;
 import com.firefly.core.kycb.interfaces.dtos.BaseDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,21 +29,55 @@ public class IndustryRiskDTO extends BaseDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long industryRiskId;
 
+    @NotBlank(message = "Activity code is required")
+    @Size(max = 20, message = "Activity code must not exceed 20 characters")
     private String activityCode;
+
+    @NotBlank(message = "Industry name is required")
+    @Size(max = 200, message = "Industry name must not exceed 200 characters")
     private String industryName;
+
+    @NotBlank(message = "Inherent risk level is required")
+    @Size(max = 20, message = "Inherent risk level must not exceed 20 characters")
     private String inherentRiskLevel;
+
+    @NotNull(message = "Risk score is required")
+    @Min(value = 0, message = "Risk score must be between 0 and 100")
+    @Max(value = 100, message = "Risk score must be between 0 and 100")
     private Integer riskScore;
+
+    @Size(max = 1000, message = "Risk factors must not exceed 1000 characters")
     private String riskFactors;
+
+    @Size(max = 1000, message = "Mitigating factors must not exceed 1000 characters")
     private String mitigatingFactors;
+
+    @NotNull(message = "SEPBLAC high risk flag is required")
     private Boolean sepblacHighRisk;
+
+    @NotNull(message = "EU high risk flag is required")
     private Boolean euHighRisk;
+
+    @NotNull(message = "FATF high risk flag is required")
     private Boolean fatfHighRisk;
+
+    @NotNull(message = "Cash intensive flag is required")
     private Boolean cashIntensive;
+
+    @NotNull(message = "Complex structures flag is required")
     private Boolean complexStructures;
+
+    @NotNull(message = "Assessment date is required")
     @ValidDateTime
     private LocalDateTime assessmentDate;
+
+    @NotBlank(message = "Assessed by is required")
+    @Size(max = 100, message = "Assessed by must not exceed 100 characters")
     private String assessedBy;
+
     @ValidDateTime
     private LocalDateTime nextAssessmentDate;
+
+    @NotNull(message = "Requires EDD flag is required")
     private Boolean requiresEdd;
 }
