@@ -4,6 +4,9 @@ import com.firefly.annotations.ValidDateTime;
 import com.firefly.core.kycb.interfaces.dtos.BaseDTO;
 import com.firefly.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,19 +29,41 @@ public class EnhancedDueDiligenceDTO extends BaseDTO {
     private Long eddId;
 
     @FilterableId
+    @NotNull(message = "KYC verification ID is required")
     private Long kycVerificationId;
 
+    @NotBlank(message = "EDD reason is required")
+    @Size(max = 100, message = "EDD reason must not exceed 100 characters")
     private String eddReason;
+
+    @NotBlank(message = "EDD status is required")
+    @Size(max = 50, message = "EDD status must not exceed 50 characters")
     private String eddStatus;
+
+    @NotBlank(message = "EDD description is required")
+    @Size(max = 1000, message = "EDD description must not exceed 1000 characters")
     private String eddDescription;
+
+    @NotBlank(message = "Approving authority is required")
+    @Size(max = 200, message = "Approving authority must not exceed 200 characters")
     private String approvingAuthority;
+
+    @NotNull(message = "Approval date is required")
     @ValidDateTime
     private LocalDateTime approvalDate;
+
+    @Size(max = 2000, message = "EDD notes must not exceed 2000 characters")
     private String eddNotes;
+
+    @NotNull(message = "Internal committee approval flag is required")
     private Boolean internalCommitteeApproval;
+
     @ValidDateTime
     private LocalDateTime committeeApprovalDate;
+
     @ValidDateTime
     private LocalDateTime completionDate;
+
+    @Size(max = 100, message = "Completed by must not exceed 100 characters")
     private String completedBy;
 }
