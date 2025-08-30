@@ -4,6 +4,10 @@ import com.firefly.annotations.ValidDateTime;
 import com.firefly.core.kycb.interfaces.dtos.BaseDTO;
 import com.firefly.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,19 +30,35 @@ public class AmlScreeningDTO extends BaseDTO {
     private Long amlScreeningId;
 
     @FilterableId
+    @NotNull(message = "Party ID is required")
     private Long partyId;
 
+    @NotNull(message = "Screening date is required")
     @ValidDateTime
     private LocalDateTime screeningDate;
+
+    @NotBlank(message = "Screening type is required")
+    @Size(max = 50, message = "Screening type must not exceed 50 characters")
     private String screeningType;
+
+    @NotNull(message = "Matches found flag is required")
     private Boolean matchesFound;
+
+    @Min(value = 0, message = "Match count must be non-negative")
     private Integer matchCount;
+
+    @NotBlank(message = "Screening provider is required")
+    @Size(max = 100, message = "Screening provider must not exceed 100 characters")
     private String screeningProvider;
 
     @FilterableId
+    @Size(max = 100, message = "Reference ID must not exceed 100 characters")
     private String referenceId;
 
+    @NotBlank(message = "Screening result is required")
+    @Size(max = 50, message = "Screening result must not exceed 50 characters")
     private String screeningResult;
+
     @ValidDateTime
     private LocalDateTime nextScreeningDate;
 }
