@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS power_of_attorney (
     effective_date TIMESTAMP,
     expiry_date TIMESTAMP,
     is_verified BOOLEAN,
-    is_bastanteo_completed BOOLEAN,
+    is_poa_completed BOOLEAN,
     verification_method TEXT,
     verification_date TIMESTAMP,
     verifying_legal_counsel TEXT,
