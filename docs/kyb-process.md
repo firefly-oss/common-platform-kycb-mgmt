@@ -246,7 +246,7 @@ POST /api/v1/documents/corporate
 ```java
 // Upload a corporate document
 CorporateDocumentDTO document = new CorporateDocumentDTO();
-document.setPartyId(123L);
+document.setPartyId(UUID.fromString("550e8400-e29b-41d4-a716-446655440100"));
 document.setDocumentType(CorporateDocumentTypeEnum.CERTIFICATE_OF_INCORPORATION);
 document.setDocumentNumber("CORP-2023-12345");
 document.setIssueDate(LocalDate.now().minusYears(5));
@@ -442,7 +442,7 @@ POST /api/v1/compliance/parties/{partyId}/aml-screenings
 ```java
 // Perform AML screening for the business entity
 AmlScreeningDTO screening = new AmlScreeningDTO();
-screening.setPartyId(123L);
+screening.setPartyId(UUID.fromString("550e8400-e29b-41d4-a716-446655440100"));
 screening.setScreeningType(ScreeningTypeEnum.ENTITY_SANCTIONS);
 screening.setScreeningSource("OFAC, EU Sanctions List, UN Sanctions List");
 screening.setScreeningDate(LocalDateTime.now());
@@ -710,7 +710,7 @@ unverifiedUbo.setVerificationDate(LocalDateTime.now());
 unverifiedUbo.setVerificationNotes("Unable to verify ownership percentage. Additional documentation required.");
 
 webClient.patch()
-    .uri("/api/v1/corporate/parties/123/ubos/789")
+    .uri("/api/v1/corporate/parties/550e8400-e29b-41d4-a716-446655440100/ubos/550e8400-e29b-41d4-a716-446655440000")
     .bodyValue(unverifiedUbo)
     .retrieve()
     .bodyToMono(UboDTO.class)
@@ -719,7 +719,7 @@ webClient.patch()
 
         // Request additional documentation
         DocumentRequestDTO request = new DocumentRequestDTO();
-        request.setPartyId(123L);
+        request.setPartyId(UUID.fromString("550e8400-e29b-41d4-a716-446655440100"));
         request.setDocumentType(DocumentTypeEnum.OWNERSHIP_PROOF);
         request.setRequestNotes("Please provide official documentation confirming ownership percentage.");
         request.setRequestedBy("compliance-officer-1");

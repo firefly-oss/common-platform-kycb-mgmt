@@ -116,7 +116,7 @@ document.setExpiryDate(LocalDate.now().plusYears(8));
 document.setDocumentUrl("https://document-storage.example.com/docs/passport-123.pdf");
 
 webClient.post()
-    .uri("/api/v1/identity/parties/123/kyc/456/documents")
+    .uri("/api/v1/identity/parties/550e8400-e29b-41d4-a716-446655440100/kyc/550e8400-e29b-41d4-a716-446655440001/documents")
     .bodyValue(document)
     .retrieve()
     .bodyToMono(VerificationDocumentDTO.class)
@@ -129,8 +129,8 @@ webClient.post()
 
 ```json
 {
-  "verificationDocumentId": 789,
-  "kycVerificationId": 456,
+  "verificationDocumentId": "550e8400-e29b-41d4-a716-446655440006",
+  "kycVerificationId": "550e8400-e29b-41d4-a716-446655440001",
   "documentType": "PASSPORT",
   "documentNumber": "AB123456",
   "issuingCountry": "US",
@@ -180,7 +180,7 @@ POST /api/v1/compliance/parties/{partyId}/aml-screenings
 ```java
 // Perform AML screening
 AmlScreeningDTO screening = new AmlScreeningDTO();
-screening.setPartyId(123L);
+screening.setPartyId(UUID.fromString("550e8400-e29b-41d4-a716-446655440100"));
 screening.setScreeningType(ScreeningTypeEnum.SANCTIONS);
 screening.setScreeningSource("OFAC");
 screening.setScreeningDate(LocalDateTime.now());
@@ -311,13 +311,13 @@ POST /api/v1/identity/parties/{partyId}/kyc/{kycVerificationId}/edd
 // If high risk, trigger Enhanced Due Diligence
 if (riskLevel == RiskLevelEnum.HIGH) {
     EnhancedDueDiligenceDTO edd = new EnhancedDueDiligenceDTO();
-    edd.setKycVerificationId(456L);
+    edd.setKycVerificationId(UUID.fromString("550e8400-e29b-41d4-a716-446655440001"));
     edd.setEddType(EddTypeEnum.HIGH_RISK_CUSTOMER);
     edd.setEddStatus(EddStatusEnum.PENDING);
     edd.setAssignedTo("senior-compliance-officer");
 
     webClient.post()
-        .uri("/api/v1/identity/parties/123/kyc/456/edd")
+        .uri("/api/v1/identity/parties/550e8400-e29b-41d4-a716-446655440100/kyc/550e8400-e29b-41d4-a716-446655440001/edd")
         .bodyValue(edd)
         .retrieve()
         .bodyToMono(EnhancedDueDiligenceDTO.class)
@@ -354,7 +354,7 @@ completeEdd.setCompletedBy("senior-compliance-officer");
 completeEdd.setNotes("Additional verification completed. Source of funds verified through bank statements.");
 
 webClient.patch()
-    .uri("/api/v1/identity/parties/123/kyc/456/edd/987")
+    .uri("/api/v1/identity/parties/550e8400-e29b-41d4-a716-446655440100/kyc/550e8400-e29b-41d4-a716-446655440001/edd/550e8400-e29b-41d4-a716-446655440011")
     .bodyValue(completeEdd)
     .retrieve()
     .bodyToMono(EnhancedDueDiligenceDTO.class)
