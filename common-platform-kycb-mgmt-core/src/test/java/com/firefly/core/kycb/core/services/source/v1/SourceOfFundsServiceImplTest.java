@@ -41,8 +41,8 @@ public class SourceOfFundsServiceImplTest {
 
     private SourceOfFundsDTO sourceOfFundsDTO;
     private SourceOfFunds sourceOfFunds;
-    private final UUID SOURCE_OF_FUNDS_ID = 1L;
-    private final UUID PARTY_ID = 100L;
+    private final UUID SOURCE_OF_FUNDS_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440005");
+    private final UUID PARTY_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440100");
 
     @BeforeEach
     void setUp() {

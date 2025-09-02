@@ -35,8 +35,8 @@ class SanctionsQuestionnaireServiceImplTest {
 
     private SanctionsQuestionnaire entity;
     private SanctionsQuestionnaireDTO dto;
-    private final UUID PARTY_ID = 1L;
-    private final UUID QUESTIONNAIRE_ID = 1L;
+    private final UUID PARTY_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440100");
+    private final UUID QUESTIONNAIRE_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440004");
 
     @BeforeEach
     void setUp() {
