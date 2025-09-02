@@ -40,8 +40,8 @@ public class ExpectedActivityServiceImplTest {
 
     private ExpectedActivityDTO expectedActivityDTO;
     private ExpectedActivity expectedActivity;
-    private final UUID EXPECTED_ACTIVITY_ID = 1L;
-    private final UUID PARTY_ID = 100L;
+    private final UUID EXPECTED_ACTIVITY_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440012");
+    private final UUID PARTY_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440100");
 
     @BeforeEach
     void setUp() {

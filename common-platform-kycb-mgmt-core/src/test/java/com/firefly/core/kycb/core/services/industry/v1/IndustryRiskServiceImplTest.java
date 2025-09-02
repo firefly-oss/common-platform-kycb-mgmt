@@ -40,7 +40,7 @@ public class IndustryRiskServiceImplTest {
 
     private IndustryRiskDTO industryRiskDTO;
     private IndustryRisk industryRisk;
-    private final UUID INDUSTRY_RISK_ID = 1L;
+    private final UUID INDUSTRY_RISK_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440018");
     private final String ACTIVITY_CODE = "NAICS-5242";
     private final String INDUSTRY_NAME = "Insurance Agencies and Brokerages";
 
