@@ -39,8 +39,8 @@ public class EconomicActivityServiceImplTest {
 
     private EconomicActivityDTO economicActivityDTO;
     private EconomicActivity economicActivity;
-    private final UUID ECONOMIC_ACTIVITY_ID = 1L;
-    private final UUID PARTY_ID = 100L;
+    private final UUID ECONOMIC_ACTIVITY_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440017");
+    private final UUID PARTY_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440100");
 
     @BeforeEach
     void setUp() {
@@ -81,7 +81,7 @@ public class EconomicActivityServiceImplTest {
         economicActivity.setIsPrimary(true);
 
         EconomicActivity existingPrimaryActivity = new EconomicActivity();
-        existingPrimaryActivity.setEconomicActivityId(2L);
+        existingPrimaryActivity.setEconomicActivityId(UUID.fromString("550e8400-e29b-41d4-a716-446655440022"));
         existingPrimaryActivity.setPartyId(PARTY_ID);
         existingPrimaryActivity.setIsPrimary(true);
 
@@ -103,8 +103,8 @@ public class EconomicActivityServiceImplTest {
         verify(mapper).toDTO(economicActivity);
 
         // Verify that the existing primary activity is no longer primary
-        verify(repository).save(argThat(activity -> 
-            activity.getEconomicActivityId().equals(2L) && !activity.getIsPrimary()));
+        verify(repository).save(argThat(activity ->
+            activity.getEconomicActivityId().equals(UUID.fromString("550e8400-e29b-41d4-a716-446655440022")) && !activity.getIsPrimary()));
     }
 
     @Test
@@ -193,7 +193,7 @@ public class EconomicActivityServiceImplTest {
         updatedActivity.setIsPrimary(true);
         
         EconomicActivity existingPrimaryActivity = new EconomicActivity();
-        existingPrimaryActivity.setEconomicActivityId(2L);
+        existingPrimaryActivity.setEconomicActivityId(UUID.fromString("550e8400-e29b-41d4-a716-446655440022"));
         existingPrimaryActivity.setPartyId(PARTY_ID);
         existingPrimaryActivity.setIsPrimary(true);
         
@@ -219,8 +219,8 @@ public class EconomicActivityServiceImplTest {
         verify(mapper).toDTO(updatedActivity);
 
         // Verify that the existing primary activity is no longer primary
-        verify(repository).save(argThat(activity -> 
-            activity.getEconomicActivityId().equals(2L) && !activity.getIsPrimary()));
+        verify(repository).save(argThat(activity ->
+            activity.getEconomicActivityId().equals(UUID.fromString("550e8400-e29b-41d4-a716-446655440022")) && !activity.getIsPrimary()));
     }
 
     @Test
