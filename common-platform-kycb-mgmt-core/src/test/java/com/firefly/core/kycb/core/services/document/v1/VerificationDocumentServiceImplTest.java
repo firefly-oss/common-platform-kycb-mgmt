@@ -41,9 +41,9 @@ public class VerificationDocumentServiceImplTest {
 
     private VerificationDocumentDTO verificationDocumentDTO;
     private VerificationDocument verificationDocument;
-    private final UUID VERIFICATION_DOCUMENT_ID = 1L;
-    private final UUID KYC_VERIFICATION_ID = 100L;
-    private final UUID IDENTITY_DOCUMENT_ID = 200L;
+    private final UUID VERIFICATION_DOCUMENT_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440006");
+    private final UUID KYC_VERIFICATION_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440001");
+    private final UUID IDENTITY_DOCUMENT_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440200");
 
     @BeforeEach
     void setUp() {
