@@ -40,9 +40,9 @@ public class CorporateStructureServiceImplTest {
 
     private CorporateStructureDTO corporateStructureDTO;
     private CorporateStructure corporateStructure;
-    private final UUID CORPORATE_STRUCTURE_ID = 1L;
-    private final UUID PARTY_ID = 100L;
-    private final UUID PARENT_ENTITY_ID = 200L;
+    private final UUID CORPORATE_STRUCTURE_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440013");
+    private final UUID PARTY_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440100");
+    private final UUID PARENT_ENTITY_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440200");
 
     @BeforeEach
     void setUp() {
