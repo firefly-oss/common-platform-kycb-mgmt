@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for industry risk data.
@@ -27,7 +28,7 @@ import java.time.LocalDateTime;
 public class IndustryRiskDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long industryRiskId;
+    private UUID industryRiskId;
 
     @NotBlank(message = "Activity code is required")
     @Size(max = 20, message = "Activity code must not exceed 20 characters")

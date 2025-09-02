@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.document.v1.VerificationDocumentDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 public interface VerificationDocumentService {
     /**
@@ -28,7 +29,7 @@ public interface VerificationDocumentService {
      * @param verificationDocumentId The ID of the VerificationDocument to retrieve.
      * @return A Mono containing the VerificationDocumentDTO if found, otherwise an empty mono.
      */
-    Mono<VerificationDocumentDTO> getById(Long verificationDocumentId);
+    Mono<VerificationDocumentDTO> getById(UUID verificationDocumentId);
 
     /**
      * Updates an existing VerificationDocument entry with new data provided in the DTO.
@@ -37,7 +38,7 @@ public interface VerificationDocumentService {
      * @param dto A DTO containing the fields to update for the VerificationDocument.
      * @return A Mono containing the updated VerificationDocumentDTO if successful.
      */
-    Mono<VerificationDocumentDTO> update(Long verificationDocumentId, VerificationDocumentDTO dto);
+    Mono<VerificationDocumentDTO> update(UUID verificationDocumentId, VerificationDocumentDTO dto);
 
     /**
      * Deletes a Verification Document by its ID.
@@ -45,5 +46,5 @@ public interface VerificationDocumentService {
      * @param verificationDocumentId The ID of the Verification Document to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long verificationDocumentId);
+    Mono<Void> delete(UUID verificationDocumentId);
 }

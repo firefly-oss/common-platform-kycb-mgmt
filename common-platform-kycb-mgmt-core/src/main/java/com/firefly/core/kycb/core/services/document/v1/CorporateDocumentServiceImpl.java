@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Implementation of the corporate document service.
@@ -41,13 +42,13 @@ public class CorporateDocumentServiceImpl implements CorporateDocumentService {
     }
 
     @Override
-    public Mono<CorporateDocumentDTO> getById(Long documentId) {
+    public Mono<CorporateDocumentDTO> getById(UUID documentId) {
         return repository.findById(documentId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<CorporateDocumentDTO> update(Long documentId, CorporateDocumentDTO dto) {
+    public Mono<CorporateDocumentDTO> update(UUID documentId, CorporateDocumentDTO dto) {
         return repository.findById(documentId)
                 .flatMap(existingEntity -> {
                     CorporateDocument updatedEntity = mapper.toEntity(dto);
@@ -67,7 +68,7 @@ public class CorporateDocumentServiceImpl implements CorporateDocumentService {
     }
 
     @Override
-    public Mono<Void> delete(Long documentId) {
+    public Mono<Void> delete(UUID documentId) {
         return repository.deleteById(documentId);
     }
 }

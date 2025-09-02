@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Implementation of the power of attorney service.
@@ -41,13 +42,13 @@ public class PowerOfAttorneyServiceImpl implements PowerOfAttorneyService {
     }
 
     @Override
-    public Mono<PowerOfAttorneyDTO> getById(Long powerId) {
+    public Mono<PowerOfAttorneyDTO> getById(UUID powerId) {
         return repository.findById(powerId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<PowerOfAttorneyDTO> update(Long powerId, PowerOfAttorneyDTO dto) {
+    public Mono<PowerOfAttorneyDTO> update(UUID powerId, PowerOfAttorneyDTO dto) {
         return repository.findById(powerId)
                 .flatMap(existingEntity -> {
                     PowerOfAttorney updatedEntity = mapper.toEntity(dto);
@@ -67,7 +68,7 @@ public class PowerOfAttorneyServiceImpl implements PowerOfAttorneyService {
     }
 
     @Override
-    public Mono<Void> delete(Long powerId) {
+    public Mono<Void> delete(UUID powerId) {
         return repository.deleteById(powerId);
     }
 }

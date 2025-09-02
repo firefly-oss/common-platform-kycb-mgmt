@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for compliance case data.
@@ -26,11 +27,11 @@ import java.time.LocalDateTime;
 public class ComplianceCaseDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long complianceCaseId;
+    private UUID complianceCaseId;
 
     @FilterableId
     @NotNull(message = "Party ID is required")
-    private Long partyId;
+    private UUID partyId;
 
     @NotBlank(message = "Case type is required")
     @Size(max = 50, message = "Case type must not exceed 50 characters")

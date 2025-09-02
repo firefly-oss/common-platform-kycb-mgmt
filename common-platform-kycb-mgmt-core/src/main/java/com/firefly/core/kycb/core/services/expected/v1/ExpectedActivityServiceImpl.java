@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Implementation of the expected activity service.
@@ -41,13 +42,13 @@ public class ExpectedActivityServiceImpl implements ExpectedActivityService {
     }
 
     @Override
-    public Mono<ExpectedActivityDTO> getById(Long activityId) {
+    public Mono<ExpectedActivityDTO> getById(UUID activityId) {
         return repository.findById(activityId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<ExpectedActivityDTO> update(Long activityId, ExpectedActivityDTO dto) {
+    public Mono<ExpectedActivityDTO> update(UUID activityId, ExpectedActivityDTO dto) {
         return repository.findById(activityId)
                 .flatMap(existingEntity -> {
                     ExpectedActivity updatedEntity = mapper.toEntity(dto);
@@ -60,7 +61,7 @@ public class ExpectedActivityServiceImpl implements ExpectedActivityService {
     }
 
     @Override
-    public Mono<Void> delete(Long activityId) {
+    public Mono<Void> delete(UUID activityId) {
         return repository.deleteById(activityId);
     }
 }

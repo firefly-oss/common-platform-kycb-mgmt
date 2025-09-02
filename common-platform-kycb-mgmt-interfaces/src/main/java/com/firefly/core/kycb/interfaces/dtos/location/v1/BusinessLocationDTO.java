@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for business location data.
@@ -31,11 +32,11 @@ import java.time.LocalDateTime;
 public class BusinessLocationDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long businessLocationId;
+    private UUID businessLocationId;
 
     @FilterableId
     @NotNull(message = "Party ID is required")
-    private Long partyId;
+    private UUID partyId;
 
     @NotBlank(message = "Location type code is required")
     @Size(max = 20, message = "Location type code must not exceed 20 characters")

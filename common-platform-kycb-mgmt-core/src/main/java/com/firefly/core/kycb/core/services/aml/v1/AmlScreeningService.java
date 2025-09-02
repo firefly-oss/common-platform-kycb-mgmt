@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.aml.v1.AmlScreeningDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for AML screening operations.
@@ -31,7 +32,7 @@ public interface AmlScreeningService {
      * @param amlScreeningId The ID of the AmlScreening to retrieve.
      * @return A Mono containing the AmlScreeningDTO if found, otherwise an empty mono.
      */
-    Mono<AmlScreeningDTO> getById(Long amlScreeningId);
+    Mono<AmlScreeningDTO> getById(UUID amlScreeningId);
 
     /**
      * Updates an existing AmlScreening entry with new data provided in the DTO.
@@ -40,7 +41,7 @@ public interface AmlScreeningService {
      * @param dto A DTO containing the fields to update for the AmlScreening.
      * @return A Mono containing the updated AmlScreeningDTO if successful.
      */
-    Mono<AmlScreeningDTO> update(Long amlScreeningId, AmlScreeningDTO dto);
+    Mono<AmlScreeningDTO> update(UUID amlScreeningId, AmlScreeningDTO dto);
 
     /**
      * Deletes an AML Screening by its ID.
@@ -48,5 +49,5 @@ public interface AmlScreeningService {
      * @param amlScreeningId The ID of the AML Screening to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long amlScreeningId);
+    Mono<Void> delete(UUID amlScreeningId);
 }

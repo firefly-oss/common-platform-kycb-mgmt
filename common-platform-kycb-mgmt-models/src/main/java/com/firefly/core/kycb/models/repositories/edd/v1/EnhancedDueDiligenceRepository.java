@@ -9,12 +9,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Repository for enhanced due diligence operations.
  */
 @Repository
-public interface EnhancedDueDiligenceRepository extends BaseRepository<EnhancedDueDiligence, Long> {
+public interface EnhancedDueDiligenceRepository extends BaseRepository<EnhancedDueDiligence, UUID> {
 
     /**
      * Find enhanced due diligence records by KYC verification ID.
@@ -22,7 +23,7 @@ public interface EnhancedDueDiligenceRepository extends BaseRepository<EnhancedD
      * @param kycVerificationId The ID of the KYC verification
      * @return A flux of enhanced due diligence records
      */
-    Flux<EnhancedDueDiligence> findByKycVerificationId(Long kycVerificationId);
+    Flux<EnhancedDueDiligence> findByKycVerificationId(UUID kycVerificationId);
 
     /**
      * Find enhanced due diligence records by EDD reason.
@@ -89,7 +90,7 @@ public interface EnhancedDueDiligenceRepository extends BaseRepository<EnhancedD
      * @param eddStatusEnum The status of EDD
      * @return A flux of enhanced due diligence records
      */
-    Flux<EnhancedDueDiligence> findByKycVerificationIdAndEddStatus(Long kycVerificationId, EddStatusEnum eddStatusEnum);
+    Flux<EnhancedDueDiligence> findByKycVerificationIdAndEddStatus(UUID kycVerificationId, EddStatusEnum eddStatusEnum);
 
     /**
      * Find the latest enhanced due diligence record for a KYC verification.
@@ -97,5 +98,5 @@ public interface EnhancedDueDiligenceRepository extends BaseRepository<EnhancedD
      * @param kycVerificationId The ID of the KYC verification
      * @return A mono with the latest enhanced due diligence record
      */
-    Mono<EnhancedDueDiligence> findFirstByKycVerificationIdOrderByDateCreatedDesc(Long kycVerificationId);
+    Mono<EnhancedDueDiligence> findFirstByKycVerificationIdOrderByDateCreatedDesc(UUID kycVerificationId);
 }

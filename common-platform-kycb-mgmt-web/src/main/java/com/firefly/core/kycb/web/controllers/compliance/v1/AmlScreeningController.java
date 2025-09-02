@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/compliance/parties/{partyId}/aml-screenings")
@@ -38,7 +39,7 @@ public class AmlScreeningController {
     )
     public Mono<ResponseEntity<PaginationResponse<AmlScreeningDTO>>> listAmlScreenings(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "Filter criteria")
             @ModelAttribute FilterRequest<AmlScreeningDTO> filterRequest
     ) {
@@ -65,7 +66,7 @@ public class AmlScreeningController {
     )
     public Mono<ResponseEntity<AmlScreeningDTO>> createAmlScreening(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "AML screening data", required = true)
             @RequestBody AmlScreeningDTO amlScreeningDTO
     ) {
@@ -92,9 +93,9 @@ public class AmlScreeningController {
     )
     public Mono<ResponseEntity<AmlScreeningDTO>> getAmlScreening(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the screening", required = true)
-            @PathVariable Long screeningId
+            @PathVariable UUID screeningId
     ) {
         return amlScreeningService.getById(screeningId)
                 .map(ResponseEntity::ok)
@@ -119,9 +120,9 @@ public class AmlScreeningController {
     )
     public Mono<ResponseEntity<AmlScreeningDTO>> updateAmlScreening(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the screening", required = true)
-            @PathVariable Long screeningId,
+            @PathVariable UUID screeningId,
             @Parameter(description = "Updated AML screening data", required = true)
             @RequestBody AmlScreeningDTO amlScreeningDTO
     ) {
@@ -148,9 +149,9 @@ public class AmlScreeningController {
     )
     public Mono<ResponseEntity<Void>> deleteAmlScreening(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the screening", required = true)
-            @PathVariable Long screeningId
+            @PathVariable UUID screeningId
     ) {
         return amlScreeningService.delete(screeningId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

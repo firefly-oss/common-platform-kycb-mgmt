@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/activity/parties/{partyId}/sources-of-funds")
@@ -38,7 +39,7 @@ public class SourceOfFundsController {
     )
     public Mono<ResponseEntity<PaginationResponse<SourceOfFundsDTO>>> listSourcesOfFunds(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "Filter criteria")
             @ModelAttribute FilterRequest<SourceOfFundsDTO> filterRequest
     ) {
@@ -66,7 +67,7 @@ public class SourceOfFundsController {
     )
     public Mono<ResponseEntity<SourceOfFundsDTO>> addSourceOfFunds(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "Source of funds data", required = true)
             @RequestBody SourceOfFundsDTO sourceOfFundsDTO
     ) {
@@ -93,9 +94,9 @@ public class SourceOfFundsController {
     )
     public Mono<ResponseEntity<SourceOfFundsDTO>> getSourceOfFunds(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the source", required = true)
-            @PathVariable Long sourceId
+            @PathVariable UUID sourceId
     ) {
         return sourceOfFundsService.getById(sourceId)
                 .map(ResponseEntity::ok)
@@ -120,9 +121,9 @@ public class SourceOfFundsController {
     )
     public Mono<ResponseEntity<SourceOfFundsDTO>> updateSourceOfFunds(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the source", required = true)
-            @PathVariable Long sourceId,
+            @PathVariable UUID sourceId,
             @Parameter(description = "Updated source of funds data", required = true)
             @RequestBody SourceOfFundsDTO sourceOfFundsDTO
     ) {
@@ -150,9 +151,9 @@ public class SourceOfFundsController {
     )
     public Mono<ResponseEntity<Void>> deleteSourceOfFunds(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the source", required = true)
-            @PathVariable Long sourceId
+            @PathVariable UUID sourceId
     ) {
         return sourceOfFundsService.delete(sourceId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

@@ -8,12 +8,13 @@ import reactor.core.publisher.Flux;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Repository for Ultimate Beneficial Owner operations.
  */
 @Repository
-public interface UboRepository extends BaseRepository<Ubo, Long> {
+public interface UboRepository extends BaseRepository<Ubo, UUID> {
 
     /**
      * Find UBOs by party ID.
@@ -21,7 +22,7 @@ public interface UboRepository extends BaseRepository<Ubo, Long> {
      * @param partyId The ID of the party
      * @return A flux of UBOs
      */
-    Flux<Ubo> findByPartyId(Long partyId);
+    Flux<Ubo> findByPartyId(UUID partyId);
 
     /**
      * Find UBOs by natural person ID.
@@ -29,7 +30,7 @@ public interface UboRepository extends BaseRepository<Ubo, Long> {
      * @param naturalPersonId The ID of the natural person
      * @return A flux of UBOs
      */
-    Flux<Ubo> findByNaturalPersonId(Long naturalPersonId);
+    Flux<Ubo> findByNaturalPersonId(UUID naturalPersonId);
 
     /**
      * Find UBOs by ownership type.
@@ -87,5 +88,5 @@ public interface UboRepository extends BaseRepository<Ubo, Long> {
      * @param threshold The ownership percentage threshold
      * @return A flux of UBOs
      */
-    Flux<Ubo> findByPartyIdAndOwnershipPercentageGreaterThanEqual(Long partyId, BigDecimal threshold);
+    Flux<Ubo> findByPartyIdAndOwnershipPercentageGreaterThanEqual(UUID partyId, BigDecimal threshold);
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Implementation of the AML screening service.
@@ -41,13 +42,13 @@ public class AmlScreeningServiceImpl implements AmlScreeningService {
     }
 
     @Override
-    public Mono<AmlScreeningDTO> getById(Long amlScreeningId) {
+    public Mono<AmlScreeningDTO> getById(UUID amlScreeningId) {
         return repository.findById(amlScreeningId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<AmlScreeningDTO> update(Long amlScreeningId, AmlScreeningDTO dto) {
+    public Mono<AmlScreeningDTO> update(UUID amlScreeningId, AmlScreeningDTO dto) {
         return repository.findById(amlScreeningId)
                 .flatMap(existingEntity -> {
                     AmlScreening updatedEntity = mapper.toEntity(dto);
@@ -60,7 +61,7 @@ public class AmlScreeningServiceImpl implements AmlScreeningService {
     }
 
     @Override
-    public Mono<Void> delete(Long amlScreeningId) {
+    public Mono<Void> delete(UUID amlScreeningId) {
         return repository.deleteById(amlScreeningId);
     }
 }

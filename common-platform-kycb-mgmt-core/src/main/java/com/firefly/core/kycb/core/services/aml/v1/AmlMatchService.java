@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.aml.v1.AmlMatchDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for AML match operations.
@@ -31,7 +32,7 @@ public interface AmlMatchService {
      * @param amlMatchId The ID of the AmlMatch to retrieve.
      * @return A Mono containing the AmlMatchDTO if found, otherwise an empty mono.
      */
-    Mono<AmlMatchDTO> getById(Long amlMatchId);
+    Mono<AmlMatchDTO> getById(UUID amlMatchId);
 
     /**
      * Updates an existing AmlMatch entry with new data provided in the DTO.
@@ -40,7 +41,7 @@ public interface AmlMatchService {
      * @param dto A DTO containing the fields to update for the AmlMatch.
      * @return A Mono containing the updated AmlMatchDTO if successful.
      */
-    Mono<AmlMatchDTO> update(Long amlMatchId, AmlMatchDTO dto);
+    Mono<AmlMatchDTO> update(UUID amlMatchId, AmlMatchDTO dto);
 
     /**
      * Deletes an AML Match by its ID.
@@ -48,5 +49,5 @@ public interface AmlMatchService {
      * @param amlMatchId The ID of the AML Match to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long amlMatchId);
+    Mono<Void> delete(UUID amlMatchId);
 }

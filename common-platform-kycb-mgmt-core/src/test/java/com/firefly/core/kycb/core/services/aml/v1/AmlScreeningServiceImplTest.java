@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class AmlScreeningServiceImplTest {
@@ -38,7 +39,7 @@ public class AmlScreeningServiceImplTest {
 
     private AmlScreeningDTO amlScreeningDTO;
     private AmlScreening amlScreening;
-    private final Long AML_SCREENING_ID = 1L;
+    private final UUID AML_SCREENING_ID = 1L;
 
     @BeforeEach
     void setUp() {

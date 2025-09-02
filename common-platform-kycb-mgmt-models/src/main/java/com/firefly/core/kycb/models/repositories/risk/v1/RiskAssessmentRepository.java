@@ -10,12 +10,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Repository for risk assessment operations.
  */
 @Repository
-public interface RiskAssessmentRepository extends BaseRepository<RiskAssessment, Long> {
+public interface RiskAssessmentRepository extends BaseRepository<RiskAssessment, UUID> {
 
     /**
      * Find risk assessments by party ID.
@@ -23,7 +24,7 @@ public interface RiskAssessmentRepository extends BaseRepository<RiskAssessment,
      * @param partyId The ID of the party
      * @return A flux of risk assessments
      */
-    Flux<RiskAssessment> findByPartyId(Long partyId);
+    Flux<RiskAssessment> findByPartyId(UUID partyId);
 
     /**
      * Find risk assessments by assessment type.
@@ -88,5 +89,5 @@ public interface RiskAssessmentRepository extends BaseRepository<RiskAssessment,
      * @param partyId The ID of the party
      * @return A mono with the latest risk assessment
      */
-    Mono<RiskAssessment> findFirstByPartyIdOrderByAssessmentDateDesc(Long partyId);
+    Mono<RiskAssessment> findFirstByPartyIdOrderByAssessmentDateDesc(UUID partyId);
 }

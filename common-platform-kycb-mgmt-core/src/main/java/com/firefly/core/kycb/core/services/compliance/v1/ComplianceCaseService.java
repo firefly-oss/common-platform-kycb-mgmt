@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.compliance.v1.ComplianceCaseDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for compliance case operations.
@@ -31,7 +32,7 @@ public interface ComplianceCaseService {
      * @param caseId The ID of the ComplianceCase to retrieve.
      * @return A Mono containing the ComplianceCaseDTO if found, otherwise an empty mono.
      */
-    Mono<ComplianceCaseDTO> getById(Long caseId);
+    Mono<ComplianceCaseDTO> getById(UUID caseId);
 
     /**
      * Updates an existing ComplianceCase entry with new data provided in the DTO.
@@ -40,7 +41,7 @@ public interface ComplianceCaseService {
      * @param dto A DTO containing the fields to update for the ComplianceCase.
      * @return A Mono containing the updated ComplianceCaseDTO if successful.
      */
-    Mono<ComplianceCaseDTO> update(Long caseId, ComplianceCaseDTO dto);
+    Mono<ComplianceCaseDTO> update(UUID caseId, ComplianceCaseDTO dto);
 
     /**
      * Deletes a Compliance Case by its ID.
@@ -48,5 +49,5 @@ public interface ComplianceCaseService {
      * @param caseId The ID of the Compliance Case to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long caseId);
+    Mono<Void> delete(UUID caseId);
 }

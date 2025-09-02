@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Implementation of the AML match service.
@@ -41,13 +42,13 @@ public class AmlMatchServiceImpl implements AmlMatchService {
     }
 
     @Override
-    public Mono<AmlMatchDTO> getById(Long amlMatchId) {
+    public Mono<AmlMatchDTO> getById(UUID amlMatchId) {
         return repository.findById(amlMatchId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<AmlMatchDTO> update(Long amlMatchId, AmlMatchDTO dto) {
+    public Mono<AmlMatchDTO> update(UUID amlMatchId, AmlMatchDTO dto) {
         return repository.findById(amlMatchId)
                 .flatMap(existingEntity -> {
                     AmlMatch updatedEntity = mapper.toEntity(dto);
@@ -60,7 +61,7 @@ public class AmlMatchServiceImpl implements AmlMatchService {
     }
 
     @Override
-    public Mono<Void> delete(Long amlMatchId) {
+    public Mono<Void> delete(UUID amlMatchId) {
         return repository.deleteById(amlMatchId);
     }
 }

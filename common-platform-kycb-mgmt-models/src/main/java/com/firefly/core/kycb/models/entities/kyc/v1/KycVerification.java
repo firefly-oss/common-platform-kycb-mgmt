@@ -13,6 +13,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a KYC verification record.
@@ -26,10 +27,10 @@ public class KycVerification extends BaseEntity {
 
     @Id
     @Column("kyc_verification_id")
-    private Long kycVerificationId;
+    private UUID kycVerificationId;
 
     @Column("party_id")
-    private Long partyId;
+    private UUID partyId;
 
     @Column("verification_status")
     private VerificationStatusEnum verificationStatus;

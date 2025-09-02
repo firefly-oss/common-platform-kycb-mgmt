@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class ComplianceActionServiceImplTest {
@@ -38,8 +39,8 @@ public class ComplianceActionServiceImplTest {
 
     private ComplianceActionDTO complianceActionDTO;
     private ComplianceAction complianceAction;
-    private final Long COMPLIANCE_ACTION_ID = 1L;
-    private final Long COMPLIANCE_CASE_ID = 100L;
+    private final UUID COMPLIANCE_ACTION_ID = 1L;
+    private final UUID COMPLIANCE_CASE_ID = 100L;
 
     @BeforeEach
     void setUp() {

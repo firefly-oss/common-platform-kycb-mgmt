@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.risk.v1.RiskAssessmentDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for risk assessment operations.
@@ -31,7 +32,7 @@ public interface RiskAssessmentService {
      * @param riskAssessmentId The ID of the RiskAssessment to retrieve.
      * @return A Mono containing the RiskAssessmentDTO if found, otherwise an empty mono.
      */
-    Mono<RiskAssessmentDTO> getById(Long riskAssessmentId);
+    Mono<RiskAssessmentDTO> getById(UUID riskAssessmentId);
 
     /**
      * Updates an existing RiskAssessment entry with new data provided in the DTO.
@@ -40,7 +41,7 @@ public interface RiskAssessmentService {
      * @param dto A DTO containing the fields to update for the RiskAssessment.
      * @return A Mono containing the updated RiskAssessmentDTO if successful.
      */
-    Mono<RiskAssessmentDTO> update(Long riskAssessmentId, RiskAssessmentDTO dto);
+    Mono<RiskAssessmentDTO> update(UUID riskAssessmentId, RiskAssessmentDTO dto);
 
     /**
      * Deletes a Risk Assessment by its ID.
@@ -48,5 +49,5 @@ public interface RiskAssessmentService {
      * @param riskAssessmentId The ID of the Risk Assessment to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long riskAssessmentId);
+    Mono<Void> delete(UUID riskAssessmentId);
 }

@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for KYC verification data.
@@ -28,11 +29,11 @@ import java.time.LocalDateTime;
 public class KycVerificationDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long kycVerificationId;
+    private UUID kycVerificationId;
 
     @FilterableId
     @NotNull(message = "Party ID is required")
-    private Long partyId;
+    private UUID partyId;
 
     @NotBlank(message = "Verification status is required")
     @Size(max = 50, message = "Verification status must not exceed 50 characters")

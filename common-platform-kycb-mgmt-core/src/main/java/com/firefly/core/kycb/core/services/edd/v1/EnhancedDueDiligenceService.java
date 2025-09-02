@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.edd.v1.EnhancedDueDiligenceDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for enhanced due diligence operations.
@@ -31,7 +32,7 @@ public interface EnhancedDueDiligenceService {
      * @param eddId The ID of the EnhancedDueDiligence to retrieve.
      * @return A Mono containing the EnhancedDueDiligenceDTO if found, otherwise an empty mono.
      */
-    Mono<EnhancedDueDiligenceDTO> getById(Long eddId);
+    Mono<EnhancedDueDiligenceDTO> getById(UUID eddId);
 
     /**
      * Updates an existing EnhancedDueDiligence entry with new data provided in the DTO.
@@ -40,7 +41,7 @@ public interface EnhancedDueDiligenceService {
      * @param dto A DTO containing the fields to update for the EnhancedDueDiligence.
      * @return A Mono containing the updated EnhancedDueDiligenceDTO if successful.
      */
-    Mono<EnhancedDueDiligenceDTO> update(Long eddId, EnhancedDueDiligenceDTO dto);
+    Mono<EnhancedDueDiligenceDTO> update(UUID eddId, EnhancedDueDiligenceDTO dto);
 
     /**
      * Deletes an Enhanced Due Diligence record by its ID.
@@ -48,5 +49,5 @@ public interface EnhancedDueDiligenceService {
      * @param eddId The ID of the Enhanced Due Diligence record to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long eddId);
+    Mono<Void> delete(UUID eddId);
 }

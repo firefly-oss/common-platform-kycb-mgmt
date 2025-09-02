@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class IndustryRiskServiceImplTest {
@@ -39,7 +40,7 @@ public class IndustryRiskServiceImplTest {
 
     private IndustryRiskDTO industryRiskDTO;
     private IndustryRisk industryRisk;
-    private final Long INDUSTRY_RISK_ID = 1L;
+    private final UUID INDUSTRY_RISK_ID = 1L;
     private final String ACTIVITY_CODE = "NAICS-5242";
     private final String INDUSTRY_NAME = "Insurance Agencies and Brokerages";
 

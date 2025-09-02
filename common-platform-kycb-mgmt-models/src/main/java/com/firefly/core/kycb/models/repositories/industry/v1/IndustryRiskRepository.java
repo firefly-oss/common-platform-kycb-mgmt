@@ -8,12 +8,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Repository for industry risk operations.
  */
 @Repository
-public interface IndustryRiskRepository extends BaseRepository<IndustryRisk, Long> {
+public interface IndustryRiskRepository extends BaseRepository<IndustryRisk, UUID> {
 
     /**
      * Find industry risks by activity code.

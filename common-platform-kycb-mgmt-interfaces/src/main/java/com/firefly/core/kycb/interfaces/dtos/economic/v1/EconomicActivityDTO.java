@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import java.util.UUID;
 
 /**
  * DTO for economic activity data.
@@ -23,11 +24,11 @@ import lombok.experimental.SuperBuilder;
 public class EconomicActivityDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long economicActivityId;
+    private UUID economicActivityId;
 
     @FilterableId
     @NotNull(message = "Party ID is required")
-    private Long partyId;
+    private UUID partyId;
 
     @NotBlank(message = "Activity code is required")
     @Size(max = 20, message = "Activity code must not exceed 20 characters")

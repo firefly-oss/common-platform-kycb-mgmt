@@ -12,6 +12,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing an AML screening record.
@@ -25,10 +26,10 @@ public class AmlScreening extends BaseEntity {
 
     @Id
     @Column("aml_screening_id")
-    private Long amlScreeningId;
+    private UUID amlScreeningId;
 
     @Column("party_id")
-    private Long partyId;
+    private UUID partyId;
 
     @Column("screening_date")
     private LocalDateTime screeningDate;

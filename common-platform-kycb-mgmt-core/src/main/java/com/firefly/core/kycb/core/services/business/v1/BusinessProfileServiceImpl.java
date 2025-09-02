@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Implementation of the business profile service.
@@ -41,13 +42,13 @@ public class BusinessProfileServiceImpl implements BusinessProfileService {
     }
 
     @Override
-    public Mono<BusinessProfileDTO> getById(Long businessProfileId) {
+    public Mono<BusinessProfileDTO> getById(UUID businessProfileId) {
         return repository.findById(businessProfileId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<BusinessProfileDTO> update(Long businessProfileId, BusinessProfileDTO dto) {
+    public Mono<BusinessProfileDTO> update(UUID businessProfileId, BusinessProfileDTO dto) {
         return repository.findById(businessProfileId)
                 .flatMap(existingEntity -> {
                     BusinessProfile updatedEntity = mapper.toEntity(dto);
@@ -60,7 +61,7 @@ public class BusinessProfileServiceImpl implements BusinessProfileService {
     }
 
     @Override
-    public Mono<Void> delete(Long businessProfileId) {
+    public Mono<Void> delete(UUID businessProfileId) {
         return repository.deleteById(businessProfileId);
     }
 }

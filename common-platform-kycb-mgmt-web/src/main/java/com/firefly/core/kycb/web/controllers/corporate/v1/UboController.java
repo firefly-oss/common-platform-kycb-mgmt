@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/corporate/parties/{partyId}/ubos")
@@ -38,7 +39,7 @@ public class UboController {
     )
     public Mono<ResponseEntity<PaginationResponse<UboDTO>>> listUbos(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "Filter criteria")
             @ModelAttribute FilterRequest<UboDTO> filterRequest
     ) {
@@ -65,7 +66,7 @@ public class UboController {
     )
     public Mono<ResponseEntity<UboDTO>> addUbo(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "UBO data", required = true)
             @RequestBody UboDTO uboDTO
     ) {
@@ -92,9 +93,9 @@ public class UboController {
     )
     public Mono<ResponseEntity<UboDTO>> getUbo(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the UBO", required = true)
-            @PathVariable Long uboId
+            @PathVariable UUID uboId
     ) {
         return uboService.getById(uboId)
                 .map(ResponseEntity::ok)
@@ -119,9 +120,9 @@ public class UboController {
     )
     public Mono<ResponseEntity<UboDTO>> updateUbo(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the UBO", required = true)
-            @PathVariable Long uboId,
+            @PathVariable UUID uboId,
             @Parameter(description = "Updated UBO data", required = true)
             @RequestBody UboDTO uboDTO
     ) {
@@ -148,9 +149,9 @@ public class UboController {
     )
     public Mono<ResponseEntity<Void>> deleteUbo(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the UBO", required = true)
-            @PathVariable Long uboId
+            @PathVariable UUID uboId
     ) {
         return uboService.delete(uboId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

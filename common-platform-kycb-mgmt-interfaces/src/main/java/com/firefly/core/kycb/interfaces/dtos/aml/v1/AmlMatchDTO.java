@@ -18,6 +18,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for AML match data.
@@ -30,11 +31,11 @@ import java.time.LocalDateTime;
 public class AmlMatchDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long amlMatchId;
+    private UUID amlMatchId;
 
     @FilterableId
     @NotNull(message = "AML screening ID is required")
-    private Long amlScreeningId;
+    private UUID amlScreeningId;
 
     @NotBlank(message = "List type is required")
     @Size(max = 50, message = "List type must not exceed 50 characters")

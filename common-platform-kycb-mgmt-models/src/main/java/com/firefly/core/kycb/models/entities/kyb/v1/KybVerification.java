@@ -12,6 +12,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a KYB (Know Your Business) verification record.
@@ -25,10 +26,10 @@ public class KybVerification extends BaseEntity {
 
     @Id
     @Column("kyb_verification_id")
-    private Long kybVerificationId;
+    private UUID kybVerificationId;
 
     @Column("party_id")
-    private Long partyId;
+    private UUID partyId;
 
     @Column("verification_status")
     private VerificationStatusEnum verificationStatus;

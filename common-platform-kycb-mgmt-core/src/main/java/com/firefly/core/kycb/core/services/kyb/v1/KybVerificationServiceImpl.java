@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -42,13 +43,13 @@ public class KybVerificationServiceImpl implements KybVerificationService {
     }
 
     @Override
-    public Mono<KybVerificationDTO> getById(Long kybVerificationId) {
+    public Mono<KybVerificationDTO> getById(UUID kybVerificationId) {
         return repository.findById(kybVerificationId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<KybVerificationDTO> update(Long kybVerificationId, KybVerificationDTO dto) {
+    public Mono<KybVerificationDTO> update(UUID kybVerificationId, KybVerificationDTO dto) {
         return repository.findById(kybVerificationId)
                 .flatMap(existingEntity -> {
                     KybVerification updatedEntity = mapper.toEntity(dto);
@@ -61,7 +62,7 @@ public class KybVerificationServiceImpl implements KybVerificationService {
     }
 
     @Override
-    public Mono<Void> delete(Long kybVerificationId) {
+    public Mono<Void> delete(UUID kybVerificationId) {
         return repository.deleteById(kybVerificationId);
     }
 

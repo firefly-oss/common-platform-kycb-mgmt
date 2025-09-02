@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/activity/parties/{partyId}/expected-activities")
@@ -38,7 +39,7 @@ public class ExpectedActivityController {
     )
     public Mono<ResponseEntity<PaginationResponse<ExpectedActivityDTO>>> listExpectedActivities(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "Filter criteria")
             @ModelAttribute FilterRequest<ExpectedActivityDTO> filterRequest
     ) {
@@ -65,7 +66,7 @@ public class ExpectedActivityController {
     )
     public Mono<ResponseEntity<ExpectedActivityDTO>> addExpectedActivity(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "Expected activity data", required = true)
             @RequestBody ExpectedActivityDTO expectedActivityDTO
     ) {
@@ -92,9 +93,9 @@ public class ExpectedActivityController {
     )
     public Mono<ResponseEntity<ExpectedActivityDTO>> getExpectedActivity(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the activity", required = true)
-            @PathVariable Long activityId
+            @PathVariable UUID activityId
     ) {
         return expectedActivityService.getById(activityId)
                 .map(ResponseEntity::ok)
@@ -119,9 +120,9 @@ public class ExpectedActivityController {
     )
     public Mono<ResponseEntity<ExpectedActivityDTO>> updateExpectedActivity(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the activity", required = true)
-            @PathVariable Long activityId,
+            @PathVariable UUID activityId,
             @Parameter(description = "Updated expected activity data", required = true)
             @RequestBody ExpectedActivityDTO expectedActivityDTO
     ) {
@@ -148,9 +149,9 @@ public class ExpectedActivityController {
     )
     public Mono<ResponseEntity<Void>> deleteExpectedActivity(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the activity", required = true)
-            @PathVariable Long activityId
+            @PathVariable UUID activityId
     ) {
         return expectedActivityService.delete(activityId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

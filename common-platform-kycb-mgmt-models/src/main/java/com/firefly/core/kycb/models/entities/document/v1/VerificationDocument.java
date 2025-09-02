@@ -12,6 +12,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a document used for verification.
@@ -25,13 +26,13 @@ public class VerificationDocument extends BaseEntity {
 
     @Id
     @Column("verification_document_id")
-    private Long verificationDocumentId;
+    private UUID verificationDocumentId;
 
     @Column("kyc_verification_id")
-    private Long kycVerificationId;
+    private UUID kycVerificationId;
 
     @Column("identity_document_id")
-    private Long identityDocumentId;
+    private UUID identityDocumentId;
 
     @Column("document_type")
     private DocumentTypeEnum documentType;

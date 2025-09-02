@@ -17,6 +17,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for corporate structure data.
@@ -29,15 +30,15 @@ import java.time.LocalDateTime;
 public class CorporateStructureDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long corporateStructureId;
+    private UUID corporateStructureId;
 
     @FilterableId
     @NotNull(message = "Party ID is required")
-    private Long partyId;
+    private UUID partyId;
 
     @FilterableId
     @NotNull(message = "Parent entity ID is required")
-    private Long parentEntityId;
+    private UUID parentEntityId;
 
     @NotNull(message = "Ownership percentage is required")
     @ValidInterestRate

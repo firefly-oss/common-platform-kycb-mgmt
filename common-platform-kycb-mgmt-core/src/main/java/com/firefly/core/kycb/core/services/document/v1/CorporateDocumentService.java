@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.document.v1.CorporateDocumentDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for corporate document operations.
@@ -31,7 +32,7 @@ public interface CorporateDocumentService {
      * @param documentId The ID of the CorporateDocument to retrieve.
      * @return A Mono containing the CorporateDocumentDTO if found, otherwise an empty mono.
      */
-    Mono<CorporateDocumentDTO> getById(Long documentId);
+    Mono<CorporateDocumentDTO> getById(UUID documentId);
 
     /**
      * Updates an existing CorporateDocument entry with new data provided in the DTO.
@@ -40,7 +41,7 @@ public interface CorporateDocumentService {
      * @param dto A DTO containing the fields to update for the CorporateDocument.
      * @return A Mono containing the updated CorporateDocumentDTO if successful.
      */
-    Mono<CorporateDocumentDTO> update(Long documentId, CorporateDocumentDTO dto);
+    Mono<CorporateDocumentDTO> update(UUID documentId, CorporateDocumentDTO dto);
 
     /**
      * Deletes a Corporate Document by its ID.
@@ -48,5 +49,5 @@ public interface CorporateDocumentService {
      * @param documentId The ID of the Corporate Document to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long documentId);
+    Mono<Void> delete(UUID documentId);
 }

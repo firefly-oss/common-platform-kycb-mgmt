@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for compliance action data.
@@ -26,11 +27,11 @@ import java.time.LocalDateTime;
 public class ComplianceActionDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long complianceActionId;
+    private UUID complianceActionId;
 
     @FilterableId
     @NotNull(message = "Compliance case ID is required")
-    private Long complianceCaseId;
+    private UUID complianceCaseId;
 
     @NotBlank(message = "Action type is required")
     @Size(max = 50, message = "Action type must not exceed 50 characters")

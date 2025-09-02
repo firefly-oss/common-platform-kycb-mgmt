@@ -12,6 +12,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a compliance action within a case.
@@ -25,10 +26,10 @@ public class ComplianceAction extends BaseEntity {
 
     @Id
     @Column("compliance_action_id")
-    private Long complianceActionId;
+    private UUID complianceActionId;
 
     @Column("compliance_case_id")
-    private Long complianceCaseId;
+    private UUID complianceCaseId;
 
     @Column("action_type")
     private ActionTypeEnum actionType;

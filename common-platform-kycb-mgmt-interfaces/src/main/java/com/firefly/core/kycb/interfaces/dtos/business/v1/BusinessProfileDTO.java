@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * DTO for business profile data.
@@ -30,11 +31,11 @@ import java.math.BigDecimal;
 public class BusinessProfileDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long businessProfileId;
+    private UUID businessProfileId;
 
     @FilterableId
     @NotNull(message = "Party ID is required")
-    private Long partyId;
+    private UUID partyId;
 
     @NotBlank(message = "Legal form code is required")
     @Size(max = 20, message = "Legal form code must not exceed 20 characters")

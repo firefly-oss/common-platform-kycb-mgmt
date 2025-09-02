@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for enhanced due diligence data.
@@ -26,11 +27,11 @@ import java.time.LocalDateTime;
 public class EnhancedDueDiligenceDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long eddId;
+    private UUID eddId;
 
     @FilterableId
     @NotNull(message = "KYC verification ID is required")
-    private Long kycVerificationId;
+    private UUID kycVerificationId;
 
     @NotBlank(message = "EDD reason is required")
     @Size(max = 100, message = "EDD reason must not exceed 100 characters")

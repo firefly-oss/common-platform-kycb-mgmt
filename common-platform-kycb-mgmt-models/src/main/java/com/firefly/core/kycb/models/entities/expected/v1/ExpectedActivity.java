@@ -10,6 +10,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * Entity representing expected account activity for a party.
@@ -23,10 +24,10 @@ public class ExpectedActivity extends BaseEntity {
 
     @Id
     @Column("expected_activity_id")
-    private Long expectedActivityId;
+    private UUID expectedActivityId;
 
     @Column("party_id")
-    private Long partyId;
+    private UUID partyId;
 
     @Column("activity_type_code")
     private String activityTypeCode;

@@ -12,6 +12,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing an enhanced due diligence process.
@@ -25,10 +26,10 @@ public class EnhancedDueDiligence extends BaseEntity {
 
     @Id
     @Column("edd_id")
-    private Long eddId;
+    private UUID eddId;
 
     @Column("kyc_verification_id")
-    private Long kycVerificationId;
+    private UUID kycVerificationId;
 
     @Column("edd_reason")
     private EddReasonEnum eddReason;

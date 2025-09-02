@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/corporate/parties/{partyId}/structure")
@@ -38,7 +39,7 @@ public class CorporateStructureController {
     )
     public Mono<ResponseEntity<PaginationResponse<CorporateStructureDTO>>> listStructureRelationships(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "Filter criteria")
             @ModelAttribute FilterRequest<CorporateStructureDTO> filterRequest
     ) {
@@ -65,7 +66,7 @@ public class CorporateStructureController {
     )
     public Mono<ResponseEntity<CorporateStructureDTO>> addStructureRelationship(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "Structure relationship data", required = true)
             @RequestBody CorporateStructureDTO corporateStructureDTO
     ) {
@@ -92,9 +93,9 @@ public class CorporateStructureController {
     )
     public Mono<ResponseEntity<CorporateStructureDTO>> getStructureRelationship(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the structure relationship", required = true)
-            @PathVariable Long structureId
+            @PathVariable UUID structureId
     ) {
         return corporateStructureService.getById(structureId)
                 .map(ResponseEntity::ok)
@@ -119,9 +120,9 @@ public class CorporateStructureController {
     )
     public Mono<ResponseEntity<CorporateStructureDTO>> updateStructureRelationship(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the structure relationship", required = true)
-            @PathVariable Long structureId,
+            @PathVariable UUID structureId,
             @Parameter(description = "Updated structure relationship data", required = true)
             @RequestBody CorporateStructureDTO corporateStructureDTO
     ) {
@@ -148,9 +149,9 @@ public class CorporateStructureController {
     )
     public Mono<ResponseEntity<Void>> deleteStructureRelationship(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the structure relationship", required = true)
-            @PathVariable Long structureId
+            @PathVariable UUID structureId
     ) {
         return corporateStructureService.delete(structureId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/documents/verification")
@@ -83,7 +84,7 @@ public class VerificationDocumentController {
     )
     public Mono<ResponseEntity<VerificationDocumentDTO>> getVerificationDocument(
             @Parameter(description = "ID of the document", required = true)
-            @PathVariable Long documentId
+            @PathVariable UUID documentId
     ) {
         return verificationDocumentService.getById(documentId)
                 .map(ResponseEntity::ok)
@@ -108,7 +109,7 @@ public class VerificationDocumentController {
     )
     public Mono<ResponseEntity<VerificationDocumentDTO>> updateVerificationDocument(
             @Parameter(description = "ID of the document", required = true)
-            @PathVariable Long documentId,
+            @PathVariable UUID documentId,
             @Parameter(description = "Updated verification document data", required = true)
             @RequestBody VerificationDocumentDTO verificationDocumentDTO
     ) {
@@ -134,7 +135,7 @@ public class VerificationDocumentController {
     )
     public Mono<ResponseEntity<Void>> deleteVerificationDocument(
             @Parameter(description = "ID of the document", required = true)
-            @PathVariable Long documentId
+            @PathVariable UUID documentId
     ) {
         return verificationDocumentService.delete(documentId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

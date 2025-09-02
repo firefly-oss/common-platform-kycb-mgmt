@@ -13,6 +13,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a match from an AML screening.
@@ -26,10 +27,10 @@ public class AmlMatch extends BaseEntity {
 
     @Id
     @Column("aml_match_id")
-    private Long amlMatchId;
+    private UUID amlMatchId;
 
     @Column("aml_screening_id")
-    private Long amlScreeningId;
+    private UUID amlScreeningId;
 
     @Column("list_type")
     private ListTypeEnum listType;

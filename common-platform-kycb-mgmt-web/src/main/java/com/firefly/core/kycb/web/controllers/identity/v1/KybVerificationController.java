@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/identity/parties/{partyId}/kyb")
@@ -38,7 +39,7 @@ public class KybVerificationController {
     )
     public Mono<ResponseEntity<PaginationResponse<KybVerificationDTO>>> listKybVerifications(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @ModelAttribute FilterRequest<KybVerificationDTO> filterRequest
     ) {
 
@@ -69,9 +70,9 @@ public class KybVerificationController {
     )
     public Mono<ResponseEntity<KybVerificationDTO>> getKybVerification(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the verification", required = true)
-            @PathVariable Long verificationId
+            @PathVariable UUID verificationId
     ) {
         return kybVerificationService.getById(verificationId)
                 .map(ResponseEntity::ok)
@@ -93,7 +94,7 @@ public class KybVerificationController {
     )
     public Mono<ResponseEntity<KybVerificationDTO>> createKybVerification(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "KYB verification data", required = true)
             @RequestBody KybVerificationDTO kybVerificationDTO
     ) {
@@ -120,9 +121,9 @@ public class KybVerificationController {
     )
     public Mono<ResponseEntity<KybVerificationDTO>> updateKybVerification(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the verification", required = true)
-            @PathVariable Long verificationId,
+            @PathVariable UUID verificationId,
             @Parameter(description = "Updated KYB verification data", required = true)
             @RequestBody KybVerificationDTO kybVerificationDTO
     ) {
@@ -149,9 +150,9 @@ public class KybVerificationController {
     )
     public Mono<ResponseEntity<Void>> deleteKybVerification(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the verification", required = true)
-            @PathVariable Long verificationId
+            @PathVariable UUID verificationId
     ) {
         return kybVerificationService.delete(verificationId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

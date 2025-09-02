@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.power.v1.PowerOfAttorneyDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for power of attorney operations.
@@ -31,7 +32,7 @@ public interface PowerOfAttorneyService {
      * @param powerId The ID of the PowerOfAttorney to retrieve.
      * @return A Mono containing the PowerOfAttorneyDTO if found, otherwise an empty mono.
      */
-    Mono<PowerOfAttorneyDTO> getById(Long powerId);
+    Mono<PowerOfAttorneyDTO> getById(UUID powerId);
 
     /**
      * Updates an existing PowerOfAttorney entry with new data provided in the DTO.
@@ -40,7 +41,7 @@ public interface PowerOfAttorneyService {
      * @param dto A DTO containing the fields to update for the PowerOfAttorney.
      * @return A Mono containing the updated PowerOfAttorneyDTO if successful.
      */
-    Mono<PowerOfAttorneyDTO> update(Long powerId, PowerOfAttorneyDTO dto);
+    Mono<PowerOfAttorneyDTO> update(UUID powerId, PowerOfAttorneyDTO dto);
 
     /**
      * Deletes a Power of Attorney by its ID.
@@ -48,5 +49,5 @@ public interface PowerOfAttorneyService {
      * @param powerId The ID of the Power of Attorney to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long powerId);
+    Mono<Void> delete(UUID powerId);
 }

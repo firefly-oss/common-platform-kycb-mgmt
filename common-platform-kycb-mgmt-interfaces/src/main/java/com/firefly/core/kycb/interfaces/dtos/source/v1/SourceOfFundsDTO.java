@@ -17,6 +17,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for source of funds data.
@@ -29,11 +30,11 @@ import java.time.LocalDateTime;
 public class SourceOfFundsDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long sourceOfFundsId;
+    private UUID sourceOfFundsId;
 
     @FilterableId
     @NotNull(message = "Party ID is required")
-    private Long partyId;
+    private UUID partyId;
 
     @NotBlank(message = "Source type is required")
     @Size(max = 50, message = "Source type must not exceed 50 characters")

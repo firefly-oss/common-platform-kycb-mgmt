@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Implementation of the risk assessment service.
@@ -42,13 +43,13 @@ public class RiskAssessmentServiceImpl implements RiskAssessmentService {
     }
 
     @Override
-    public Mono<RiskAssessmentDTO> getById(Long riskAssessmentId) {
+    public Mono<RiskAssessmentDTO> getById(UUID riskAssessmentId) {
         return repository.findById(riskAssessmentId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<RiskAssessmentDTO> update(Long riskAssessmentId, RiskAssessmentDTO dto) {
+    public Mono<RiskAssessmentDTO> update(UUID riskAssessmentId, RiskAssessmentDTO dto) {
         return repository.findById(riskAssessmentId)
                 .flatMap(existingEntity -> {
                     RiskAssessment updatedEntity = mapper.toEntity(dto);
@@ -61,7 +62,7 @@ public class RiskAssessmentServiceImpl implements RiskAssessmentService {
     }
 
     @Override
-    public Mono<Void> delete(Long riskAssessmentId) {
+    public Mono<Void> delete(UUID riskAssessmentId) {
         return repository.deleteById(riskAssessmentId);
     }
 }

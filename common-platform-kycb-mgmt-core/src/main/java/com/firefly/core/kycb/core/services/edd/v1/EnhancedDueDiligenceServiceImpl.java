@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Implementation of the enhanced due diligence service.
@@ -46,13 +47,13 @@ public class EnhancedDueDiligenceServiceImpl implements EnhancedDueDiligenceServ
     }
 
     @Override
-    public Mono<EnhancedDueDiligenceDTO> getById(Long eddId) {
+    public Mono<EnhancedDueDiligenceDTO> getById(UUID eddId) {
         return repository.findById(eddId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<EnhancedDueDiligenceDTO> update(Long eddId, EnhancedDueDiligenceDTO dto) {
+    public Mono<EnhancedDueDiligenceDTO> update(UUID eddId, EnhancedDueDiligenceDTO dto) {
         return repository.findById(eddId)
                 .flatMap(existingEntity -> {
                     EnhancedDueDiligence updatedEntity = mapper.toEntity(dto);
@@ -65,7 +66,7 @@ public class EnhancedDueDiligenceServiceImpl implements EnhancedDueDiligenceServ
     }
 
     @Override
-    public Mono<Void> delete(Long eddId) {
+    public Mono<Void> delete(UUID eddId) {
         return repository.deleteById(eddId);
     }
 }

@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.kyc.v1.KycVerificationDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 public interface KycVerificationService {
     /**
@@ -26,7 +27,7 @@ public interface KycVerificationService {
      * @param kycVerificationId The ID of the KycVerification to retrieve.
      * @return A Mono containing the KycVerificationDTO if found, otherwise an empty mono.
      */
-    Mono<KycVerificationDTO> getById(Long kycVerificationId);
+    Mono<KycVerificationDTO> getById(UUID kycVerificationId);
     /**
      * Updates an existing KycVerification entry with new data provided in the DTO.
      *
@@ -34,13 +35,13 @@ public interface KycVerificationService {
      * @param dto A DTO containing the fields to update for the KycVerification.
      * @return A Mono containing the updated KycVerificationDTO if successful.
      */
-    Mono<KycVerificationDTO> update(Long kycVerificationId, KycVerificationDTO dto);
+    Mono<KycVerificationDTO> update(UUID kycVerificationId, KycVerificationDTO dto);
     /**
      * Deletes a KYC Verification by its ID.
      *
      * @param kycVerificationId The ID of the KYC Verification to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long kycVerificationId);
+    Mono<Void> delete(UUID kycVerificationId);
 
 }

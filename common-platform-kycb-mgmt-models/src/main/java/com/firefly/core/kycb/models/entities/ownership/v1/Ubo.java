@@ -12,6 +12,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing an Ultimate Beneficial Owner.
@@ -25,13 +26,13 @@ public class Ubo extends BaseEntity {
 
     @Id
     @Column("ubo_id")
-    private Long uboId;
+    private UUID uboId;
 
     @Column("party_id")
-    private Long partyId;
+    private UUID partyId;
 
     @Column("natural_person_id")
-    private Long naturalPersonId;
+    private UUID naturalPersonId;
 
     @Column("ownership_percentage")
     private BigDecimal ownershipPercentage;

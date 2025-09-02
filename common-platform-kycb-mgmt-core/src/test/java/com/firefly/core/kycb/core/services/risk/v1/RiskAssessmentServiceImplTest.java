@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class RiskAssessmentServiceImplTest {
@@ -41,8 +42,8 @@ public class RiskAssessmentServiceImplTest {
 
     private RiskAssessmentDTO riskAssessmentDTO;
     private RiskAssessment riskAssessment;
-    private final Long RISK_ASSESSMENT_ID = 1L;
-    private final Long PARTY_ID = 100L;
+    private final UUID RISK_ASSESSMENT_ID = 1L;
+    private final UUID PARTY_ID = 100L;
 
     @BeforeEach
     void setUp() {

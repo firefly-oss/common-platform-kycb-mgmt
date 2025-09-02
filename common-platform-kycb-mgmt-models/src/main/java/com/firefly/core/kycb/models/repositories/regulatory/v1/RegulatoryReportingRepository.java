@@ -9,12 +9,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Repository for regulatory reporting operations.
  */
 @Repository
-public interface RegulatoryReportingRepository extends BaseRepository<RegulatoryReporting, Long> {
+public interface RegulatoryReportingRepository extends BaseRepository<RegulatoryReporting, UUID> {
 
     /**
      * Find regulatory reports by compliance case ID.
@@ -22,7 +23,7 @@ public interface RegulatoryReportingRepository extends BaseRepository<Regulatory
      * @param complianceCaseId The ID of the compliance case
      * @return A flux of regulatory reports
      */
-    Flux<RegulatoryReporting> findByComplianceCaseId(Long complianceCaseId);
+    Flux<RegulatoryReporting> findByComplianceCaseId(UUID complianceCaseId);
 
     /**
      * Find regulatory reports by report type.
@@ -89,7 +90,7 @@ public interface RegulatoryReportingRepository extends BaseRepository<Regulatory
      * @param reportStatusEnum The status of the report
      * @return A flux of regulatory reports
      */
-    Flux<RegulatoryReporting> findByComplianceCaseIdAndReportStatus(Long complianceCaseId, ReportStatusEnum reportStatusEnum);
+    Flux<RegulatoryReporting> findByComplianceCaseIdAndReportStatus(UUID complianceCaseId, ReportStatusEnum reportStatusEnum);
 
     /**
      * Find the latest regulatory report for a compliance case.
@@ -97,5 +98,5 @@ public interface RegulatoryReportingRepository extends BaseRepository<Regulatory
      * @param complianceCaseId The ID of the compliance case
      * @return A mono with the latest regulatory report
      */
-    Mono<RegulatoryReporting> findFirstByComplianceCaseIdOrderBySubmissionDateDesc(Long complianceCaseId);
+    Mono<RegulatoryReporting> findFirstByComplianceCaseIdOrderBySubmissionDateDesc(UUID complianceCaseId);
 }

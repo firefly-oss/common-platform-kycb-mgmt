@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class VerificationDocumentServiceImplTest {
@@ -40,9 +41,9 @@ public class VerificationDocumentServiceImplTest {
 
     private VerificationDocumentDTO verificationDocumentDTO;
     private VerificationDocument verificationDocument;
-    private final Long VERIFICATION_DOCUMENT_ID = 1L;
-    private final Long KYC_VERIFICATION_ID = 100L;
-    private final Long IDENTITY_DOCUMENT_ID = 200L;
+    private final UUID VERIFICATION_DOCUMENT_ID = 1L;
+    private final UUID KYC_VERIFICATION_ID = 100L;
+    private final UUID IDENTITY_DOCUMENT_ID = 200L;
 
     @BeforeEach
     void setUp() {

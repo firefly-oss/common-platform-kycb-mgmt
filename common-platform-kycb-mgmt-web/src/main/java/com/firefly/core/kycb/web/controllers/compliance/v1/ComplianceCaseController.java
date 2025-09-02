@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/compliance/cases")
@@ -82,7 +83,7 @@ public class ComplianceCaseController {
     )
     public Mono<ResponseEntity<ComplianceCaseDTO>> getComplianceCase(
             @Parameter(description = "ID of the case", required = true)
-            @PathVariable Long caseId
+            @PathVariable UUID caseId
     ) {
         return complianceCaseService.getById(caseId)
                 .map(ResponseEntity::ok)
@@ -107,7 +108,7 @@ public class ComplianceCaseController {
     )
     public Mono<ResponseEntity<ComplianceCaseDTO>> updateComplianceCase(
             @Parameter(description = "ID of the case", required = true)
-            @PathVariable Long caseId,
+            @PathVariable UUID caseId,
             @Parameter(description = "Updated compliance case data", required = true)
             @RequestBody ComplianceCaseDTO complianceCaseDTO
     ) {
@@ -133,7 +134,7 @@ public class ComplianceCaseController {
     )
     public Mono<ResponseEntity<Void>> deleteComplianceCase(
             @Parameter(description = "ID of the case", required = true)
-            @PathVariable Long caseId
+            @PathVariable UUID caseId
     ) {
         return complianceCaseService.delete(caseId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

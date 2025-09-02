@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Implementation of the compliance action service.
@@ -41,13 +42,13 @@ public class ComplianceActionServiceImpl implements ComplianceActionService {
     }
 
     @Override
-    public Mono<ComplianceActionDTO> getById(Long actionId) {
+    public Mono<ComplianceActionDTO> getById(UUID actionId) {
         return repository.findById(actionId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<ComplianceActionDTO> update(Long actionId, ComplianceActionDTO dto) {
+    public Mono<ComplianceActionDTO> update(UUID actionId, ComplianceActionDTO dto) {
         return repository.findById(actionId)
                 .flatMap(existingEntity -> {
                     ComplianceAction updatedEntity = mapper.toEntity(dto);
@@ -60,7 +61,7 @@ public class ComplianceActionServiceImpl implements ComplianceActionService {
     }
 
     @Override
-    public Mono<Void> delete(Long actionId) {
+    public Mono<Void> delete(UUID actionId) {
         return repository.deleteById(actionId);
     }
 }

@@ -5,12 +5,13 @@ import com.firefly.core.kycb.models.repositories.BaseRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Repository for sanctions questionnaire operations.
  */
 @Repository
-public interface SanctionsQuestionnaireRepository extends BaseRepository<SanctionsQuestionnaire, Long> {
+public interface SanctionsQuestionnaireRepository extends BaseRepository<SanctionsQuestionnaire, UUID> {
 
     /**
      * Find sanctions questionnaires by party ID.
@@ -18,7 +19,7 @@ public interface SanctionsQuestionnaireRepository extends BaseRepository<Sanctio
      * @param partyId The ID of the party
      * @return A flux of sanctions questionnaires
      */
-    Flux<SanctionsQuestionnaire> findByPartyId(Long partyId);
+    Flux<SanctionsQuestionnaire> findByPartyId(UUID partyId);
 
     /**
      * Find the latest sanctions questionnaire for a party.
@@ -26,5 +27,5 @@ public interface SanctionsQuestionnaireRepository extends BaseRepository<Sanctio
      * @param partyId The ID of the party
      * @return A mono of the latest sanctions questionnaire
      */
-    Mono<SanctionsQuestionnaire> findFirstByPartyIdOrderByQuestionnaireDateDesc(Long partyId);
+    Mono<SanctionsQuestionnaire> findFirstByPartyIdOrderByQuestionnaireDateDesc(UUID partyId);
 }

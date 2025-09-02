@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Implementation of the corporate structure service.
@@ -47,13 +48,13 @@ public class CorporateStructureServiceImpl implements CorporateStructureService 
     }
 
     @Override
-    public Mono<CorporateStructureDTO> getById(Long structureId) {
+    public Mono<CorporateStructureDTO> getById(UUID structureId) {
         return repository.findById(structureId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<CorporateStructureDTO> update(Long structureId, CorporateStructureDTO dto) {
+    public Mono<CorporateStructureDTO> update(UUID structureId, CorporateStructureDTO dto) {
         return repository.findById(structureId)
                 .flatMap(existingEntity -> {
                     CorporateStructure updatedEntity = mapper.toEntity(dto);
@@ -71,7 +72,7 @@ public class CorporateStructureServiceImpl implements CorporateStructureService 
     }
 
     @Override
-    public Mono<Void> delete(Long structureId) {
+    public Mono<Void> delete(UUID structureId) {
         return repository.deleteById(structureId);
     }
 }

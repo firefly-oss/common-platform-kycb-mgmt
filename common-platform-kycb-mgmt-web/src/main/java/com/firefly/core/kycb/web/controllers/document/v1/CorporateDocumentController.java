@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/documents/corporate")
@@ -62,7 +63,7 @@ public class CorporateDocumentController {
     )
     public Mono<ResponseEntity<CorporateDocumentDTO>> getCorporateDocument(
             @Parameter(description = "ID of the document", required = true)
-            @PathVariable Long documentId
+            @PathVariable UUID documentId
     ) {
         return corporateDocumentService.getById(documentId)
                 .map(ResponseEntity::ok)
@@ -108,7 +109,7 @@ public class CorporateDocumentController {
     )
     public Mono<ResponseEntity<CorporateDocumentDTO>> updateCorporateDocument(
             @Parameter(description = "ID of the document", required = true)
-            @PathVariable Long documentId,
+            @PathVariable UUID documentId,
             @Parameter(description = "Updated corporate document data", required = true)
             @RequestBody CorporateDocumentDTO corporateDocumentDTO
     ) {
@@ -134,7 +135,7 @@ public class CorporateDocumentController {
     )
     public Mono<ResponseEntity<Void>> deleteCorporateDocument(
             @Parameter(description = "ID of the document", required = true)
-            @PathVariable Long documentId
+            @PathVariable UUID documentId
     ) {
         return corporateDocumentService.delete(documentId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

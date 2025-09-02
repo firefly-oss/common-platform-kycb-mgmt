@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Implementation of the economic activity service.
@@ -53,13 +54,13 @@ public class EconomicActivityServiceImpl implements EconomicActivityService {
     }
 
     @Override
-    public Mono<EconomicActivityDTO> getById(Long activityId) {
+    public Mono<EconomicActivityDTO> getById(UUID activityId) {
         return repository.findById(activityId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<EconomicActivityDTO> update(Long activityId, EconomicActivityDTO dto) {
+    public Mono<EconomicActivityDTO> update(UUID activityId, EconomicActivityDTO dto) {
         return repository.findById(activityId)
                 .flatMap(existingEntity -> {
                     EconomicActivity updatedEntity = mapper.toEntity(dto);
@@ -84,7 +85,7 @@ public class EconomicActivityServiceImpl implements EconomicActivityService {
     }
 
     @Override
-    public Mono<Void> delete(Long activityId) {
+    public Mono<Void> delete(UUID activityId) {
         return repository.deleteById(activityId);
     }
 }

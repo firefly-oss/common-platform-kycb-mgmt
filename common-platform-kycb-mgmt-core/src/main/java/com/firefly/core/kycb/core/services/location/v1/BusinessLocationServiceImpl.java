@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Implementation of the business location service.
@@ -53,13 +54,13 @@ public class BusinessLocationServiceImpl implements BusinessLocationService {
     }
 
     @Override
-    public Mono<BusinessLocationDTO> getById(Long locationId) {
+    public Mono<BusinessLocationDTO> getById(UUID locationId) {
         return repository.findById(locationId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<BusinessLocationDTO> update(Long locationId, BusinessLocationDTO dto) {
+    public Mono<BusinessLocationDTO> update(UUID locationId, BusinessLocationDTO dto) {
         return repository.findById(locationId)
                 .flatMap(existingEntity -> {
                     BusinessLocation updatedEntity = mapper.toEntity(dto);
@@ -91,7 +92,7 @@ public class BusinessLocationServiceImpl implements BusinessLocationService {
     }
 
     @Override
-    public Mono<Void> delete(Long locationId) {
+    public Mono<Void> delete(UUID locationId) {
         return repository.deleteById(locationId);
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -42,13 +43,13 @@ public class KycVerificationServiceImpl implements KycVerificationService {
     }
 
     @Override
-    public Mono<KycVerificationDTO> getById(Long kycVerificationId) {
+    public Mono<KycVerificationDTO> getById(UUID kycVerificationId) {
         return repository.findById(kycVerificationId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<KycVerificationDTO> update(Long kycVerificationId, KycVerificationDTO dto) {
+    public Mono<KycVerificationDTO> update(UUID kycVerificationId, KycVerificationDTO dto) {
         return repository.findById(kycVerificationId)
                 .flatMap(existingEntity -> {
                     KycVerification updatedEntity = mapper.toEntity(dto);
@@ -61,7 +62,7 @@ public class KycVerificationServiceImpl implements KycVerificationService {
     }
 
     @Override
-    public Mono<Void> delete(Long kycVerificationId) {
+    public Mono<Void> delete(UUID kycVerificationId) {
         return repository.deleteById(kycVerificationId);
     }
 

@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/compliance/parties/{partyId}/risk-assessments")
@@ -38,7 +39,7 @@ public class RiskAssessmentController {
     )
     public Mono<ResponseEntity<PaginationResponse<RiskAssessmentDTO>>> listRiskAssessments(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "Filter criteria")
             @ModelAttribute FilterRequest<RiskAssessmentDTO> filterRequest
     ) {
@@ -66,7 +67,7 @@ public class RiskAssessmentController {
     )
     public Mono<ResponseEntity<RiskAssessmentDTO>> createRiskAssessment(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "Risk assessment data", required = true)
             @RequestBody RiskAssessmentDTO riskAssessmentDTO
     ) {
@@ -93,9 +94,9 @@ public class RiskAssessmentController {
     )
     public Mono<ResponseEntity<RiskAssessmentDTO>> getRiskAssessment(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the assessment", required = true)
-            @PathVariable Long assessmentId
+            @PathVariable UUID assessmentId
     ) {
         return riskAssessmentService.getById(assessmentId)
                 .map(ResponseEntity::ok)
@@ -120,9 +121,9 @@ public class RiskAssessmentController {
     )
     public Mono<ResponseEntity<RiskAssessmentDTO>> updateRiskAssessment(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the assessment", required = true)
-            @PathVariable Long assessmentId,
+            @PathVariable UUID assessmentId,
             @Parameter(description = "Updated risk assessment data", required = true)
             @RequestBody RiskAssessmentDTO riskAssessmentDTO
     ) {
@@ -149,9 +150,9 @@ public class RiskAssessmentController {
     )
     public Mono<ResponseEntity<Void>> deleteRiskAssessment(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the assessment", required = true)
-            @PathVariable Long assessmentId
+            @PathVariable UUID assessmentId
     ) {
         return riskAssessmentService.delete(assessmentId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

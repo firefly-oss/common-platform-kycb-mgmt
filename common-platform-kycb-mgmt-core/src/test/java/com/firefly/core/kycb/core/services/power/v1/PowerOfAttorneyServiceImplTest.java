@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class PowerOfAttorneyServiceImplTest {
@@ -40,10 +41,10 @@ public class PowerOfAttorneyServiceImplTest {
 
     private PowerOfAttorneyDTO powerOfAttorneyDTO;
     private PowerOfAttorney powerOfAttorney;
-    private final Long POWER_OF_ATTORNEY_ID = 1L;
-    private final Long PARTY_ID = 100L;
-    private final Long ATTORNEY_ID = 200L;
-    private final Long CORPORATE_DOCUMENT_ID = 300L;
+    private final UUID POWER_OF_ATTORNEY_ID = 1L;
+    private final UUID PARTY_ID = 100L;
+    private final UUID ATTORNEY_ID = 200L;
+    private final UUID CORPORATE_DOCUMENT_ID = 300L;
 
     @BeforeEach
     void setUp() {

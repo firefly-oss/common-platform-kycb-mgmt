@@ -16,6 +16,7 @@ import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Implementation of the UBO service.
@@ -50,13 +51,13 @@ public class UboServiceImpl implements UboService {
     }
 
     @Override
-    public Mono<UboDTO> getById(Long uboId) {
+    public Mono<UboDTO> getById(UUID uboId) {
         return repository.findById(uboId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<UboDTO> update(Long uboId, UboDTO dto) {
+    public Mono<UboDTO> update(UUID uboId, UboDTO dto) {
         return repository.findById(uboId)
                 .flatMap(existingEntity -> {
                     Ubo updatedEntity = mapper.toEntity(dto);
@@ -76,7 +77,7 @@ public class UboServiceImpl implements UboService {
     }
 
     @Override
-    public Mono<Void> delete(Long uboId) {
+    public Mono<Void> delete(UUID uboId) {
         return repository.deleteById(uboId);
     }
 }

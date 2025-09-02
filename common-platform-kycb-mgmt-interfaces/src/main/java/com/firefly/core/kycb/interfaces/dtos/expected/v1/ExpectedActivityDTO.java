@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * DTO for expected activity data.
@@ -28,11 +29,11 @@ import java.math.BigDecimal;
 public class ExpectedActivityDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long expectedActivityId;
+    private UUID expectedActivityId;
 
     @FilterableId
     @NotNull(message = "Party ID is required")
-    private Long partyId;
+    private UUID partyId;
 
     @NotBlank(message = "Activity type code is required")
     @Size(max = 20, message = "Activity type code must not exceed 20 characters")

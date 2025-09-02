@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class UboServiceImplTest {
@@ -38,7 +39,7 @@ public class UboServiceImplTest {
 
     private UboDTO uboDTO;
     private Ubo ubo;
-    private final Long UBO_ID = 1L;
+    private final UUID UBO_ID = 1L;
 
     @BeforeEach
     void setUp() {

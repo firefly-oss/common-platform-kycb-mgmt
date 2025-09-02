@@ -5,12 +5,13 @@ import com.firefly.core.kycb.interfaces.enums.document.v1.DocumentTypeEnum;
 import com.firefly.core.kycb.models.repositories.BaseRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
+import java.util.UUID;
 
 /**
  * Repository for verification document operations.
  */
 @Repository
-public interface VerificationDocumentRepository extends BaseRepository<VerificationDocument, Long> {
+public interface VerificationDocumentRepository extends BaseRepository<VerificationDocument, UUID> {
 
     /**
      * Find verification documents by KYC verification ID.
@@ -18,7 +19,7 @@ public interface VerificationDocumentRepository extends BaseRepository<Verificat
      * @param kycVerificationId The ID of the KYC verification
      * @return A flux of verification documents
      */
-    Flux<VerificationDocument> findByKycVerificationId(Long kycVerificationId);
+    Flux<VerificationDocument> findByKycVerificationId(UUID kycVerificationId);
 
     /**
      * Find verification documents by document type.
@@ -35,7 +36,7 @@ public interface VerificationDocumentRepository extends BaseRepository<Verificat
      * @param documentTypeEnum The type of document
      * @return A flux of verification documents
      */
-    Flux<VerificationDocument> findByKycVerificationIdAndDocumentType(Long kycVerificationId, DocumentTypeEnum documentTypeEnum);
+    Flux<VerificationDocument> findByKycVerificationIdAndDocumentType(UUID kycVerificationId, DocumentTypeEnum documentTypeEnum);
 
     /**
      * Find verification documents by verification status.

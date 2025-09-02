@@ -10,6 +10,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * Entity representing a business profile snapshot.
@@ -23,10 +24,10 @@ public class BusinessProfile extends BaseEntity {
 
     @Id
     @Column("business_profile_id")
-    private Long businessProfileId;
+    private UUID businessProfileId;
 
     @Column("party_id")
-    private Long partyId;
+    private UUID partyId;
 
     @Column("legal_form_code")
     private String legalFormCode;

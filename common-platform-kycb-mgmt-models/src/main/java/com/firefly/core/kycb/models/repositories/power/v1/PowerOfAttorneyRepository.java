@@ -7,12 +7,13 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Repository for power of attorney operations.
  */
 @Repository
-public interface PowerOfAttorneyRepository extends BaseRepository<PowerOfAttorney, Long> {
+public interface PowerOfAttorneyRepository extends BaseRepository<PowerOfAttorney, UUID> {
 
     /**
      * Find powers of attorney by party ID.
@@ -20,7 +21,7 @@ public interface PowerOfAttorneyRepository extends BaseRepository<PowerOfAttorne
      * @param partyId The ID of the party
      * @return A flux of powers of attorney
      */
-    Flux<PowerOfAttorney> findByPartyId(Long partyId);
+    Flux<PowerOfAttorney> findByPartyId(UUID partyId);
 
     /**
      * Find powers of attorney by attorney ID.
@@ -28,7 +29,7 @@ public interface PowerOfAttorneyRepository extends BaseRepository<PowerOfAttorne
      * @param attorneyId The ID of the attorney
      * @return A flux of powers of attorney
      */
-    Flux<PowerOfAttorney> findByAttorneyId(Long attorneyId);
+    Flux<PowerOfAttorney> findByAttorneyId(UUID attorneyId);
 
     /**
      * Find powers of attorney by corporate document ID.
@@ -36,7 +37,7 @@ public interface PowerOfAttorneyRepository extends BaseRepository<PowerOfAttorne
      * @param corporateDocumentId The ID of the corporate document
      * @return A flux of powers of attorney
      */
-    Flux<PowerOfAttorney> findByCorporateDocumentId(Long corporateDocumentId);
+    Flux<PowerOfAttorney> findByCorporateDocumentId(UUID corporateDocumentId);
 
     /**
      * Find powers of attorney by power type.

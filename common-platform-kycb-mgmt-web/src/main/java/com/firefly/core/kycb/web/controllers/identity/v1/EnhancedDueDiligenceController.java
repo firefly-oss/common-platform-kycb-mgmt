@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/identity/parties/{partyId}/kyc/{verificationId}/edd")
@@ -38,9 +39,9 @@ public class EnhancedDueDiligenceController {
     )
     public Mono<ResponseEntity<PaginationResponse<EnhancedDueDiligenceDTO>>> listEddProcesses(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the KYC verification", required = true)
-            @PathVariable Long verificationId,
+            @PathVariable UUID verificationId,
             @Parameter(description = "Filter criteria")
             @ModelAttribute FilterRequest<EnhancedDueDiligenceDTO> filterRequest
     ) {
@@ -67,9 +68,9 @@ public class EnhancedDueDiligenceController {
     )
     public Mono<ResponseEntity<EnhancedDueDiligenceDTO>> startEddProcess(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the KYC verification", required = true)
-            @PathVariable Long verificationId,
+            @PathVariable UUID verificationId,
             @Parameter(description = "EDD process data", required = true)
             @RequestBody EnhancedDueDiligenceDTO enhancedDueDiligenceDTO
     ) {
@@ -96,11 +97,11 @@ public class EnhancedDueDiligenceController {
     )
     public Mono<ResponseEntity<EnhancedDueDiligenceDTO>> updateEddProcess(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the KYC verification", required = true)
-            @PathVariable Long verificationId,
+            @PathVariable UUID verificationId,
             @Parameter(description = "ID of the EDD process", required = true)
-            @PathVariable Long eddId,
+            @PathVariable UUID eddId,
             @Parameter(description = "Updated EDD process data", required = true)
             @RequestBody EnhancedDueDiligenceDTO enhancedDueDiligenceDTO
     ) {
@@ -128,11 +129,11 @@ public class EnhancedDueDiligenceController {
     )
     public Mono<ResponseEntity<EnhancedDueDiligenceDTO>> getEddProcess(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the KYC verification", required = true)
-            @PathVariable Long verificationId,
+            @PathVariable UUID verificationId,
             @Parameter(description = "ID of the EDD process", required = true)
-            @PathVariable Long eddId
+            @PathVariable UUID eddId
     ) {
         return enhancedDueDiligenceService.getById(eddId)
                 .map(ResponseEntity::ok)
@@ -156,11 +157,11 @@ public class EnhancedDueDiligenceController {
     )
     public Mono<ResponseEntity<Void>> deleteEddProcess(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the KYC verification", required = true)
-            @PathVariable Long verificationId,
+            @PathVariable UUID verificationId,
             @Parameter(description = "ID of the EDD process", required = true)
-            @PathVariable Long eddId
+            @PathVariable UUID eddId
     ) {
         return enhancedDueDiligenceService.delete(eddId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

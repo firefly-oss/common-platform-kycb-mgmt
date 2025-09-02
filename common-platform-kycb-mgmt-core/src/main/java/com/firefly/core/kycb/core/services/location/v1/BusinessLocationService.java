@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.location.v1.BusinessLocationDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for business location operations.
@@ -31,7 +32,7 @@ public interface BusinessLocationService {
      * @param locationId The ID of the BusinessLocation to retrieve.
      * @return A Mono containing the BusinessLocationDTO if found, otherwise an empty mono.
      */
-    Mono<BusinessLocationDTO> getById(Long locationId);
+    Mono<BusinessLocationDTO> getById(UUID locationId);
 
     /**
      * Updates an existing BusinessLocation entry with new data provided in the DTO.
@@ -40,7 +41,7 @@ public interface BusinessLocationService {
      * @param dto A DTO containing the fields to update for the BusinessLocation.
      * @return A Mono containing the updated BusinessLocationDTO if successful.
      */
-    Mono<BusinessLocationDTO> update(Long locationId, BusinessLocationDTO dto);
+    Mono<BusinessLocationDTO> update(UUID locationId, BusinessLocationDTO dto);
 
     /**
      * Deletes a Business Location by its ID.
@@ -48,5 +49,5 @@ public interface BusinessLocationService {
      * @param locationId The ID of the Business Location to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long locationId);
+    Mono<Void> delete(UUID locationId);
 }

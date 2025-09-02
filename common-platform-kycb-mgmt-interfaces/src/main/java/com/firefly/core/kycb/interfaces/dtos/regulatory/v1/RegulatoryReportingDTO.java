@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for regulatory reporting data.
@@ -26,11 +27,11 @@ import java.time.LocalDateTime;
 public class RegulatoryReportingDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long reportId;
+    private UUID reportId;
 
     @FilterableId
     @NotNull(message = "Compliance case ID is required")
-    private Long complianceCaseId;
+    private UUID complianceCaseId;
 
     @NotBlank(message = "Report type is required")
     @Size(max = 50, message = "Report type must not exceed 50 characters")

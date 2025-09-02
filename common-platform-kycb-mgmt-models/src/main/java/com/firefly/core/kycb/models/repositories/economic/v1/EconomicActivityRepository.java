@@ -5,12 +5,13 @@ import com.firefly.core.kycb.models.repositories.BaseRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Repository for economic activity operations.
  */
 @Repository
-public interface EconomicActivityRepository extends BaseRepository<EconomicActivity, Long> {
+public interface EconomicActivityRepository extends BaseRepository<EconomicActivity, UUID> {
 
     /**
      * Find economic activities by party ID.
@@ -18,7 +19,7 @@ public interface EconomicActivityRepository extends BaseRepository<EconomicActiv
      * @param partyId The ID of the party
      * @return A flux of economic activities
      */
-    Flux<EconomicActivity> findByPartyId(Long partyId);
+    Flux<EconomicActivity> findByPartyId(UUID partyId);
 
     /**
      * Find economic activities by activity code.
@@ -98,5 +99,5 @@ public interface EconomicActivityRepository extends BaseRepository<EconomicActiv
      * @param partyId The ID of the party
      * @return A mono with the primary economic activity
      */
-    Mono<EconomicActivity> findByPartyIdAndIsPrimaryTrue(Long partyId);
+    Mono<EconomicActivity> findByPartyIdAndIsPrimaryTrue(UUID partyId);
 }

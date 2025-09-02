@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class SourceOfFundsServiceImplTest {
@@ -40,8 +41,8 @@ public class SourceOfFundsServiceImplTest {
 
     private SourceOfFundsDTO sourceOfFundsDTO;
     private SourceOfFunds sourceOfFunds;
-    private final Long SOURCE_OF_FUNDS_ID = 1L;
-    private final Long PARTY_ID = 100L;
+    private final UUID SOURCE_OF_FUNDS_ID = 1L;
+    private final UUID PARTY_ID = 100L;
 
     @BeforeEach
     void setUp() {

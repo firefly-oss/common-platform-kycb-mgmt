@@ -10,12 +10,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Repository for compliance case operations.
  */
 @Repository
-public interface ComplianceCaseRepository extends BaseRepository<ComplianceCase, Long> {
+public interface ComplianceCaseRepository extends BaseRepository<ComplianceCase, UUID> {
 
     /**
      * Find compliance cases by party ID.
@@ -23,7 +24,7 @@ public interface ComplianceCaseRepository extends BaseRepository<ComplianceCase,
      * @param partyId The ID of the party
      * @return A flux of compliance cases
      */
-    Flux<ComplianceCase> findByPartyId(Long partyId);
+    Flux<ComplianceCase> findByPartyId(UUID partyId);
 
     /**
      * Find compliance cases by case type.
@@ -89,7 +90,7 @@ public interface ComplianceCaseRepository extends BaseRepository<ComplianceCase,
      * @param caseStatusEnum The status of the case
      * @return A flux of compliance cases
      */
-    Flux<ComplianceCase> findByPartyIdAndCaseStatus(Long partyId, CaseStatusEnum caseStatusEnum);
+    Flux<ComplianceCase> findByPartyIdAndCaseStatus(UUID partyId, CaseStatusEnum caseStatusEnum);
 
     /**
      * Find the latest compliance case for a party.
@@ -97,5 +98,5 @@ public interface ComplianceCaseRepository extends BaseRepository<ComplianceCase,
      * @param partyId The ID of the party
      * @return A mono with the latest compliance case
      */
-    Mono<ComplianceCase> findFirstByPartyIdOrderByDateCreatedDesc(Long partyId);
+    Mono<ComplianceCase> findFirstByPartyIdOrderByDateCreatedDesc(UUID partyId);
 }

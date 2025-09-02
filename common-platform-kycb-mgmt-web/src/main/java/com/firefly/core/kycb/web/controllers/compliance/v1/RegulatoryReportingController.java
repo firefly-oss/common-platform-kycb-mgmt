@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/compliance/cases/{caseId}/reports")
@@ -38,7 +39,7 @@ public class RegulatoryReportingController {
     )
     public Mono<ResponseEntity<PaginationResponse<RegulatoryReportingDTO>>> listRegulatoryReports(
             @Parameter(description = "ID of the compliance case", required = true)
-            @PathVariable Long caseId,
+            @PathVariable UUID caseId,
             @Parameter(description = "Filter criteria")
             @ModelAttribute FilterRequest<RegulatoryReportingDTO> filterRequest
     ) {
@@ -66,7 +67,7 @@ public class RegulatoryReportingController {
     )
     public Mono<ResponseEntity<RegulatoryReportingDTO>> submitRegulatoryReport(
             @Parameter(description = "ID of the compliance case", required = true)
-            @PathVariable Long caseId,
+            @PathVariable UUID caseId,
             @Parameter(description = "Regulatory report data", required = true)
             @RequestBody RegulatoryReportingDTO regulatoryReportingDTO
     ) {
@@ -93,9 +94,9 @@ public class RegulatoryReportingController {
     )
     public Mono<ResponseEntity<RegulatoryReportingDTO>> getRegulatoryReport(
             @Parameter(description = "ID of the compliance case", required = true)
-            @PathVariable Long caseId,
+            @PathVariable UUID caseId,
             @Parameter(description = "ID of the regulatory report", required = true)
-            @PathVariable Long reportId
+            @PathVariable UUID reportId
     ) {
         return regulatoryReportingService.getById(reportId)
                 .map(ResponseEntity::ok)
@@ -120,9 +121,9 @@ public class RegulatoryReportingController {
     )
     public Mono<ResponseEntity<RegulatoryReportingDTO>> updateRegulatoryReport(
             @Parameter(description = "ID of the compliance case", required = true)
-            @PathVariable Long caseId,
+            @PathVariable UUID caseId,
             @Parameter(description = "ID of the regulatory report", required = true)
-            @PathVariable Long reportId,
+            @PathVariable UUID reportId,
             @Parameter(description = "Updated regulatory report data", required = true)
             @RequestBody RegulatoryReportingDTO regulatoryReportingDTO
     ) {
@@ -149,9 +150,9 @@ public class RegulatoryReportingController {
     )
     public Mono<ResponseEntity<Void>> deleteRegulatoryReport(
             @Parameter(description = "ID of the compliance case", required = true)
-            @PathVariable Long caseId,
+            @PathVariable UUID caseId,
             @Parameter(description = "ID of the regulatory report", required = true)
-            @PathVariable Long reportId
+            @PathVariable UUID reportId
     ) {
         return regulatoryReportingService.delete(reportId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

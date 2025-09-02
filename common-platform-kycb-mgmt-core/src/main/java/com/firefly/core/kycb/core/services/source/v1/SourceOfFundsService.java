@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.source.v1.SourceOfFundsDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for source of funds operations.
@@ -31,7 +32,7 @@ public interface SourceOfFundsService {
      * @param sourceId The ID of the SourceOfFunds to retrieve.
      * @return A Mono containing the SourceOfFundsDTO if found, otherwise an empty mono.
      */
-    Mono<SourceOfFundsDTO> getById(Long sourceId);
+    Mono<SourceOfFundsDTO> getById(UUID sourceId);
 
     /**
      * Updates an existing SourceOfFunds entry with new data provided in the DTO.
@@ -40,7 +41,7 @@ public interface SourceOfFundsService {
      * @param dto A DTO containing the fields to update for the SourceOfFunds.
      * @return A Mono containing the updated SourceOfFundsDTO if successful.
      */
-    Mono<SourceOfFundsDTO> update(Long sourceId, SourceOfFundsDTO dto);
+    Mono<SourceOfFundsDTO> update(UUID sourceId, SourceOfFundsDTO dto);
 
     /**
      * Deletes a Source of Funds by its ID.
@@ -48,5 +49,5 @@ public interface SourceOfFundsService {
      * @param sourceId The ID of the Source of Funds to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long sourceId);
+    Mono<Void> delete(UUID sourceId);
 }

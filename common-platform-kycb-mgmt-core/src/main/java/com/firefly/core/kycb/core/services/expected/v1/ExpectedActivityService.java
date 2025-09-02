@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.expected.v1.ExpectedActivityDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for expected activity operations.
@@ -31,7 +32,7 @@ public interface ExpectedActivityService {
      * @param activityId The ID of the ExpectedActivity to retrieve.
      * @return A Mono containing the ExpectedActivityDTO if found, otherwise an empty mono.
      */
-    Mono<ExpectedActivityDTO> getById(Long activityId);
+    Mono<ExpectedActivityDTO> getById(UUID activityId);
 
     /**
      * Updates an existing ExpectedActivity entry with new data provided in the DTO.
@@ -40,7 +41,7 @@ public interface ExpectedActivityService {
      * @param dto A DTO containing the fields to update for the ExpectedActivity.
      * @return A Mono containing the updated ExpectedActivityDTO if successful.
      */
-    Mono<ExpectedActivityDTO> update(Long activityId, ExpectedActivityDTO dto);
+    Mono<ExpectedActivityDTO> update(UUID activityId, ExpectedActivityDTO dto);
 
     /**
      * Deletes an Expected Activity by its ID.
@@ -48,5 +49,5 @@ public interface ExpectedActivityService {
      * @param activityId The ID of the Expected Activity to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long activityId);
+    Mono<Void> delete(UUID activityId);
 }

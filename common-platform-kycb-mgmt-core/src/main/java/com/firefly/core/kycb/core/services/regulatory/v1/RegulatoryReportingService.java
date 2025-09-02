@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.regulatory.v1.RegulatoryReportingDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for regulatory reporting operations.
@@ -31,7 +32,7 @@ public interface RegulatoryReportingService {
      * @param reportId The ID of the RegulatoryReporting to retrieve.
      * @return A Mono containing the RegulatoryReportingDTO if found, otherwise an empty mono.
      */
-    Mono<RegulatoryReportingDTO> getById(Long reportId);
+    Mono<RegulatoryReportingDTO> getById(UUID reportId);
 
     /**
      * Updates an existing RegulatoryReporting entry with new data provided in the DTO.
@@ -40,7 +41,7 @@ public interface RegulatoryReportingService {
      * @param dto A DTO containing the fields to update for the RegulatoryReporting.
      * @return A Mono containing the updated RegulatoryReportingDTO if successful.
      */
-    Mono<RegulatoryReportingDTO> update(Long reportId, RegulatoryReportingDTO dto);
+    Mono<RegulatoryReportingDTO> update(UUID reportId, RegulatoryReportingDTO dto);
 
     /**
      * Deletes a Regulatory Report by its ID.
@@ -48,5 +49,5 @@ public interface RegulatoryReportingService {
      * @param reportId The ID of the Regulatory Report to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long reportId);
+    Mono<Void> delete(UUID reportId);
 }

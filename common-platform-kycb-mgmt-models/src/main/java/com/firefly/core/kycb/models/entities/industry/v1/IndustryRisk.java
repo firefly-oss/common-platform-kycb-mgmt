@@ -11,6 +11,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing an industry risk assessment.
@@ -24,7 +25,7 @@ public class IndustryRisk extends BaseEntity {
 
     @Id
     @Column("industry_risk_id")
-    private Long industryRiskId;
+    private UUID industryRiskId;
 
     @Column("activity_code")
     private String activityCode;

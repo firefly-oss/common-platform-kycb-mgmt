@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for AML screening data.
@@ -27,11 +28,11 @@ import java.time.LocalDateTime;
 public class AmlScreeningDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long amlScreeningId;
+    private UUID amlScreeningId;
 
     @FilterableId
     @NotNull(message = "Party ID is required")
-    private Long partyId;
+    private UUID partyId;
 
     @NotNull(message = "Screening date is required")
     @ValidDateTime

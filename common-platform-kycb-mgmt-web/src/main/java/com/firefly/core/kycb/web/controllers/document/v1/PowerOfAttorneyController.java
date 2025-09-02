@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/documents/powers-of-attorney")
@@ -83,7 +84,7 @@ public class PowerOfAttorneyController {
     )
     public Mono<ResponseEntity<PowerOfAttorneyDTO>> getPowerOfAttorney(
             @Parameter(description = "ID of the power of attorney", required = true)
-            @PathVariable Long powerId
+            @PathVariable UUID powerId
     ) {
         return powerOfAttorneyService.getById(powerId)
                 .map(ResponseEntity::ok)
@@ -108,7 +109,7 @@ public class PowerOfAttorneyController {
     )
     public Mono<ResponseEntity<PowerOfAttorneyDTO>> updatePowerOfAttorney(
             @Parameter(description = "ID of the power of attorney", required = true)
-            @PathVariable Long powerId,
+            @PathVariable UUID powerId,
             @Parameter(description = "Updated power of attorney data", required = true)
             @RequestBody PowerOfAttorneyDTO powerOfAttorneyDTO
     ) {
@@ -134,7 +135,7 @@ public class PowerOfAttorneyController {
     )
     public Mono<ResponseEntity<Void>> deletePowerOfAttorney(
             @Parameter(description = "ID of the power of attorney", required = true)
-            @PathVariable Long powerId
+            @PathVariable UUID powerId
     ) {
         return powerOfAttorneyService.delete(powerId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/compliance/cases/{caseId}/actions")
@@ -38,7 +39,7 @@ public class ComplianceActionController {
     )
     public Mono<ResponseEntity<PaginationResponse<ComplianceActionDTO>>> listCaseActions(
             @Parameter(description = "ID of the case", required = true)
-            @PathVariable Long caseId,
+            @PathVariable UUID caseId,
             @Parameter(description = "Filter criteria")
             @ModelAttribute FilterRequest<ComplianceActionDTO> filterRequest
     ) {
@@ -65,7 +66,7 @@ public class ComplianceActionController {
     )
     public Mono<ResponseEntity<ComplianceActionDTO>> createCaseAction(
             @Parameter(description = "ID of the case", required = true)
-            @PathVariable Long caseId,
+            @PathVariable UUID caseId,
             @Parameter(description = "Compliance action data", required = true)
             @RequestBody ComplianceActionDTO complianceActionDTO
     ) {
@@ -92,9 +93,9 @@ public class ComplianceActionController {
     )
     public Mono<ResponseEntity<ComplianceActionDTO>> getCaseAction(
             @Parameter(description = "ID of the case", required = true)
-            @PathVariable Long caseId,
+            @PathVariable UUID caseId,
             @Parameter(description = "ID of the action", required = true)
-            @PathVariable Long actionId
+            @PathVariable UUID actionId
     ) {
         return complianceActionService.getById(actionId)
                 .map(ResponseEntity::ok)
@@ -119,9 +120,9 @@ public class ComplianceActionController {
     )
     public Mono<ResponseEntity<ComplianceActionDTO>> updateCaseAction(
             @Parameter(description = "ID of the case", required = true)
-            @PathVariable Long caseId,
+            @PathVariable UUID caseId,
             @Parameter(description = "ID of the action", required = true)
-            @PathVariable Long actionId,
+            @PathVariable UUID actionId,
             @Parameter(description = "Updated compliance action data", required = true)
             @RequestBody ComplianceActionDTO complianceActionDTO
     ) {
@@ -148,9 +149,9 @@ public class ComplianceActionController {
     )
     public Mono<ResponseEntity<Void>> deleteCaseAction(
             @Parameter(description = "ID of the case", required = true)
-            @PathVariable Long caseId,
+            @PathVariable UUID caseId,
             @Parameter(description = "ID of the action", required = true)
-            @PathVariable Long actionId
+            @PathVariable UUID actionId
     ) {
         return complianceActionService.delete(actionId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

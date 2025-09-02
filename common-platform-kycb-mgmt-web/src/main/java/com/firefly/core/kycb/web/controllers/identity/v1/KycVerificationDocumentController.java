@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/identity/parties/{partyId}/kyc/{verificationId}/documents")
@@ -38,9 +39,9 @@ public class KycVerificationDocumentController {
     )
     public Mono<ResponseEntity<PaginationResponse<VerificationDocumentDTO>>> listVerificationDocuments(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the verification", required = true)
-            @PathVariable Long verificationId,
+            @PathVariable UUID verificationId,
             @Parameter(description = "Filter criteria")
             @ModelAttribute FilterRequest<VerificationDocumentDTO> filterRequest
     ) {
@@ -68,9 +69,9 @@ public class KycVerificationDocumentController {
     )
     public Mono<ResponseEntity<VerificationDocumentDTO>> addVerificationDocument(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the verification", required = true)
-            @PathVariable Long verificationId,
+            @PathVariable UUID verificationId,
             @Parameter(description = "Verification document data", required = true)
             @RequestBody VerificationDocumentDTO verificationDocumentDTO
     ) {
@@ -97,11 +98,11 @@ public class KycVerificationDocumentController {
     )
     public Mono<ResponseEntity<VerificationDocumentDTO>> getVerificationDocument(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the verification", required = true)
-            @PathVariable Long verificationId,
+            @PathVariable UUID verificationId,
             @Parameter(description = "ID of the document", required = true)
-            @PathVariable Long documentId
+            @PathVariable UUID documentId
     ) {
         return verificationDocumentService.getById(documentId)
                 .map(ResponseEntity::ok)
@@ -126,11 +127,11 @@ public class KycVerificationDocumentController {
     )
     public Mono<ResponseEntity<VerificationDocumentDTO>> updateVerificationDocument(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the verification", required = true)
-            @PathVariable Long verificationId,
+            @PathVariable UUID verificationId,
             @Parameter(description = "ID of the document", required = true)
-            @PathVariable Long documentId,
+            @PathVariable UUID documentId,
             @Parameter(description = "Updated verification document data", required = true)
             @RequestBody VerificationDocumentDTO verificationDocumentDTO
     ) {
@@ -157,11 +158,11 @@ public class KycVerificationDocumentController {
     )
     public Mono<ResponseEntity<Void>> deleteVerificationDocument(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the verification", required = true)
-            @PathVariable Long verificationId,
+            @PathVariable UUID verificationId,
             @Parameter(description = "ID of the document", required = true)
-            @PathVariable Long documentId
+            @PathVariable UUID documentId
     ) {
         return verificationDocumentService.delete(documentId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

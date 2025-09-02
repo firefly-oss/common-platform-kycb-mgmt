@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.compliance.v1.ComplianceActionDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for compliance action operations.
@@ -31,7 +32,7 @@ public interface ComplianceActionService {
      * @param actionId The ID of the ComplianceAction to retrieve.
      * @return A Mono containing the ComplianceActionDTO if found, otherwise an empty mono.
      */
-    Mono<ComplianceActionDTO> getById(Long actionId);
+    Mono<ComplianceActionDTO> getById(UUID actionId);
 
     /**
      * Updates an existing ComplianceAction entry with new data provided in the DTO.
@@ -40,7 +41,7 @@ public interface ComplianceActionService {
      * @param dto A DTO containing the fields to update for the ComplianceAction.
      * @return A Mono containing the updated ComplianceActionDTO if successful.
      */
-    Mono<ComplianceActionDTO> update(Long actionId, ComplianceActionDTO dto);
+    Mono<ComplianceActionDTO> update(UUID actionId, ComplianceActionDTO dto);
 
     /**
      * Deletes a Compliance Action by its ID.
@@ -48,5 +49,5 @@ public interface ComplianceActionService {
      * @param actionId The ID of the Compliance Action to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long actionId);
+    Mono<Void> delete(UUID actionId);
 }

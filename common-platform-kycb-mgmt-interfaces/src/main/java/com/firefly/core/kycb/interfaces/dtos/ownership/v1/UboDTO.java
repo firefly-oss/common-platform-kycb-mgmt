@@ -16,6 +16,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for Ultimate Beneficial Owner data.
@@ -28,15 +29,15 @@ import java.time.LocalDateTime;
 public class UboDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long uboId;
+    private UUID uboId;
 
     @FilterableId
     @NotNull(message = "Party ID is required")
-    private Long partyId;
+    private UUID partyId;
 
     @FilterableId
     @NotNull(message = "Natural person ID is required")
-    private Long naturalPersonId;
+    private UUID naturalPersonId;
 
     @NotNull(message = "Ownership percentage is required")
     @ValidInterestRate

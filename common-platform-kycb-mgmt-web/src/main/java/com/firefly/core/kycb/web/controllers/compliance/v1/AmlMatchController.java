@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/compliance/parties/{partyId}/aml-screenings/{screeningId}/matches")
@@ -38,9 +39,9 @@ public class AmlMatchController {
     )
     public Mono<ResponseEntity<PaginationResponse<AmlMatchDTO>>> listAmlMatches(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the screening", required = true)
-            @PathVariable Long screeningId,
+            @PathVariable UUID screeningId,
             @Parameter(description = "Filter criteria")
             @ModelAttribute FilterRequest<AmlMatchDTO> filterRequest
     ) {
@@ -67,9 +68,9 @@ public class AmlMatchController {
     )
     public Mono<ResponseEntity<AmlMatchDTO>> createAmlMatch(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the screening", required = true)
-            @PathVariable Long screeningId,
+            @PathVariable UUID screeningId,
             @Parameter(description = "AML match data", required = true)
             @RequestBody AmlMatchDTO amlMatchDTO
     ) {
@@ -96,11 +97,11 @@ public class AmlMatchController {
     )
     public Mono<ResponseEntity<AmlMatchDTO>> getAmlMatch(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the screening", required = true)
-            @PathVariable Long screeningId,
+            @PathVariable UUID screeningId,
             @Parameter(description = "ID of the match", required = true)
-            @PathVariable Long matchId
+            @PathVariable UUID matchId
     ) {
         return amlMatchService.getById(matchId)
                 .map(ResponseEntity::ok)
@@ -125,11 +126,11 @@ public class AmlMatchController {
     )
     public Mono<ResponseEntity<AmlMatchDTO>> updateAmlMatch(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the screening", required = true)
-            @PathVariable Long screeningId,
+            @PathVariable UUID screeningId,
             @Parameter(description = "ID of the match", required = true)
-            @PathVariable Long matchId,
+            @PathVariable UUID matchId,
             @Parameter(description = "Updated AML match data", required = true)
             @RequestBody AmlMatchDTO amlMatchDTO
     ) {
@@ -156,11 +157,11 @@ public class AmlMatchController {
     )
     public Mono<ResponseEntity<Void>> deleteAmlMatch(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the screening", required = true)
-            @PathVariable Long screeningId,
+            @PathVariable UUID screeningId,
             @Parameter(description = "ID of the match", required = true)
-            @PathVariable Long matchId
+            @PathVariable UUID matchId
     ) {
         return amlMatchService.delete(matchId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

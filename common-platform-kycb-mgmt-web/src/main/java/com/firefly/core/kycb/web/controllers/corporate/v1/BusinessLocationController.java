@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/corporate/parties/{partyId}/locations")
@@ -40,7 +41,7 @@ public class BusinessLocationController {
     )
     public Mono<ResponseEntity<PaginationResponse<BusinessLocationDTO>>> listBusinessLocations(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @ParameterObject
             @ModelAttribute FilterRequest<BusinessLocationDTO> filterRequest
     ) {
@@ -68,7 +69,7 @@ public class BusinessLocationController {
     )
     public Mono<ResponseEntity<BusinessLocationDTO>> addBusinessLocation(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "Business location data", required = true)
             @RequestBody BusinessLocationDTO businessLocationDTO
     ) {
@@ -95,9 +96,9 @@ public class BusinessLocationController {
     )
     public Mono<ResponseEntity<BusinessLocationDTO>> getBusinessLocation(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the location", required = true)
-            @PathVariable Long locationId
+            @PathVariable UUID locationId
     ) {
         return businessLocationService.getById(locationId)
                 .map(ResponseEntity::ok)
@@ -122,9 +123,9 @@ public class BusinessLocationController {
     )
     public Mono<ResponseEntity<BusinessLocationDTO>> updateBusinessLocation(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the location", required = true)
-            @PathVariable Long locationId,
+            @PathVariable UUID locationId,
             @Parameter(description = "Updated business location data", required = true)
             @RequestBody BusinessLocationDTO businessLocationDTO
     ) {
@@ -151,9 +152,9 @@ public class BusinessLocationController {
     )
     public Mono<ResponseEntity<Void>> deleteBusinessLocation(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the location", required = true)
-            @PathVariable Long locationId
+            @PathVariable UUID locationId
     ) {
         return businessLocationService.delete(locationId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

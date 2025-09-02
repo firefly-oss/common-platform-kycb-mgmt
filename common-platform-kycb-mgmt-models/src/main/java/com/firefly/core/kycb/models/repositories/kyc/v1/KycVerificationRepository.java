@@ -5,12 +5,13 @@ import com.firefly.core.kycb.models.repositories.BaseRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Repository for KYC verification operations.
  */
 @Repository
-public interface KycVerificationRepository extends BaseRepository<KycVerification, Long> {
+public interface KycVerificationRepository extends BaseRepository<KycVerification, UUID> {
 
     /**
      * Find KYC verifications by party ID.
@@ -18,7 +19,7 @@ public interface KycVerificationRepository extends BaseRepository<KycVerificatio
      * @param partyId The ID of the party
      * @return A flux of KYC verifications
      */
-    Flux<KycVerification> findByPartyId(Long partyId);
+    Flux<KycVerification> findByPartyId(UUID partyId);
 
     /**
      * Find the latest KYC verification for a party.
@@ -26,5 +27,5 @@ public interface KycVerificationRepository extends BaseRepository<KycVerificatio
      * @param partyId The ID of the party
      * @return A mono with the latest KYC verification
      */
-    Mono<KycVerification> findFirstByPartyIdOrderByVerificationDateDesc(Long partyId);
+    Mono<KycVerification> findFirstByPartyIdOrderByVerificationDateDesc(UUID partyId);
 }

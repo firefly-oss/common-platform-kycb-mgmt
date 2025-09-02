@@ -9,12 +9,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Repository for KYB verification operations.
  */
 @Repository
-public interface KybVerificationRepository extends BaseRepository<KybVerification, Long> {
+public interface KybVerificationRepository extends BaseRepository<KybVerification, UUID> {
 
     /**
      * Find KYB verifications by party ID.
@@ -22,7 +23,7 @@ public interface KybVerificationRepository extends BaseRepository<KybVerificatio
      * @param partyId The ID of the party
      * @return A flux of KYB verifications
      */
-    Flux<KybVerification> findByPartyId(Long partyId);
+    Flux<KybVerification> findByPartyId(UUID partyId);
 
     /**
      * Find KYB verifications by verification status.
@@ -103,5 +104,5 @@ public interface KybVerificationRepository extends BaseRepository<KybVerificatio
      * @param partyId The ID of the party
      * @return A mono with the latest KYB verification
      */
-    Mono<KybVerification> findFirstByPartyIdOrderByVerificationDateDesc(Long partyId);
+    Mono<KybVerification> findFirstByPartyIdOrderByVerificationDateDesc(UUID partyId);
 }

@@ -9,12 +9,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Repository for compliance action operations.
  */
 @Repository
-public interface ComplianceActionRepository extends BaseRepository<ComplianceAction, Long> {
+public interface ComplianceActionRepository extends BaseRepository<ComplianceAction, UUID> {
 
     /**
      * Find compliance actions by compliance case ID.
@@ -22,7 +23,7 @@ public interface ComplianceActionRepository extends BaseRepository<ComplianceAct
      * @param complianceCaseId The ID of the compliance case
      * @return A flux of compliance actions
      */
-    Flux<ComplianceAction> findByComplianceCaseId(Long complianceCaseId);
+    Flux<ComplianceAction> findByComplianceCaseId(UUID complianceCaseId);
 
     /**
      * Find compliance actions by action type.
@@ -72,7 +73,7 @@ public interface ComplianceActionRepository extends BaseRepository<ComplianceAct
      * @param actionStatusEnum The status of the action
      * @return A flux of compliance actions
      */
-    Flux<ComplianceAction> findByComplianceCaseIdAndActionStatus(Long complianceCaseId, ActionStatusEnum actionStatusEnum);
+    Flux<ComplianceAction> findByComplianceCaseIdAndActionStatus(UUID complianceCaseId, ActionStatusEnum actionStatusEnum);
 
     /**
      * Find compliance actions by compliance case ID and action type.
@@ -81,7 +82,7 @@ public interface ComplianceActionRepository extends BaseRepository<ComplianceAct
      * @param actionType The type of action
      * @return A flux of compliance actions
      */
-    Flux<ComplianceAction> findByComplianceCaseIdAndActionType(Long complianceCaseId, ActionTypeEnum actionType);
+    Flux<ComplianceAction> findByComplianceCaseIdAndActionType(UUID complianceCaseId, ActionTypeEnum actionType);
 
     /**
      * Find the latest compliance action for a case.
@@ -89,5 +90,5 @@ public interface ComplianceActionRepository extends BaseRepository<ComplianceAct
      * @param complianceCaseId The ID of the compliance case
      * @return A mono with the latest compliance action
      */
-    Mono<ComplianceAction> findFirstByComplianceCaseIdOrderByDateCreatedDesc(Long complianceCaseId);
+    Mono<ComplianceAction> findFirstByComplianceCaseIdOrderByDateCreatedDesc(UUID complianceCaseId);
 }

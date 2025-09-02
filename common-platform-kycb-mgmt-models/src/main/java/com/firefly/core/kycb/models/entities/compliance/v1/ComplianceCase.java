@@ -13,6 +13,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a compliance case.
@@ -26,10 +27,10 @@ public class ComplianceCase extends BaseEntity {
 
     @Id
     @Column("compliance_case_id")
-    private Long complianceCaseId;
+    private UUID complianceCaseId;
 
     @Column("party_id")
-    private Long partyId;
+    private UUID partyId;
 
     @Column("case_type")
     private CaseTypeEnum caseType;

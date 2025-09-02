@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -38,13 +39,13 @@ public class VerificationDocumentServiceImpl implements VerificationDocumentServ
     }
 
     @Override
-    public Mono<VerificationDocumentDTO> getById(Long verificationDocumentId) {
+    public Mono<VerificationDocumentDTO> getById(UUID verificationDocumentId) {
         return repository.findById(verificationDocumentId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<VerificationDocumentDTO> update(Long verificationDocumentId, VerificationDocumentDTO dto) {
+    public Mono<VerificationDocumentDTO> update(UUID verificationDocumentId, VerificationDocumentDTO dto) {
         return repository.findById(verificationDocumentId)
                 .flatMap(existingEntity -> {
                     VerificationDocument updatedEntity = mapper.toEntity(dto);
@@ -57,7 +58,7 @@ public class VerificationDocumentServiceImpl implements VerificationDocumentServ
     }
 
     @Override
-    public Mono<Void> delete(Long verificationDocumentId) {
+    public Mono<Void> delete(UUID verificationDocumentId) {
         return repository.deleteById(verificationDocumentId);
     }
 }

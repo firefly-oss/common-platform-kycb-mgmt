@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.ownership.v1.UboDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for UBO (Ultimate Beneficial Owner) operations.
@@ -31,7 +32,7 @@ public interface UboService {
      * @param uboId The ID of the UBO to retrieve.
      * @return A Mono containing the UboDTO if found, otherwise an empty mono.
      */
-    Mono<UboDTO> getById(Long uboId);
+    Mono<UboDTO> getById(UUID uboId);
 
     /**
      * Updates an existing UBO entry with new data provided in the DTO.
@@ -40,7 +41,7 @@ public interface UboService {
      * @param dto A DTO containing the fields to update for the UBO.
      * @return A Mono containing the updated UboDTO if successful.
      */
-    Mono<UboDTO> update(Long uboId, UboDTO dto);
+    Mono<UboDTO> update(UUID uboId, UboDTO dto);
 
     /**
      * Deletes a UBO by its ID.
@@ -48,5 +49,5 @@ public interface UboService {
      * @param uboId The ID of the UBO to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long uboId);
+    Mono<Void> delete(UUID uboId);
 }

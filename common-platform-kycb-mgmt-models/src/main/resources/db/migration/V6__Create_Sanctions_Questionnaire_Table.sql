@@ -2,8 +2,8 @@
 
 -- Table: sanctions_questionnaire
 CREATE TABLE IF NOT EXISTS sanctions_questionnaire (
-    sanctions_questionnaire_id BIGSERIAL PRIMARY KEY,
-    party_id BIGINT NOT NULL,
+    sanctions_questionnaire_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    party_id UUID NOT NULL,
     entity_sanctions_questionnaire INTEGER NOT NULL,
     activity_outside_eu INTEGER NOT NULL,
     economic_sanctions INTEGER,

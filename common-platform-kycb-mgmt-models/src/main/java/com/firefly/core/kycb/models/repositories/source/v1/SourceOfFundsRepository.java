@@ -9,12 +9,13 @@ import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Repository for source of funds operations.
  */
 @Repository
-public interface SourceOfFundsRepository extends BaseRepository<SourceOfFunds, Long> {
+public interface SourceOfFundsRepository extends BaseRepository<SourceOfFunds, UUID> {
 
     /**
      * Find sources of funds by party ID.
@@ -22,7 +23,7 @@ public interface SourceOfFundsRepository extends BaseRepository<SourceOfFunds, L
      * @param partyId The ID of the party
      * @return A flux of sources of funds
      */
-    Flux<SourceOfFunds> findByPartyId(Long partyId);
+    Flux<SourceOfFunds> findByPartyId(UUID partyId);
 
     /**
      * Find sources of funds by source type.
@@ -72,7 +73,7 @@ public interface SourceOfFundsRepository extends BaseRepository<SourceOfFunds, L
      * @param sourceTypeEnum The type of source
      * @return A flux of sources of funds
      */
-    Flux<SourceOfFunds> findByPartyIdAndSourceType(Long partyId, SourceTypeEnum sourceTypeEnum);
+    Flux<SourceOfFunds> findByPartyIdAndSourceType(UUID partyId, SourceTypeEnum sourceTypeEnum);
 
     /**
      * Find the latest source of funds for a party.
@@ -80,5 +81,5 @@ public interface SourceOfFundsRepository extends BaseRepository<SourceOfFunds, L
      * @param partyId The ID of the party
      * @return A mono with the latest source of funds
      */
-    Mono<SourceOfFunds> findFirstByPartyIdOrderByDateCreatedDesc(Long partyId);
+    Mono<SourceOfFunds> findFirstByPartyIdOrderByDateCreatedDesc(UUID partyId);
 }

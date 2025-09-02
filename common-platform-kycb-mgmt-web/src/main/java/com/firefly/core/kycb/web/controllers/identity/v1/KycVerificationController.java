@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/identity/parties/{partyId}/kyc")
@@ -38,7 +39,7 @@ public class KycVerificationController {
     )
     public Mono<ResponseEntity<PaginationResponse<KycVerificationDTO>>> listKycVerifications(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @ModelAttribute FilterRequest<KycVerificationDTO> filterRequest
     ) {
         // Create a filter with the party ID
@@ -69,9 +70,9 @@ public class KycVerificationController {
     )
     public Mono<ResponseEntity<KycVerificationDTO>> getKycVerification(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the verification", required = true)
-            @PathVariable Long verificationId
+            @PathVariable UUID verificationId
     ) {
         return kycVerificationService.getById(verificationId)
                 .map(ResponseEntity::ok)
@@ -93,7 +94,7 @@ public class KycVerificationController {
     )
     public Mono<ResponseEntity<KycVerificationDTO>> createKycVerification(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "KYC verification data", required = true)
             @RequestBody KycVerificationDTO kycVerificationDTO
     ) {
@@ -120,9 +121,9 @@ public class KycVerificationController {
     )
     public Mono<ResponseEntity<KycVerificationDTO>> updateKycVerification(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the verification", required = true)
-            @PathVariable Long verificationId,
+            @PathVariable UUID verificationId,
             @Parameter(description = "Updated KYC verification data", required = true)
             @RequestBody KycVerificationDTO kycVerificationDTO
     ) {
@@ -149,9 +150,9 @@ public class KycVerificationController {
     )
     public Mono<ResponseEntity<Void>> deleteKycVerification(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the verification", required = true)
-            @PathVariable Long verificationId
+            @PathVariable UUID verificationId
     ) {
         return kycVerificationService.delete(verificationId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

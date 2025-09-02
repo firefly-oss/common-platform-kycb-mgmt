@@ -12,6 +12,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a source of funds declaration.
@@ -25,10 +26,10 @@ public class SourceOfFunds extends BaseEntity {
 
     @Id
     @Column("source_of_funds_id")
-    private Long sourceOfFundsId;
+    private UUID sourceOfFundsId;
 
     @Column("party_id")
-    private Long partyId;
+    private UUID partyId;
 
     @Column("source_type")
     private SourceTypeEnum sourceType;

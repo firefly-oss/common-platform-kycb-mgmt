@@ -11,6 +11,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a sanctions and embargo questionnaire.
@@ -24,10 +25,10 @@ public class SanctionsQuestionnaire extends BaseEntity {
 
     @Id
     @Column("sanctions_questionnaire_id")
-    private Long sanctionsQuestionnaireId;
+    private UUID sanctionsQuestionnaireId;
 
     @Column("party_id")
-    private Long partyId;
+    private UUID partyId;
 
     /**
      * Defines for which part of the entity the user answers the questionnaire.

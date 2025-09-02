@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/corporate/parties/{partyId}/activities")
@@ -38,7 +39,7 @@ public class EconomicActivityController {
     )
     public Mono<ResponseEntity<PaginationResponse<EconomicActivityDTO>>> listEconomicActivities(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "Filter criteria")
             @ModelAttribute FilterRequest<EconomicActivityDTO> filterRequest
     ) {
@@ -65,7 +66,7 @@ public class EconomicActivityController {
     )
     public Mono<ResponseEntity<EconomicActivityDTO>> addEconomicActivity(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "Economic activity data", required = true)
             @RequestBody EconomicActivityDTO economicActivityDTO
     ) {
@@ -92,9 +93,9 @@ public class EconomicActivityController {
     )
     public Mono<ResponseEntity<EconomicActivityDTO>> getEconomicActivity(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the activity", required = true)
-            @PathVariable Long activityId
+            @PathVariable UUID activityId
     ) {
         return economicActivityService.getById(activityId)
                 .map(ResponseEntity::ok)
@@ -119,9 +120,9 @@ public class EconomicActivityController {
     )
     public Mono<ResponseEntity<EconomicActivityDTO>> updateEconomicActivity(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the activity", required = true)
-            @PathVariable Long activityId,
+            @PathVariable UUID activityId,
             @Parameter(description = "Updated economic activity data", required = true)
             @RequestBody EconomicActivityDTO economicActivityDTO
     ) {
@@ -148,9 +149,9 @@ public class EconomicActivityController {
     )
     public Mono<ResponseEntity<Void>> deleteEconomicActivity(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the activity", required = true)
-            @PathVariable Long activityId
+            @PathVariable UUID activityId
     ) {
         return economicActivityService.delete(activityId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

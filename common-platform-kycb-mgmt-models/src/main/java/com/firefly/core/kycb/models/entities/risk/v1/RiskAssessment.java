@@ -13,6 +13,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a risk assessment.
@@ -26,10 +27,10 @@ public class RiskAssessment extends BaseEntity {
 
     @Id
     @Column("risk_assessment_id")
-    private Long riskAssessmentId;
+    private UUID riskAssessmentId;
 
     @Column("party_id")
-    private Long partyId;
+    private UUID partyId;
 
     @Column("assessment_type")
     private AssessmentTypeEnum assessmentType;

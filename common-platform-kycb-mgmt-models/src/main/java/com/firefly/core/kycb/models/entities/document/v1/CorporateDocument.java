@@ -11,6 +11,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a corporate document.
@@ -24,10 +25,10 @@ public class CorporateDocument extends BaseEntity {
 
     @Id
     @Column("corporate_document_id")
-    private Long corporateDocumentId;
+    private UUID corporateDocumentId;
 
     @Column("party_id")
-    private Long partyId;
+    private UUID partyId;
 
     @Column("document_type")
     private CorporateDocumentTypeEnum documentType;

@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for verification document data.
@@ -26,15 +27,15 @@ import java.time.LocalDateTime;
 public class VerificationDocumentDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long verificationDocumentId;
+    private UUID verificationDocumentId;
 
     @FilterableId
     @NotNull(message = "KYC verification ID is required")
-    private Long kycVerificationId;
+    private UUID kycVerificationId;
 
     @FilterableId
     @NotNull(message = "Identity document ID is required")
-    private Long identityDocumentId;
+    private UUID identityDocumentId;
 
     @NotBlank(message = "Document type is required")
     @Size(max = 50, message = "Document type must not exceed 50 characters")

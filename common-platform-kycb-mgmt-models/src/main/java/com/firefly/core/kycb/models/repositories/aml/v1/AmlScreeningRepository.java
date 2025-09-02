@@ -9,12 +9,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Repository for AML screening operations.
  */
 @Repository
-public interface AmlScreeningRepository extends BaseRepository<AmlScreening, Long> {
+public interface AmlScreeningRepository extends BaseRepository<AmlScreening, UUID> {
 
     /**
      * Find AML screenings by party ID.
@@ -22,7 +23,7 @@ public interface AmlScreeningRepository extends BaseRepository<AmlScreening, Lon
      * @param partyId The ID of the party
      * @return A flux of AML screenings
      */
-    Flux<AmlScreening> findByPartyId(Long partyId);
+    Flux<AmlScreening> findByPartyId(UUID partyId);
 
     /**
      * Find AML screenings by screening type.
@@ -71,5 +72,5 @@ public interface AmlScreeningRepository extends BaseRepository<AmlScreening, Lon
      * @param partyId The ID of the party
      * @return A mono with the latest AML screening
      */
-    Mono<AmlScreening> findFirstByPartyIdOrderByScreeningDateDesc(Long partyId);
+    Mono<AmlScreening> findFirstByPartyIdOrderByScreeningDateDesc(UUID partyId);
 }

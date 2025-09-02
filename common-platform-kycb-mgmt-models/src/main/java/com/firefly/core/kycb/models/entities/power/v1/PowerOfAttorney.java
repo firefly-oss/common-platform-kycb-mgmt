@@ -12,6 +12,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a power of attorney.
@@ -25,16 +26,16 @@ public class PowerOfAttorney extends BaseEntity {
 
     @Id
     @Column("power_of_attorney_id")
-    private Long powerOfAttorneyId;
+    private UUID powerOfAttorneyId;
 
     @Column("corporate_document_id")
-    private Long corporateDocumentId;
+    private UUID corporateDocumentId;
 
     @Column("party_id")
-    private Long partyId;
+    private UUID partyId;
 
     @Column("attorney_id")
-    private Long attorneyId;
+    private UUID attorneyId;
 
     @Column("power_type")
     private PowerTypeEnum powerType;

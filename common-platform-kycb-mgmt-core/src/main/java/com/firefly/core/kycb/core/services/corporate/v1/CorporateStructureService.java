@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.corporate.v1.CorporateStructureDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for corporate structure operations.
@@ -31,7 +32,7 @@ public interface CorporateStructureService {
      * @param structureId The ID of the CorporateStructure to retrieve.
      * @return A Mono containing the CorporateStructureDTO if found, otherwise an empty mono.
      */
-    Mono<CorporateStructureDTO> getById(Long structureId);
+    Mono<CorporateStructureDTO> getById(UUID structureId);
 
     /**
      * Updates an existing CorporateStructure entry with new data provided in the DTO.
@@ -40,7 +41,7 @@ public interface CorporateStructureService {
      * @param dto A DTO containing the fields to update for the CorporateStructure.
      * @return A Mono containing the updated CorporateStructureDTO if successful.
      */
-    Mono<CorporateStructureDTO> update(Long structureId, CorporateStructureDTO dto);
+    Mono<CorporateStructureDTO> update(UUID structureId, CorporateStructureDTO dto);
 
     /**
      * Deletes a Corporate Structure relationship by its ID.
@@ -48,5 +49,5 @@ public interface CorporateStructureService {
      * @param structureId The ID of the Corporate Structure relationship to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long structureId);
+    Mono<Void> delete(UUID structureId);
 }

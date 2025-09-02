@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class KybVerificationServiceImplTest {
@@ -40,8 +41,8 @@ public class KybVerificationServiceImplTest {
 
     private KybVerificationDTO kybVerificationDTO;
     private KybVerification kybVerification;
-    private final Long KYB_VERIFICATION_ID = 1L;
-    private final Long PARTY_ID = 100L;
+    private final UUID KYB_VERIFICATION_ID = 1L;
+    private final UUID PARTY_ID = 100L;
 
     @BeforeEach
     void setUp() {

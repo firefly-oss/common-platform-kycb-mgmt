@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Implementation of the source of funds service.
@@ -41,13 +42,13 @@ public class SourceOfFundsServiceImpl implements SourceOfFundsService {
     }
 
     @Override
-    public Mono<SourceOfFundsDTO> getById(Long sourceId) {
+    public Mono<SourceOfFundsDTO> getById(UUID sourceId) {
         return repository.findById(sourceId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<SourceOfFundsDTO> update(Long sourceId, SourceOfFundsDTO dto) {
+    public Mono<SourceOfFundsDTO> update(UUID sourceId, SourceOfFundsDTO dto) {
         return repository.findById(sourceId)
                 .flatMap(existingEntity -> {
                     SourceOfFunds updatedEntity = mapper.toEntity(dto);
@@ -66,7 +67,7 @@ public class SourceOfFundsServiceImpl implements SourceOfFundsService {
     }
 
     @Override
-    public Mono<Void> delete(Long sourceId) {
+    public Mono<Void> delete(UUID sourceId) {
         return repository.deleteById(sourceId);
     }
 }

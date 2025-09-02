@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class KycVerificationServiceImplTest {
@@ -38,7 +39,7 @@ public class KycVerificationServiceImplTest {
 
     private KycVerificationDTO kycVerificationDTO;
     private KycVerification kycVerification;
-    private final Long KYC_VERIFICATION_ID = 1L;
+    private final UUID KYC_VERIFICATION_ID = 1L;
 
     @BeforeEach
     void setUp() {

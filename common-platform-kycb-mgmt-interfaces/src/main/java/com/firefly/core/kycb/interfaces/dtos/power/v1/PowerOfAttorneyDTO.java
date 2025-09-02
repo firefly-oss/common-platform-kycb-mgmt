@@ -18,6 +18,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for power of attorney data.
@@ -30,19 +31,19 @@ import java.time.LocalDateTime;
 public class PowerOfAttorneyDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long powerOfAttorneyId;
+    private UUID powerOfAttorneyId;
 
     @FilterableId
     @NotNull(message = "Corporate document ID is required")
-    private Long corporateDocumentId;
+    private UUID corporateDocumentId;
 
     @FilterableId
     @NotNull(message = "Party ID is required")
-    private Long partyId;
+    private UUID partyId;
 
     @FilterableId
     @NotNull(message = "Attorney ID is required")
-    private Long attorneyId;
+    private UUID attorneyId;
 
     @NotBlank(message = "Power type is required")
     @Size(max = 50, message = "Power type must not exceed 50 characters")

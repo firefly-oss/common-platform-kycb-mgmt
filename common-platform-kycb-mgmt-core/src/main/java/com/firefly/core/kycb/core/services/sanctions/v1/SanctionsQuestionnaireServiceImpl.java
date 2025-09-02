@@ -12,6 +12,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Implementation of the SanctionsQuestionnaireService.
@@ -39,7 +40,7 @@ public class SanctionsQuestionnaireServiceImpl implements SanctionsQuestionnaire
     }
 
     @Override
-    public Mono<SanctionsQuestionnaireDTO> findById(Long sanctionsQuestionnaireId) {
+    public Mono<SanctionsQuestionnaireDTO> findById(UUID sanctionsQuestionnaireId) {
         log.debug("Finding sanctions questionnaire by ID: {}", sanctionsQuestionnaireId);
 
         return sanctionsQuestionnaireRepository.findById(sanctionsQuestionnaireId)
@@ -47,7 +48,7 @@ public class SanctionsQuestionnaireServiceImpl implements SanctionsQuestionnaire
     }
 
     @Override
-    public Flux<SanctionsQuestionnaireDTO> findByPartyId(Long partyId) {
+    public Flux<SanctionsQuestionnaireDTO> findByPartyId(UUID partyId) {
         log.debug("Finding sanctions questionnaires by party ID: {}", partyId);
 
         return sanctionsQuestionnaireRepository.findByPartyId(partyId)
@@ -55,7 +56,7 @@ public class SanctionsQuestionnaireServiceImpl implements SanctionsQuestionnaire
     }
 
     @Override
-    public Mono<SanctionsQuestionnaireDTO> findLatestByPartyId(Long partyId) {
+    public Mono<SanctionsQuestionnaireDTO> findLatestByPartyId(UUID partyId) {
         log.debug("Finding latest sanctions questionnaire by party ID: {}", partyId);
 
         return sanctionsQuestionnaireRepository.findFirstByPartyIdOrderByQuestionnaireDateDesc(partyId)
@@ -63,7 +64,7 @@ public class SanctionsQuestionnaireServiceImpl implements SanctionsQuestionnaire
     }
 
     @Override
-    public Mono<SanctionsQuestionnaireDTO> update(Long sanctionsQuestionnaireId, SanctionsQuestionnaireDTO sanctionsQuestionnaireDTO) {
+    public Mono<SanctionsQuestionnaireDTO> update(UUID sanctionsQuestionnaireId, SanctionsQuestionnaireDTO sanctionsQuestionnaireDTO) {
         log.debug("Updating sanctions questionnaire with ID: {}", sanctionsQuestionnaireId);
 
         return sanctionsQuestionnaireRepository.findById(sanctionsQuestionnaireId)
@@ -80,7 +81,7 @@ public class SanctionsQuestionnaireServiceImpl implements SanctionsQuestionnaire
     }
 
     @Override
-    public Mono<Void> delete(Long sanctionsQuestionnaireId) {
+    public Mono<Void> delete(UUID sanctionsQuestionnaireId) {
         log.debug("Deleting sanctions questionnaire with ID: {}", sanctionsQuestionnaireId);
 
         return sanctionsQuestionnaireRepository.deleteById(sanctionsQuestionnaireId);

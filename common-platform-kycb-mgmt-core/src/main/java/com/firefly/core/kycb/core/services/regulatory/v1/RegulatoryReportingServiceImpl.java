@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Implementation of the regulatory reporting service.
@@ -46,13 +47,13 @@ public class RegulatoryReportingServiceImpl implements RegulatoryReportingServic
     }
 
     @Override
-    public Mono<RegulatoryReportingDTO> getById(Long reportId) {
+    public Mono<RegulatoryReportingDTO> getById(UUID reportId) {
         return repository.findById(reportId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<RegulatoryReportingDTO> update(Long reportId, RegulatoryReportingDTO dto) {
+    public Mono<RegulatoryReportingDTO> update(UUID reportId, RegulatoryReportingDTO dto) {
         return repository.findById(reportId)
                 .flatMap(existingEntity -> {
                     RegulatoryReporting updatedEntity = mapper.toEntity(dto);
@@ -65,7 +66,7 @@ public class RegulatoryReportingServiceImpl implements RegulatoryReportingServic
     }
 
     @Override
-    public Mono<Void> delete(Long reportId) {
+    public Mono<Void> delete(UUID reportId) {
         return repository.deleteById(reportId);
     }
 }

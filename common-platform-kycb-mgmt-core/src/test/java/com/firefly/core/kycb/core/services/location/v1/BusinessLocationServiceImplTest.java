@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class BusinessLocationServiceImplTest {
@@ -38,8 +39,8 @@ public class BusinessLocationServiceImplTest {
 
     private BusinessLocationDTO businessLocationDTO;
     private BusinessLocation businessLocation;
-    private final Long BUSINESS_LOCATION_ID = 1L;
-    private final Long PARTY_ID = 100L;
+    private final UUID BUSINESS_LOCATION_ID = 1L;
+    private final UUID PARTY_ID = 100L;
 
     @BeforeEach
     void setUp() {

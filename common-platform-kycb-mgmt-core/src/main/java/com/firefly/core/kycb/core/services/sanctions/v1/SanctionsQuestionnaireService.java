@@ -3,6 +3,7 @@ package com.firefly.core.kycb.core.services.sanctions.v1;
 import com.firefly.core.kycb.interfaces.dtos.sanctions.v1.SanctionsQuestionnaireDTO;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service for managing sanctions questionnaires.
@@ -23,7 +24,7 @@ public interface SanctionsQuestionnaireService {
      * @param sanctionsQuestionnaireId The ID of the sanctions questionnaire
      * @return A mono of the found sanctions questionnaire
      */
-    Mono<SanctionsQuestionnaireDTO> findById(Long sanctionsQuestionnaireId);
+    Mono<SanctionsQuestionnaireDTO> findById(UUID sanctionsQuestionnaireId);
 
     /**
      * Find sanctions questionnaires by party ID.
@@ -31,7 +32,7 @@ public interface SanctionsQuestionnaireService {
      * @param partyId The ID of the party
      * @return A flux of sanctions questionnaires
      */
-    Flux<SanctionsQuestionnaireDTO> findByPartyId(Long partyId);
+    Flux<SanctionsQuestionnaireDTO> findByPartyId(UUID partyId);
 
     /**
      * Find the latest sanctions questionnaire for a party.
@@ -39,7 +40,7 @@ public interface SanctionsQuestionnaireService {
      * @param partyId The ID of the party
      * @return A mono of the latest sanctions questionnaire
      */
-    Mono<SanctionsQuestionnaireDTO> findLatestByPartyId(Long partyId);
+    Mono<SanctionsQuestionnaireDTO> findLatestByPartyId(UUID partyId);
 
     /**
      * Update a sanctions questionnaire.
@@ -48,7 +49,7 @@ public interface SanctionsQuestionnaireService {
      * @param sanctionsQuestionnaireDTO The updated sanctions questionnaire data
      * @return A mono of the updated sanctions questionnaire
      */
-    Mono<SanctionsQuestionnaireDTO> update(Long sanctionsQuestionnaireId, SanctionsQuestionnaireDTO sanctionsQuestionnaireDTO);
+    Mono<SanctionsQuestionnaireDTO> update(UUID sanctionsQuestionnaireId, SanctionsQuestionnaireDTO sanctionsQuestionnaireDTO);
 
     /**
      * Delete a sanctions questionnaire.
@@ -56,5 +57,5 @@ public interface SanctionsQuestionnaireService {
      * @param sanctionsQuestionnaireId The ID of the sanctions questionnaire to delete
      * @return A mono of void
      */
-    Mono<Void> delete(Long sanctionsQuestionnaireId);
+    Mono<Void> delete(UUID sanctionsQuestionnaireId);
 }

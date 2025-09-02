@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Implementation of the industry risk service.
@@ -47,13 +48,13 @@ public class IndustryRiskServiceImpl implements IndustryRiskService {
     }
 
     @Override
-    public Mono<IndustryRiskDTO> getById(Long industryRiskId) {
+    public Mono<IndustryRiskDTO> getById(UUID industryRiskId) {
         return repository.findById(industryRiskId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<IndustryRiskDTO> update(Long industryRiskId, IndustryRiskDTO dto) {
+    public Mono<IndustryRiskDTO> update(UUID industryRiskId, IndustryRiskDTO dto) {
         return repository.findById(industryRiskId)
                 .flatMap(existingEntity -> {
                     IndustryRisk updatedEntity = mapper.toEntity(dto);
@@ -66,7 +67,7 @@ public class IndustryRiskServiceImpl implements IndustryRiskService {
     }
 
     @Override
-    public Mono<Void> delete(Long industryRiskId) {
+    public Mono<Void> delete(UUID industryRiskId) {
         return repository.deleteById(industryRiskId);
     }
 }

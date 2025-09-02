@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for corporate document data.
@@ -26,11 +27,11 @@ import java.time.LocalDateTime;
 public class CorporateDocumentDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long corporateDocumentId;
+    private UUID corporateDocumentId;
 
     @FilterableId
     @NotNull(message = "Party ID is required")
-    private Long partyId;
+    private UUID partyId;
 
     @NotBlank(message = "Document type is required")
     @Size(max = 50, message = "Document type must not exceed 50 characters")

@@ -8,12 +8,13 @@ import reactor.core.publisher.Flux;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Repository for corporate structure operations.
  */
 @Repository
-public interface CorporateStructureRepository extends BaseRepository<CorporateStructure, Long> {
+public interface CorporateStructureRepository extends BaseRepository<CorporateStructure, UUID> {
 
     /**
      * Find corporate structures by party ID (subsidiary).
@@ -21,7 +22,7 @@ public interface CorporateStructureRepository extends BaseRepository<CorporateSt
      * @param partyId The ID of the party (subsidiary)
      * @return A flux of corporate structures
      */
-    Flux<CorporateStructure> findByPartyId(Long partyId);
+    Flux<CorporateStructure> findByPartyId(UUID partyId);
 
     /**
      * Find corporate structures by parent entity ID.
@@ -29,7 +30,7 @@ public interface CorporateStructureRepository extends BaseRepository<CorporateSt
      * @param parentEntityId The ID of the parent entity
      * @return A flux of corporate structures
      */
-    Flux<CorporateStructure> findByParentEntityId(Long parentEntityId);
+    Flux<CorporateStructure> findByParentEntityId(UUID parentEntityId);
 
     /**
      * Find corporate structures by relationship type.
@@ -79,7 +80,7 @@ public interface CorporateStructureRepository extends BaseRepository<CorporateSt
      * @param relationshipTypeEnum The type of relationship
      * @return A flux of corporate structures
      */
-    Flux<CorporateStructure> findByPartyIdAndRelationshipType(Long partyId, RelationshipTypeEnum relationshipTypeEnum);
+    Flux<CorporateStructure> findByPartyIdAndRelationshipType(UUID partyId, RelationshipTypeEnum relationshipTypeEnum);
 
     /**
      * Find corporate structures by parent entity ID and relationship type.
@@ -88,5 +89,5 @@ public interface CorporateStructureRepository extends BaseRepository<CorporateSt
      * @param relationshipTypeEnum The type of relationship
      * @return A flux of corporate structures
      */
-    Flux<CorporateStructure> findByParentEntityIdAndRelationshipType(Long parentEntityId, RelationshipTypeEnum relationshipTypeEnum);
+    Flux<CorporateStructure> findByParentEntityIdAndRelationshipType(UUID parentEntityId, RelationshipTypeEnum relationshipTypeEnum);
 }

@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class RegulatoryReportingServiceImplTest {
@@ -40,8 +41,8 @@ public class RegulatoryReportingServiceImplTest {
 
     private RegulatoryReportingDTO regulatoryReportingDTO;
     private RegulatoryReporting regulatoryReporting;
-    private final Long REPORT_ID = 1L;
-    private final Long COMPLIANCE_CASE_ID = 100L;
+    private final UUID REPORT_ID = 1L;
+    private final UUID COMPLIANCE_CASE_ID = 100L;
 
     @BeforeEach
     void setUp() {

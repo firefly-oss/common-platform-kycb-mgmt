@@ -7,12 +7,13 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Repository for corporate document operations.
  */
 @Repository
-public interface CorporateDocumentRepository extends BaseRepository<CorporateDocument, Long> {
+public interface CorporateDocumentRepository extends BaseRepository<CorporateDocument, UUID> {
 
     /**
      * Find corporate documents by party ID.
@@ -20,7 +21,7 @@ public interface CorporateDocumentRepository extends BaseRepository<CorporateDoc
      * @param partyId The ID of the party
      * @return A flux of corporate documents
      */
-    Flux<CorporateDocument> findByPartyId(Long partyId);
+    Flux<CorporateDocument> findByPartyId(UUID partyId);
 
     /**
      * Find corporate documents by document type.
@@ -37,7 +38,7 @@ public interface CorporateDocumentRepository extends BaseRepository<CorporateDoc
      * @param documentTypeEnum The type of document
      * @return A flux of corporate documents
      */
-    Flux<CorporateDocument> findByPartyIdAndDocumentType(Long partyId, DocumentTypeEnum documentTypeEnum);
+    Flux<CorporateDocument> findByPartyIdAndDocumentType(UUID partyId, DocumentTypeEnum documentTypeEnum);
 
     /**
      * Find corporate documents by verification status.

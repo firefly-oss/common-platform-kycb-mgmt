@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.industry.v1.IndustryRiskDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for industry risk operations.
@@ -31,7 +32,7 @@ public interface IndustryRiskService {
      * @param industryRiskId The ID of the IndustryRisk to retrieve.
      * @return A Mono containing the IndustryRiskDTO if found, otherwise an empty mono.
      */
-    Mono<IndustryRiskDTO> getById(Long industryRiskId);
+    Mono<IndustryRiskDTO> getById(UUID industryRiskId);
 
     /**
      * Updates an existing IndustryRisk entry with new data provided in the DTO.
@@ -40,7 +41,7 @@ public interface IndustryRiskService {
      * @param dto A DTO containing the fields to update for the IndustryRisk.
      * @return A Mono containing the updated IndustryRiskDTO if successful.
      */
-    Mono<IndustryRiskDTO> update(Long industryRiskId, IndustryRiskDTO dto);
+    Mono<IndustryRiskDTO> update(UUID industryRiskId, IndustryRiskDTO dto);
 
     /**
      * Deletes an Industry Risk by its ID.
@@ -48,5 +49,5 @@ public interface IndustryRiskService {
      * @param industryRiskId The ID of the Industry Risk to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long industryRiskId);
+    Mono<Void> delete(UUID industryRiskId);
 }

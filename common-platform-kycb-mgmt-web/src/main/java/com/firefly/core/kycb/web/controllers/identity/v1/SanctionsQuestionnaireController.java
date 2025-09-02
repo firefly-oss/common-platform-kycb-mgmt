@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/identity/parties/{partyId}/sanctions-questionnaire")
@@ -41,9 +42,9 @@ public class SanctionsQuestionnaireController {
     )
     public Mono<ResponseEntity<SanctionsQuestionnaireDTO>> getSanctionsQuestionnaire(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the sanctions questionnaire", required = true)
-            @PathVariable Long sanctionsQuestionnaireId
+            @PathVariable UUID sanctionsQuestionnaireId
     ) {
         return sanctionsQuestionnaireService.findById(sanctionsQuestionnaireId)
                 .map(ResponseEntity::ok)
@@ -68,7 +69,7 @@ public class SanctionsQuestionnaireController {
     )
     public Mono<ResponseEntity<SanctionsQuestionnaireDTO>> getLatestSanctionsQuestionnaire(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
+            @PathVariable UUID partyId
     ) {
         return sanctionsQuestionnaireService.findLatestByPartyId(partyId)
                 .map(ResponseEntity::ok)
@@ -89,7 +90,7 @@ public class SanctionsQuestionnaireController {
     )
     public Mono<ResponseEntity<Flux<SanctionsQuestionnaireDTO>>> listSanctionsQuestionnaires(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId
+            @PathVariable UUID partyId
     ) {
         return Mono.just(ResponseEntity.ok(sanctionsQuestionnaireService.findByPartyId(partyId)));
     }
@@ -108,7 +109,7 @@ public class SanctionsQuestionnaireController {
     )
     public Mono<ResponseEntity<SanctionsQuestionnaireDTO>> createSanctionsQuestionnaire(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "Sanctions questionnaire data", required = true)
             @RequestBody SanctionsQuestionnaireDTO sanctionsQuestionnaireDTO
     ) {
@@ -135,9 +136,9 @@ public class SanctionsQuestionnaireController {
     )
     public Mono<ResponseEntity<SanctionsQuestionnaireDTO>> updateSanctionsQuestionnaire(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the sanctions questionnaire", required = true)
-            @PathVariable Long sanctionsQuestionnaireId,
+            @PathVariable UUID sanctionsQuestionnaireId,
             @Parameter(description = "Updated sanctions questionnaire data", required = true)
             @RequestBody SanctionsQuestionnaireDTO sanctionsQuestionnaireDTO
     ) {
@@ -164,9 +165,9 @@ public class SanctionsQuestionnaireController {
     )
     public Mono<ResponseEntity<Void>> deleteSanctionsQuestionnaire(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the sanctions questionnaire", required = true)
-            @PathVariable Long sanctionsQuestionnaireId
+            @PathVariable UUID sanctionsQuestionnaireId
     ) {
         return sanctionsQuestionnaireService.delete(sanctionsQuestionnaireId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));

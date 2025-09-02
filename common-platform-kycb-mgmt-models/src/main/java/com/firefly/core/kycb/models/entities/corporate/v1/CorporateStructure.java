@@ -12,6 +12,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a corporate structure relationship.
@@ -25,13 +26,13 @@ public class CorporateStructure extends BaseEntity {
 
     @Id
     @Column("corporate_structure_id")
-    private Long corporateStructureId;
+    private UUID corporateStructureId;
 
     @Column("party_id")
-    private Long partyId;
+    private UUID partyId;
 
     @Column("parent_entity_id")
-    private Long parentEntityId;
+    private UUID parentEntityId;
 
     @Column("ownership_percentage")
     private BigDecimal ownershipPercentage;

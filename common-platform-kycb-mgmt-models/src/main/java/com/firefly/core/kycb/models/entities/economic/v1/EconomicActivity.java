@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
+import java.util.UUID;
 
 /**
  * Entity representing an economic activity of a party.
@@ -21,10 +22,10 @@ public class EconomicActivity extends BaseEntity {
 
     @Id
     @Column("economic_activity_id")
-    private Long economicActivityId;
+    private UUID economicActivityId;
 
     @Column("party_id")
-    private Long partyId;
+    private UUID partyId;
 
     @Column("activity_code")
     private String activityCode;

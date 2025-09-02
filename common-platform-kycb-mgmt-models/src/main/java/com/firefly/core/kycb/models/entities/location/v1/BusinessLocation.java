@@ -10,6 +10,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a business location.
@@ -23,10 +24,10 @@ public class BusinessLocation extends BaseEntity {
 
     @Id
     @Column("business_location_id")
-    private Long businessLocationId;
+    private UUID businessLocationId;
 
     @Column("party_id")
-    private Long partyId;
+    private UUID partyId;
 
     @Column("location_type_code")
     private String locationTypeCode;

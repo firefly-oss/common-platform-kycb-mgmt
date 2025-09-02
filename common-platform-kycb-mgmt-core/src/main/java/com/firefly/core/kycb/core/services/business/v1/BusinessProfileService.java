@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.business.v1.BusinessProfileDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for business profile operations.
@@ -31,7 +32,7 @@ public interface BusinessProfileService {
      * @param businessProfileId The ID of the BusinessProfile to retrieve.
      * @return A Mono containing the BusinessProfileDTO if found, otherwise an empty mono.
      */
-    Mono<BusinessProfileDTO> getById(Long businessProfileId);
+    Mono<BusinessProfileDTO> getById(UUID businessProfileId);
 
     /**
      * Updates an existing BusinessProfile entry with new data provided in the DTO.
@@ -40,7 +41,7 @@ public interface BusinessProfileService {
      * @param dto A DTO containing the fields to update for the BusinessProfile.
      * @return A Mono containing the updated BusinessProfileDTO if successful.
      */
-    Mono<BusinessProfileDTO> update(Long businessProfileId, BusinessProfileDTO dto);
+    Mono<BusinessProfileDTO> update(UUID businessProfileId, BusinessProfileDTO dto);
 
     /**
      * Deletes a Business Profile by its ID.
@@ -48,5 +49,5 @@ public interface BusinessProfileService {
      * @param businessProfileId The ID of the Business Profile to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long businessProfileId);
+    Mono<Void> delete(UUID businessProfileId);
 }

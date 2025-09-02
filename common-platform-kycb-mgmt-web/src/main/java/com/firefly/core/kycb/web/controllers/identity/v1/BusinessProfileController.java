@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/identity/parties/{partyId}/business-profile")
@@ -42,9 +43,9 @@ public class BusinessProfileController {
     )
     public Mono<ResponseEntity<BusinessProfileDTO>> getBusinessProfile(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the business profile", required = true)
-            @PathVariable Long businessProfileId
+            @PathVariable UUID businessProfileId
     ) {
         return businessProfileService.getById(businessProfileId)
                 .map(ResponseEntity::ok)
@@ -65,7 +66,7 @@ public class BusinessProfileController {
     )
     public Mono<ResponseEntity<BusinessProfileDTO>> createBusinessProfile(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "Business profile data", required = true)
             @RequestBody BusinessProfileDTO businessProfileDTO
     ) {
@@ -92,9 +93,9 @@ public class BusinessProfileController {
     )
     public Mono<ResponseEntity<BusinessProfileDTO>> updateBusinessProfile(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the business profile", required = true)
-            @PathVariable Long businessProfileId,
+            @PathVariable UUID businessProfileId,
             @Parameter(description = "Updated business profile data", required = true)
             @RequestBody BusinessProfileDTO businessProfileDTO
     ) {
@@ -121,9 +122,9 @@ public class BusinessProfileController {
     )
     public Mono<ResponseEntity<Void>> deleteBusinessProfile(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "ID of the business profile", required = true)
-            @PathVariable Long businessProfileId
+            @PathVariable UUID businessProfileId
     ) {
         return businessProfileService.delete(businessProfileId)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));
@@ -143,7 +144,7 @@ public class BusinessProfileController {
     )
     public Mono<ResponseEntity<PaginationResponse<BusinessProfileDTO>>> listBusinessProfiles(
             @Parameter(description = "ID of the party", required = true)
-            @PathVariable Long partyId,
+            @PathVariable UUID partyId,
             @Parameter(description = "Filter criteria")
             @ModelAttribute FilterRequest<BusinessProfileDTO> filterRequest
     ) {

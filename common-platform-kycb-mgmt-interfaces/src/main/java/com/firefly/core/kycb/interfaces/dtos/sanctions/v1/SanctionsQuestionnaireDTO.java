@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for sanctions and embargo questionnaire.
@@ -25,11 +26,11 @@ import java.time.LocalDateTime;
 public class SanctionsQuestionnaireDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Long sanctionsQuestionnaireId;
+    private UUID sanctionsQuestionnaireId;
 
     @FilterableId
     @NotNull(message = "Party ID is required")
-    private Long partyId;
+    private UUID partyId;
 
     /**
      * Defines for which part of the entity the user answers the questionnaire.

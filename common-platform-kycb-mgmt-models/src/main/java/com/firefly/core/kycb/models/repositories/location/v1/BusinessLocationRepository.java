@@ -7,12 +7,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Repository for business location operations.
  */
 @Repository
-public interface BusinessLocationRepository extends BaseRepository<BusinessLocation, Long> {
+public interface BusinessLocationRepository extends BaseRepository<BusinessLocation, UUID> {
 
     /**
      * Find business locations by party ID.
@@ -20,7 +21,7 @@ public interface BusinessLocationRepository extends BaseRepository<BusinessLocat
      * @param partyId The ID of the party
      * @return A flux of business locations
      */
-    Flux<BusinessLocation> findByPartyId(Long partyId);
+    Flux<BusinessLocation> findByPartyId(UUID partyId);
 
     /**
      * Find business locations by location type code.
@@ -110,5 +111,5 @@ public interface BusinessLocationRepository extends BaseRepository<BusinessLocat
      * @param partyId The ID of the party
      * @return A mono with the primary business location
      */
-    Mono<BusinessLocation> findByPartyIdAndIsPrimaryTrue(Long partyId);
+    Mono<BusinessLocation> findByPartyIdAndIsPrimaryTrue(UUID partyId);
 }

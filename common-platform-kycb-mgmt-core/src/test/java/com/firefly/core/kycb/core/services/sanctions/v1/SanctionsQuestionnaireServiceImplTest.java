@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 class SanctionsQuestionnaireServiceImplTest {
@@ -34,8 +35,8 @@ class SanctionsQuestionnaireServiceImplTest {
 
     private SanctionsQuestionnaire entity;
     private SanctionsQuestionnaireDTO dto;
-    private final Long PARTY_ID = 1L;
-    private final Long QUESTIONNAIRE_ID = 1L;
+    private final UUID PARTY_ID = 1L;
+    private final UUID QUESTIONNAIRE_ID = 1L;
 
     @BeforeEach
     void setUp() {

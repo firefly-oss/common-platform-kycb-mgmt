@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.kyb.v1.KybVerificationDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 public interface KybVerificationService {
     /**
@@ -28,7 +29,7 @@ public interface KybVerificationService {
      * @param kybVerificationId The ID of the KybVerification to retrieve.
      * @return A Mono containing the KybVerificationDTO if found, otherwise an empty mono.
      */
-    Mono<KybVerificationDTO> getById(Long kybVerificationId);
+    Mono<KybVerificationDTO> getById(UUID kybVerificationId);
 
     /**
      * Updates an existing KybVerification entry with new data provided in the DTO.
@@ -37,7 +38,7 @@ public interface KybVerificationService {
      * @param dto A DTO containing the fields to update for the KybVerification.
      * @return A Mono containing the updated KybVerificationDTO if successful.
      */
-    Mono<KybVerificationDTO> update(Long kybVerificationId, KybVerificationDTO dto);
+    Mono<KybVerificationDTO> update(UUID kybVerificationId, KybVerificationDTO dto);
 
     /**
      * Deletes a KYB Verification by its ID.
@@ -45,6 +46,6 @@ public interface KybVerificationService {
      * @param kybVerificationId The ID of the KYB Verification to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long kybVerificationId);
+    Mono<Void> delete(UUID kybVerificationId);
 
 }

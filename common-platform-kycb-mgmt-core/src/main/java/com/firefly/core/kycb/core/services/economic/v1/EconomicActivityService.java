@@ -4,6 +4,7 @@ import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.economic.v1.EconomicActivityDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for economic activity operations.
@@ -31,7 +32,7 @@ public interface EconomicActivityService {
      * @param activityId The ID of the EconomicActivity to retrieve.
      * @return A Mono containing the EconomicActivityDTO if found, otherwise an empty mono.
      */
-    Mono<EconomicActivityDTO> getById(Long activityId);
+    Mono<EconomicActivityDTO> getById(UUID activityId);
 
     /**
      * Updates an existing EconomicActivity entry with new data provided in the DTO.
@@ -40,7 +41,7 @@ public interface EconomicActivityService {
      * @param dto A DTO containing the fields to update for the EconomicActivity.
      * @return A Mono containing the updated EconomicActivityDTO if successful.
      */
-    Mono<EconomicActivityDTO> update(Long activityId, EconomicActivityDTO dto);
+    Mono<EconomicActivityDTO> update(UUID activityId, EconomicActivityDTO dto);
 
     /**
      * Deletes an Economic Activity by its ID.
@@ -48,5 +49,5 @@ public interface EconomicActivityService {
      * @param activityId The ID of the Economic Activity to delete.
      * @return A {@link Mono<Void>} indicating completion of the deletion operation.
      */
-    Mono<Void> delete(Long activityId);
+    Mono<Void> delete(UUID activityId);
 }

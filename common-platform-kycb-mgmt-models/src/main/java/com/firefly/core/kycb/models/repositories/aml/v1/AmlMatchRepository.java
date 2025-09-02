@@ -9,12 +9,13 @@ import reactor.core.publisher.Flux;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Repository for AML match operations.
  */
 @Repository
-public interface AmlMatchRepository extends BaseRepository<AmlMatch, Long> {
+public interface AmlMatchRepository extends BaseRepository<AmlMatch, UUID> {
 
     /**
      * Find AML matches by AML screening ID.
@@ -22,7 +23,7 @@ public interface AmlMatchRepository extends BaseRepository<AmlMatch, Long> {
      * @param amlScreeningId The ID of the AML screening
      * @return A flux of AML matches
      */
-    Flux<AmlMatch> findByAmlScreeningId(Long amlScreeningId);
+    Flux<AmlMatch> findByAmlScreeningId(UUID amlScreeningId);
 
     /**
      * Find AML matches by list type.
@@ -79,5 +80,5 @@ public interface AmlMatchRepository extends BaseRepository<AmlMatch, Long> {
      * @param listTypeEnum The type of list
      * @return A flux of AML matches
      */
-    Flux<AmlMatch> findByAmlScreeningIdAndListType(Long amlScreeningId, ListTypeEnum listTypeEnum);
+    Flux<AmlMatch> findByAmlScreeningIdAndListType(UUID amlScreeningId, ListTypeEnum listTypeEnum);
 }

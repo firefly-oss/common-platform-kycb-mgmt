@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class CorporateStructureServiceImplTest {
@@ -39,9 +40,9 @@ public class CorporateStructureServiceImplTest {
 
     private CorporateStructureDTO corporateStructureDTO;
     private CorporateStructure corporateStructure;
-    private final Long CORPORATE_STRUCTURE_ID = 1L;
-    private final Long PARTY_ID = 100L;
-    private final Long PARENT_ENTITY_ID = 200L;
+    private final UUID CORPORATE_STRUCTURE_ID = 1L;
+    private final UUID PARTY_ID = 100L;
+    private final UUID PARENT_ENTITY_ID = 200L;
 
     @BeforeEach
     void setUp() {

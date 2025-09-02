@@ -7,12 +7,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * Repository for expected activity operations.
  */
 @Repository
-public interface ExpectedActivityRepository extends BaseRepository<ExpectedActivity, Long> {
+public interface ExpectedActivityRepository extends BaseRepository<ExpectedActivity, UUID> {
 
     /**
      * Find expected activities by party ID.
@@ -20,7 +21,7 @@ public interface ExpectedActivityRepository extends BaseRepository<ExpectedActiv
      * @param partyId The ID of the party
      * @return A flux of expected activities
      */
-    Flux<ExpectedActivity> findByPartyId(Long partyId);
+    Flux<ExpectedActivity> findByPartyId(UUID partyId);
 
     /**
      * Find expected activities by activity type code.
@@ -108,5 +109,5 @@ public interface ExpectedActivityRepository extends BaseRepository<ExpectedActiv
      * @param partyId The ID of the party
      * @return A mono with the latest expected activity
      */
-    Mono<ExpectedActivity> findFirstByPartyIdOrderByDateCreatedDesc(Long partyId);
+    Mono<ExpectedActivity> findFirstByPartyIdOrderByDateCreatedDesc(UUID partyId);
 }

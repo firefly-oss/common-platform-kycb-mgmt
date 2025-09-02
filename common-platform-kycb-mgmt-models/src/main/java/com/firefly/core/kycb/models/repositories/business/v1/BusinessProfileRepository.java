@@ -7,12 +7,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * Repository for business profile operations.
  */
 @Repository
-public interface BusinessProfileRepository extends BaseRepository<BusinessProfile, Long> {
+public interface BusinessProfileRepository extends BaseRepository<BusinessProfile, UUID> {
 
     /**
      * Find business profiles by party ID.
@@ -20,7 +21,7 @@ public interface BusinessProfileRepository extends BaseRepository<BusinessProfil
      * @param partyId The ID of the party
      * @return A flux of business profiles
      */
-    Flux<BusinessProfile> findByPartyId(Long partyId);
+    Flux<BusinessProfile> findByPartyId(UUID partyId);
 
     /**
      * Find business profiles by legal form code.
@@ -110,5 +111,5 @@ public interface BusinessProfileRepository extends BaseRepository<BusinessProfil
      * @param partyId The ID of the party
      * @return A mono with the latest business profile
      */
-    Mono<BusinessProfile> findFirstByPartyIdOrderByDateCreatedDesc(Long partyId);
+    Mono<BusinessProfile> findFirstByPartyIdOrderByDateCreatedDesc(UUID partyId);
 }
