@@ -70,8 +70,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved sanctions questionnaires
@@ -91,8 +91,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -125,8 +125,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: pagination.pageNumber
           in: query
           description: Page number (0-based)
@@ -175,8 +175,7 @@ paths:
           description: Exact filter for party id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.verificationStatus
           in: query
           description: Exact filter for verification status
@@ -337,8 +336,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -371,15 +370,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: verificationId
           in: path
           description: ID of the KYC verification
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: pagination.pageNumber
           in: query
           description: Page number (0-based)
@@ -428,8 +427,7 @@ paths:
           description: Exact filter for kyc verification id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.eddReason
           in: query
           description: Exact filter for edd reason
@@ -596,15 +594,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: verificationId
           in: path
           description: ID of the KYC verification
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -637,15 +635,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: verificationId
           in: path
           description: ID of the verification
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: pagination.pageNumber
           in: query
           description: Page number (0-based)
@@ -694,15 +692,13 @@ paths:
           description: Exact filter for kyc verification id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.identityDocumentId
           in: query
           description: Exact filter for identity document id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.documentType
           in: query
           description: Exact filter for document type
@@ -815,15 +811,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: verificationId
           in: path
           description: ID of the verification
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -856,8 +852,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: pagination.pageNumber
           in: query
           description: Page number (0-based)
@@ -906,8 +902,7 @@ paths:
           description: Exact filter for party id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.verificationStatus
           in: query
           description: Exact filter for verification status
@@ -1086,8 +1081,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -1120,8 +1115,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: pagination.pageNumber
           in: query
           description: Page number (0-based)
@@ -1170,8 +1165,7 @@ paths:
           description: Exact filter for party id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.legalFormCode
           in: query
           description: Exact filter for legal form code
@@ -1377,8 +1371,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -1454,15 +1448,13 @@ paths:
           description: Exact filter for kyc verification id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.identityDocumentId
           in: query
           description: Exact filter for identity document id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.documentType
           in: query
           description: Exact filter for document type
@@ -1645,22 +1637,19 @@ paths:
           description: Exact filter for corporate document id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.partyId
           in: query
           description: Exact filter for party id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.attorneyId
           in: query
           description: Exact filter for attorney id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.powerType
           in: query
           description: Exact filter for power type
@@ -1948,8 +1937,7 @@ paths:
           description: Exact filter for party id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.documentType
           in: query
           description: Exact filter for document type
@@ -2182,8 +2170,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: pagination.pageNumber
           in: query
           description: Page number (0-based)
@@ -2232,15 +2220,13 @@ paths:
           description: Exact filter for party id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.naturalPersonId
           in: query
           description: Exact filter for natural person id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.ownershipPercentage
           in: query
           description: Exact filter for ownership percentage
@@ -2413,8 +2399,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -2447,8 +2433,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: pagination.pageNumber
           in: query
           description: Page number (0-based)
@@ -2497,15 +2483,13 @@ paths:
           description: Exact filter for party id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.parentEntityId
           in: query
           description: Exact filter for parent entity id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.ownershipPercentage
           in: query
           description: Exact filter for ownership percentage
@@ -2666,8 +2650,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -2700,8 +2684,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: pagination.pageNumber
           in: query
           description: Page number (0-based)
@@ -2750,8 +2734,7 @@ paths:
           description: Exact filter for party id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.locationTypeCode
           in: query
           description: Exact filter for location type code
@@ -2933,8 +2916,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -2967,8 +2950,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: pagination.pageNumber
           in: query
           description: Page number (0-based)
@@ -3017,8 +3000,7 @@ paths:
           description: Exact filter for party id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.activityCode
           in: query
           description: Exact filter for activity code
@@ -3146,8 +3128,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -3180,8 +3162,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: pagination.pageNumber
           in: query
           description: Page number (0-based)
@@ -3230,8 +3212,7 @@ paths:
           description: Exact filter for party id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.assessmentType
           in: query
           description: Exact filter for assessment type
@@ -3392,8 +3373,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -3426,8 +3407,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: pagination.pageNumber
           in: query
           description: Page number (0-based)
@@ -3476,8 +3457,7 @@ paths:
           description: Exact filter for party id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.screeningDate
           in: query
           description: Exact filter for screening date
@@ -3632,8 +3612,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -3666,15 +3646,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: screeningId
           in: path
           description: ID of the screening
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: pagination.pageNumber
           in: query
           description: Page number (0-based)
@@ -3723,8 +3703,7 @@ paths:
           description: Exact filter for aml screening id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.listType
           in: query
           description: Exact filter for list type
@@ -3867,15 +3846,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: screeningId
           in: path
           description: ID of the screening
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -4212,8 +4191,7 @@ paths:
           description: Exact filter for party id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.caseType
           in: query
           description: Exact filter for case type
@@ -4392,8 +4370,8 @@ paths:
           description: ID of the compliance case
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: pagination.pageNumber
           in: query
           description: Page number (0-based)
@@ -4442,8 +4420,7 @@ paths:
           description: Exact filter for compliance case id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.reportType
           in: query
           description: Exact filter for report type
@@ -4583,8 +4560,8 @@ paths:
           description: ID of the compliance case
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -4617,8 +4594,8 @@ paths:
           description: ID of the case
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: pagination.pageNumber
           in: query
           description: Page number (0-based)
@@ -4667,8 +4644,7 @@ paths:
           description: Exact filter for compliance case id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.actionType
           in: query
           description: Exact filter for action type
@@ -4802,8 +4778,8 @@ paths:
           description: ID of the case
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -4836,8 +4812,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: pagination.pageNumber
           in: query
           description: Page number (0-based)
@@ -4886,8 +4862,7 @@ paths:
           description: Exact filter for party id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.sourceType
           in: query
           description: Exact filter for source type
@@ -5024,8 +4999,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -5058,8 +5033,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: pagination.pageNumber
           in: query
           description: Page number (0-based)
@@ -5108,8 +5083,7 @@ paths:
           description: Exact filter for party id
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
         - name: filters.activityTypeCode
           in: query
           description: Exact filter for activity type code
@@ -5300,8 +5274,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -5334,15 +5308,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: sanctionsQuestionnaireId
           in: path
           description: ID of the sanctions questionnaire
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved sanctions questionnaire
@@ -5368,15 +5342,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: sanctionsQuestionnaireId
           in: path
           description: ID of the sanctions questionnaire
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted sanctions questionnaire
@@ -5394,15 +5368,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: sanctionsQuestionnaireId
           in: path
           description: ID of the sanctions questionnaire
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -5441,15 +5415,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: verificationId
           in: path
           description: ID of the verification
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved KYC verification
@@ -5475,15 +5449,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: verificationId
           in: path
           description: ID of the verification
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted KYC verification
@@ -5501,15 +5475,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: verificationId
           in: path
           description: ID of the verification
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -5548,22 +5522,22 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: verificationId
           in: path
           description: ID of the KYC verification
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: eddId
           in: path
           description: ID of the EDD process
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved EDD process
@@ -5589,22 +5563,22 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: verificationId
           in: path
           description: ID of the KYC verification
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: eddId
           in: path
           description: ID of the EDD process
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted EDD process
@@ -5622,22 +5596,22 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: verificationId
           in: path
           description: ID of the KYC verification
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: eddId
           in: path
           description: ID of the EDD process
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -5676,22 +5650,22 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: verificationId
           in: path
           description: ID of the verification
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: documentId
           in: path
           description: ID of the document
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved verification document
@@ -5717,22 +5691,22 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: verificationId
           in: path
           description: ID of the verification
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: documentId
           in: path
           description: ID of the document
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted verification document
@@ -5750,22 +5724,22 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: verificationId
           in: path
           description: ID of the verification
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: documentId
           in: path
           description: ID of the document
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -5804,15 +5778,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: verificationId
           in: path
           description: ID of the verification
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved KYB verification
@@ -5838,15 +5812,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: verificationId
           in: path
           description: ID of the verification
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted KYB verification
@@ -5864,15 +5838,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: verificationId
           in: path
           description: ID of the verification
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -5911,15 +5885,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: businessProfileId
           in: path
           description: ID of the business profile
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved business profile
@@ -5945,15 +5919,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: businessProfileId
           in: path
           description: ID of the business profile
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted business profile
@@ -5971,15 +5945,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: businessProfileId
           in: path
           description: ID of the business profile
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -6018,8 +5992,8 @@ paths:
           description: ID of the document
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved verification document
@@ -6045,8 +6019,8 @@ paths:
           description: ID of the document
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted verification document
@@ -6064,8 +6038,8 @@ paths:
           description: ID of the document
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -6104,8 +6078,8 @@ paths:
           description: ID of the power of attorney
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved power of attorney
@@ -6131,8 +6105,8 @@ paths:
           description: ID of the power of attorney
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted power of attorney
@@ -6150,8 +6124,8 @@ paths:
           description: ID of the power of attorney
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -6190,8 +6164,8 @@ paths:
           description: ID of the document
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved corporate document
@@ -6217,8 +6191,8 @@ paths:
           description: ID of the document
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted corporate document
@@ -6236,8 +6210,8 @@ paths:
           description: ID of the document
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -6276,15 +6250,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: uboId
           in: path
           description: ID of the UBO
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved UBO
@@ -6310,15 +6284,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: uboId
           in: path
           description: ID of the UBO
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted UBO
@@ -6336,15 +6310,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: uboId
           in: path
           description: ID of the UBO
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -6383,15 +6357,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: structureId
           in: path
           description: ID of the structure relationship
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved structure relationship
@@ -6417,15 +6391,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: structureId
           in: path
           description: ID of the structure relationship
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted structure relationship
@@ -6443,15 +6417,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: structureId
           in: path
           description: ID of the structure relationship
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -6490,15 +6464,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: locationId
           in: path
           description: ID of the location
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved business location
@@ -6524,15 +6498,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: locationId
           in: path
           description: ID of the location
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted business location
@@ -6550,15 +6524,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: locationId
           in: path
           description: ID of the location
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -6597,15 +6571,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: activityId
           in: path
           description: ID of the activity
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved economic activity
@@ -6631,15 +6605,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: activityId
           in: path
           description: ID of the activity
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted economic activity
@@ -6657,15 +6631,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: activityId
           in: path
           description: ID of the activity
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -6704,15 +6678,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: assessmentId
           in: path
           description: ID of the assessment
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved risk assessment
@@ -6738,15 +6712,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: assessmentId
           in: path
           description: ID of the assessment
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted risk assessment
@@ -6764,15 +6738,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: assessmentId
           in: path
           description: ID of the assessment
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -6811,15 +6785,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: screeningId
           in: path
           description: ID of the screening
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved AML screening
@@ -6845,15 +6819,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: screeningId
           in: path
           description: ID of the screening
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted AML screening
@@ -6871,15 +6845,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: screeningId
           in: path
           description: ID of the screening
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -6918,22 +6892,22 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: screeningId
           in: path
           description: ID of the screening
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: matchId
           in: path
           description: ID of the match
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved AML match
@@ -6959,22 +6933,22 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: screeningId
           in: path
           description: ID of the screening
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: matchId
           in: path
           description: ID of the match
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted AML match
@@ -6992,22 +6966,22 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: screeningId
           in: path
           description: ID of the screening
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: matchId
           in: path
           description: ID of the match
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -7046,8 +7020,8 @@ paths:
           description: Industry risk ID
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved industry risk profile
@@ -7073,8 +7047,8 @@ paths:
           description: Industry risk ID
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted industry risk profile
@@ -7092,8 +7066,8 @@ paths:
           description: Industry risk ID
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -7132,8 +7106,8 @@ paths:
           description: ID of the case
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved compliance case
@@ -7159,8 +7133,8 @@ paths:
           description: ID of the case
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted compliance case
@@ -7178,8 +7152,8 @@ paths:
           description: ID of the case
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -7218,15 +7192,15 @@ paths:
           description: ID of the compliance case
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: reportId
           in: path
           description: ID of the regulatory report
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved regulatory report
@@ -7252,15 +7226,15 @@ paths:
           description: ID of the compliance case
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: reportId
           in: path
           description: ID of the regulatory report
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted regulatory report
@@ -7278,15 +7252,15 @@ paths:
           description: ID of the compliance case
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: reportId
           in: path
           description: ID of the regulatory report
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -7325,15 +7299,15 @@ paths:
           description: ID of the case
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: actionId
           in: path
           description: ID of the action
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved compliance action
@@ -7359,15 +7333,15 @@ paths:
           description: ID of the case
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: actionId
           in: path
           description: ID of the action
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted compliance action
@@ -7385,15 +7359,15 @@ paths:
           description: ID of the case
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: actionId
           in: path
           description: ID of the action
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -7432,15 +7406,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: sourceId
           in: path
           description: ID of the source
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved source of funds
@@ -7466,15 +7440,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: sourceId
           in: path
           description: ID of the source
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted source of funds
@@ -7492,15 +7466,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: sourceId
           in: path
           description: ID of the source
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -7539,15 +7513,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: activityId
           in: path
           description: ID of the activity
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved expected activity
@@ -7573,15 +7547,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: activityId
           in: path
           description: ID of the activity
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Successfully deleted expected activity
@@ -7599,15 +7573,15 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: activityId
           in: path
           description: ID of the activity
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -7646,8 +7620,8 @@ paths:
           description: ID of the party
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved latest sanctions questionnaire
@@ -7683,12 +7657,12 @@ components:
           format: date-time
           readOnly: true
         sanctionsQuestionnaireId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           writeOnly: true
         partyId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         entitySanctionsQuestionnaire:
           type: string
           enum:
@@ -7728,12 +7702,12 @@ components:
           format: date-time
           readOnly: true
         kycVerificationId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         partyId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         verificationStatus:
           maxLength: 50
           minLength: 0
@@ -7787,12 +7761,12 @@ components:
           format: date-time
           readOnly: true
         eddId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         kycVerificationId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         eddReason:
           maxLength: 100
           minLength: 0
@@ -7847,15 +7821,15 @@ components:
           format: date-time
           readOnly: true
         verificationDocumentId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         kycVerificationId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         identityDocumentId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         documentType:
           maxLength: 50
           minLength: 0
@@ -7905,12 +7879,12 @@ components:
           format: date-time
           readOnly: true
         kybVerificationId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         partyId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         verificationStatus:
           maxLength: 50
           minLength: 0
@@ -7965,12 +7939,12 @@ components:
           format: date-time
           readOnly: true
         businessProfileId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         partyId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         legalFormCode:
           maxLength: 20
           minLength: 0
@@ -8056,18 +8030,18 @@ components:
           format: date-time
           readOnly: true
         powerOfAttorneyId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         corporateDocumentId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         partyId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         attorneyId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         powerType:
           maxLength: 50
           minLength: 0
@@ -8129,12 +8103,12 @@ components:
           format: date-time
           readOnly: true
         corporateDocumentId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         partyId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         documentType:
           maxLength: 50
           minLength: 0
@@ -8204,15 +8178,15 @@ components:
           format: date-time
           readOnly: true
         uboId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         partyId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         naturalPersonId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         ownershipPercentage:
           type: number
         ownershipType:
@@ -8261,15 +8235,15 @@ components:
           format: date-time
           readOnly: true
         corporateStructureId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         partyId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         parentEntityId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         ownershipPercentage:
           type: number
         relationshipType:
@@ -8311,12 +8285,12 @@ components:
           format: date-time
           readOnly: true
         businessLocationId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         partyId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         locationTypeCode:
           maxLength: 20
           minLength: 0
@@ -8390,12 +8364,12 @@ components:
           format: date-time
           readOnly: true
         economicActivityId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         partyId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         activityCode:
           maxLength: 20
           minLength: 0
@@ -8454,12 +8428,12 @@ components:
           format: date-time
           readOnly: true
         riskAssessmentId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         partyId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         assessmentType:
           maxLength: 50
           minLength: 0
@@ -8514,12 +8488,12 @@ components:
           format: date-time
           readOnly: true
         amlScreeningId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         partyId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         screeningDate:
           type: string
           format: date-time
@@ -8567,12 +8541,12 @@ components:
           format: date-time
           readOnly: true
         amlMatchId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         amlScreeningId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         listType:
           maxLength: 50
           minLength: 0
@@ -8635,8 +8609,8 @@ components:
           format: date-time
           readOnly: true
         industryRiskId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         activityCode:
           maxLength: 20
@@ -8707,12 +8681,12 @@ components:
           format: date-time
           readOnly: true
         complianceCaseId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         partyId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         caseType:
           maxLength: 50
           minLength: 0
@@ -8770,12 +8744,12 @@ components:
           format: date-time
           readOnly: true
         reportId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         complianceCaseId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         reportType:
           maxLength: 50
           minLength: 0
@@ -8825,12 +8799,12 @@ components:
           format: date-time
           readOnly: true
         complianceActionId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         complianceCaseId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         actionType:
           maxLength: 50
           minLength: 0
@@ -8876,12 +8850,12 @@ components:
           format: date-time
           readOnly: true
         sourceOfFundsId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         partyId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         sourceType:
           maxLength: 50
           minLength: 0
@@ -8930,12 +8904,12 @@ components:
           format: date-time
           readOnly: true
         expectedActivityId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         partyId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         activityTypeCode:
           maxLength: 20
           minLength: 0
