@@ -41,10 +41,10 @@ public class PowerOfAttorneyServiceImplTest {
 
     private PowerOfAttorneyDTO powerOfAttorneyDTO;
     private PowerOfAttorney powerOfAttorney;
-    private final UUID POWER_OF_ATTORNEY_ID = 1L;
-    private final UUID PARTY_ID = 100L;
-    private final UUID ATTORNEY_ID = 200L;
-    private final UUID CORPORATE_DOCUMENT_ID = 300L;
+    private final UUID POWER_OF_ATTORNEY_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440015");
+    private final UUID PARTY_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440100");
+    private final UUID ATTORNEY_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440200");
+    private final UUID CORPORATE_DOCUMENT_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440300");
 
     @BeforeEach
     void setUp() {

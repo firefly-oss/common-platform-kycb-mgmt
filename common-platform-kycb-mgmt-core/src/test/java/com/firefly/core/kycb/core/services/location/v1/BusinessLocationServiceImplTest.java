@@ -39,8 +39,8 @@ public class BusinessLocationServiceImplTest {
 
     private BusinessLocationDTO businessLocationDTO;
     private BusinessLocation businessLocation;
-    private final UUID BUSINESS_LOCATION_ID = 1L;
-    private final UUID PARTY_ID = 100L;
+    private final UUID BUSINESS_LOCATION_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440010");
+    private final UUID PARTY_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440100");
 
     @BeforeEach
     void setUp() {
@@ -81,7 +81,7 @@ public class BusinessLocationServiceImplTest {
         businessLocation.setIsPrimary(true);
 
         BusinessLocation existingPrimaryLocation = new BusinessLocation();
-        existingPrimaryLocation.setBusinessLocationId(2L);
+        existingPrimaryLocation.setBusinessLocationId(UUID.fromString("550e8400-e29b-41d4-a716-446655440021"));
         existingPrimaryLocation.setPartyId(PARTY_ID);
         existingPrimaryLocation.setIsPrimary(true);
 
@@ -103,8 +103,8 @@ public class BusinessLocationServiceImplTest {
         verify(mapper).toDTO(businessLocation);
 
         // Verify that the existing primary location is no longer primary
-        verify(repository).save(argThat(location -> 
-            location.getBusinessLocationId().equals(2L) && !location.getIsPrimary()));
+        verify(repository).save(argThat(location ->
+            location.getBusinessLocationId().equals(UUID.fromString("550e8400-e29b-41d4-a716-446655440021")) && !location.getIsPrimary()));
     }
 
     @Test
@@ -211,7 +211,7 @@ public class BusinessLocationServiceImplTest {
         updatedLocation.setIsPrimary(true);
 
         BusinessLocation existingPrimaryLocation = new BusinessLocation();
-        existingPrimaryLocation.setBusinessLocationId(2L);
+        existingPrimaryLocation.setBusinessLocationId(UUID.fromString("550e8400-e29b-41d4-a716-446655440021"));
         existingPrimaryLocation.setPartyId(PARTY_ID);
         existingPrimaryLocation.setIsPrimary(true);
 
@@ -236,8 +236,8 @@ public class BusinessLocationServiceImplTest {
         verify(repository, times(2)).save(updatedLocation);
 
         // Verify that the existing primary location is no longer primary
-        verify(repository).save(argThat(location -> 
-            location.getBusinessLocationId().equals(2L) && !location.getIsPrimary()));
+        verify(repository).save(argThat(location ->
+            location.getBusinessLocationId().equals(UUID.fromString("550e8400-e29b-41d4-a716-446655440021")) && !location.getIsPrimary()));
     }
 
     @Test

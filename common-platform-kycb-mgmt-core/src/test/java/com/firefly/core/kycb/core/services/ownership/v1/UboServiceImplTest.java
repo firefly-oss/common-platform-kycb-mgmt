@@ -39,7 +39,7 @@ public class UboServiceImplTest {
 
     private UboDTO uboDTO;
     private Ubo ubo;
-    private final UUID UBO_ID = 1L;
+    private final UUID UBO_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
 
     @BeforeEach
     void setUp() {
