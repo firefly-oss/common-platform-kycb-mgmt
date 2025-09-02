@@ -39,8 +39,8 @@ public class ComplianceActionServiceImplTest {
 
     private ComplianceActionDTO complianceActionDTO;
     private ComplianceAction complianceAction;
-    private final UUID COMPLIANCE_ACTION_ID = 1L;
-    private final UUID COMPLIANCE_CASE_ID = 100L;
+    private final UUID COMPLIANCE_ACTION_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440003");
+    private final UUID COMPLIANCE_CASE_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440002");
 
     @BeforeEach
     void setUp() {
