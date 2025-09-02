@@ -39,7 +39,7 @@ public class KycVerificationServiceImplTest {
 
     private KycVerificationDTO kycVerificationDTO;
     private KycVerification kycVerification;
-    private final UUID KYC_VERIFICATION_ID = 1L;
+    private final UUID KYC_VERIFICATION_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440001");
 
     @BeforeEach
     void setUp() {
