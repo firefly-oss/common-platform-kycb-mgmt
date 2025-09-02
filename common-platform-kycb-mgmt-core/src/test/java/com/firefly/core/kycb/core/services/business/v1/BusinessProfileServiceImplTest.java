@@ -39,8 +39,8 @@ public class BusinessProfileServiceImplTest {
 
     private BusinessProfileDTO businessProfileDTO;
     private BusinessProfile businessProfile;
-    private final UUID BUSINESS_PROFILE_ID = 1L;
-    private final UUID PARTY_ID = 100L;
+    private final UUID BUSINESS_PROFILE_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440020");
+    private final UUID PARTY_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440100");
 
     @BeforeEach
     void setUp() {
