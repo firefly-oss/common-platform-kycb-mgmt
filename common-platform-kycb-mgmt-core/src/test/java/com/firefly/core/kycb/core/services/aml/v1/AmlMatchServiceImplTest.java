@@ -39,7 +39,7 @@ public class AmlMatchServiceImplTest {
 
     private AmlMatchDTO amlMatchDTO;
     private AmlMatch amlMatch;
-    private final UUID AML_MATCH_ID = 1L;
+    private final UUID AML_MATCH_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440009");
 
     @BeforeEach
     void setUp() {

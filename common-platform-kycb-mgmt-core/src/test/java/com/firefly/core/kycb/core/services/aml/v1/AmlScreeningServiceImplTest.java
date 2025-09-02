@@ -39,7 +39,7 @@ public class AmlScreeningServiceImplTest {
 
     private AmlScreeningDTO amlScreeningDTO;
     private AmlScreening amlScreening;
-    private final UUID AML_SCREENING_ID = 1L;
+    private final UUID AML_SCREENING_ID = UUID.fromString("550e8400-e29b-41d4-a716-446655440007");
 
     @BeforeEach
     void setUp() {
