@@ -17,9 +17,9 @@
 
 package com.firefly.core.kycb.core.services.risk.v1;
 
-import com.firefly.common.core.filters.FilterRequest;
-import com.firefly.common.core.filters.FilterUtils;
-import com.firefly.common.core.queries.PaginationResponse;
+import org.fireflyframework.core.filters.FilterRequest;
+import org.fireflyframework.core.filters.FilterUtils;
+import org.fireflyframework.core.queries.PaginationResponse;
 import com.firefly.core.kycb.core.mappers.risk.v1.RiskAssessmentMapper;
 import com.firefly.core.kycb.interfaces.dtos.risk.v1.RiskAssessmentDTO;
 import com.firefly.core.kycb.interfaces.enums.assessment.v1.AssessmentTypeEnum;

@@ -17,8 +17,8 @@
 
 package com.firefly.core.kycb.core.services.document.v1;
 
-import com.firefly.common.core.filters.FilterRequest;
-import com.firefly.common.core.queries.PaginationResponse;
+import org.fireflyframework.core.filters.FilterRequest;
+import org.fireflyframework.core.queries.PaginationResponse;
 import com.firefly.core.kycb.interfaces.dtos.document.v1.VerificationDocumentDTO;
 import reactor.core.publisher.Mono;
 import java.util.UUID;

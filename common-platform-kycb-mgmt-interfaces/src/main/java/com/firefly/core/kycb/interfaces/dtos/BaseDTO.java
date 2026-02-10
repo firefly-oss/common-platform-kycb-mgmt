@@ -17,7 +17,7 @@
 
 package com.firefly.core.kycb.interfaces.dtos;
 
-import com.firefly.annotations.ValidDateTime;
+import org.fireflyframework.annotations.ValidDateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -17,9 +17,9 @@
 
 package com.firefly.core.kycb.core.services.kyc.v1;
 
-import com.firefly.common.core.filters.FilterRequest;
-import com.firefly.common.core.filters.FilterUtils;
-import com.firefly.common.core.queries.PaginationResponse;
+import org.fireflyframework.core.filters.FilterRequest;
+import org.fireflyframework.core.filters.FilterUtils;
+import org.fireflyframework.core.queries.PaginationResponse;
 import com.firefly.core.kycb.core.mappers.kyc.v1.KycVerificationMapper;
 import com.firefly.core.kycb.interfaces.dtos.kyc.v1.KycVerificationDTO;
 import com.firefly.core.kycb.models.entities.kyc.v1.KycVerification;

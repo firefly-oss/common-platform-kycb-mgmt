@@ -17,9 +17,9 @@
 
 package com.firefly.core.kycb.core.services.kyb.v1;
 
-import com.firefly.common.core.filters.FilterRequest;
-import com.firefly.common.core.filters.FilterUtils;
-import com.firefly.common.core.queries.PaginationResponse;
+import org.fireflyframework.core.filters.FilterRequest;
+import org.fireflyframework.core.filters.FilterUtils;
+import org.fireflyframework.core.queries.PaginationResponse;
 import com.firefly.core.kycb.core.mappers.kyb.v1.KybVerificationMapper;
 import com.firefly.core.kycb.interfaces.dtos.kyb.v1.KybVerificationDTO;
 import com.firefly.core.kycb.interfaces.enums.risk.v1.RiskLevelEnum;

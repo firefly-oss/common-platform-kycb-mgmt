@@ -17,7 +17,7 @@
 
 package com.firefly.core.kycb.interfaces.dtos.industry.v1;
 
-import com.firefly.annotations.ValidDateTime;
+import org.fireflyframework.annotations.ValidDateTime;
 import com.firefly.core.kycb.interfaces.dtos.BaseDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Max;

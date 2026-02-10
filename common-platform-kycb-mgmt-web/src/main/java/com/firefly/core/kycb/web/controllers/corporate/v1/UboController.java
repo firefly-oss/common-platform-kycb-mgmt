@@ -17,8 +17,8 @@
 
 package com.firefly.core.kycb.web.controllers.corporate.v1;
 
-import com.firefly.common.core.filters.FilterRequest;
-import com.firefly.common.core.queries.PaginationResponse;
+import org.fireflyframework.core.filters.FilterRequest;
+import org.fireflyframework.core.queries.PaginationResponse;
 import com.firefly.core.kycb.core.services.ownership.v1.UboService;
 import com.firefly.core.kycb.interfaces.dtos.ownership.v1.UboDTO;
 import io.swagger.v3.oas.annotations.Operation;

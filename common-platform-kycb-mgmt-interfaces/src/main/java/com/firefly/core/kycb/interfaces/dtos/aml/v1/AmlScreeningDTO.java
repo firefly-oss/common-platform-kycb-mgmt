@@ -17,9 +17,9 @@
 
 package com.firefly.core.kycb.interfaces.dtos.aml.v1;
 
-import com.firefly.annotations.ValidDateTime;
+import org.fireflyframework.annotations.ValidDateTime;
 import com.firefly.core.kycb.interfaces.dtos.BaseDTO;
-import com.firefly.core.utils.annotations.FilterableId;
+import org.fireflyframework.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

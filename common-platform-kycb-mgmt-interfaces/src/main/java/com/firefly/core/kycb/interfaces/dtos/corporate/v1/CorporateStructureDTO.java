@@ -17,11 +17,11 @@
 
 package com.firefly.core.kycb.interfaces.dtos.corporate.v1;
 
-import com.firefly.annotations.ValidAmount;
-import com.firefly.annotations.ValidDateTime;
-import com.firefly.annotations.ValidInterestRate;
+import org.fireflyframework.annotations.ValidAmount;
+import org.fireflyframework.annotations.ValidDateTime;
+import org.fireflyframework.annotations.ValidInterestRate;
 import com.firefly.core.kycb.interfaces.dtos.BaseDTO;
-import com.firefly.core.utils.annotations.FilterableId;
+import org.fireflyframework.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

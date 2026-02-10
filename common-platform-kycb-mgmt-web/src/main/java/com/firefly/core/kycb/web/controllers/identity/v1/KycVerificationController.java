@@ -17,8 +17,8 @@
 
 package com.firefly.core.kycb.web.controllers.identity.v1;
 
-import com.firefly.common.core.filters.FilterRequest;
-import com.firefly.common.core.queries.PaginationResponse;
+import org.fireflyframework.core.filters.FilterRequest;
+import org.fireflyframework.core.queries.PaginationResponse;
 import com.firefly.core.kycb.core.services.kyc.v1.KycVerificationService;
 import com.firefly.core.kycb.interfaces.dtos.kyc.v1.KycVerificationDTO;
 import io.swagger.v3.oas.annotations.Operation;

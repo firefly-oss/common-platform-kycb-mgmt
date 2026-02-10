@@ -17,9 +17,9 @@
 
 package com.firefly.core.kycb.core.services.corporate.v1;
 
-import com.firefly.common.core.filters.FilterRequest;
-import com.firefly.common.core.filters.FilterUtils;
-import com.firefly.common.core.queries.PaginationResponse;
+import org.fireflyframework.core.filters.FilterRequest;
+import org.fireflyframework.core.filters.FilterUtils;
+import org.fireflyframework.core.queries.PaginationResponse;
 import com.firefly.core.kycb.core.mappers.corporate.v1.CorporateStructureMapper;
 import com.firefly.core.kycb.interfaces.dtos.corporate.v1.CorporateStructureDTO;
 import com.firefly.core.kycb.interfaces.enums.corporate.v1.RelationshipTypeEnum;

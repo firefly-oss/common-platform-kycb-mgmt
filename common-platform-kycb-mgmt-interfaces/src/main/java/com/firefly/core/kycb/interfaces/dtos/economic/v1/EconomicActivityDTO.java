@@ -18,7 +18,7 @@
 package com.firefly.core.kycb.interfaces.dtos.economic.v1;
 
 import com.firefly.core.kycb.interfaces.dtos.BaseDTO;
-import com.firefly.core.utils.annotations.FilterableId;
+import org.fireflyframework.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

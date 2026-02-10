@@ -17,9 +17,9 @@
 
 package com.firefly.core.kycb.core.services.ownership.v1;
 
-import com.firefly.common.core.filters.FilterRequest;
-import com.firefly.common.core.filters.FilterUtils;
-import com.firefly.common.core.queries.PaginationResponse;
+import org.fireflyframework.core.filters.FilterRequest;
+import org.fireflyframework.core.filters.FilterUtils;
+import org.fireflyframework.core.queries.PaginationResponse;
 import com.firefly.core.kycb.core.mappers.ownership.v1.UboMapper;
 import com.firefly.core.kycb.interfaces.dtos.ownership.v1.UboDTO;
 import com.firefly.core.kycb.models.entities.ownership.v1.Ubo;

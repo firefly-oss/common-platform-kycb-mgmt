@@ -17,10 +17,10 @@
 
 package com.firefly.core.kycb.interfaces.dtos.location.v1;
 
-import com.firefly.annotations.ValidDateTime;
-import com.firefly.annotations.ValidPhoneNumber;
+import org.fireflyframework.annotations.ValidDateTime;
+import org.fireflyframework.annotations.ValidPhoneNumber;
 import com.firefly.core.kycb.interfaces.dtos.BaseDTO;
-import com.firefly.core.utils.annotations.FilterableId;
+import org.fireflyframework.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
