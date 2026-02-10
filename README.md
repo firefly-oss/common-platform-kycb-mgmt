@@ -36,7 +36,7 @@ Built with a reactive architecture using Spring WebFlux, this microservice is de
 Get up and running with the KYC/B & AML Management microservice in minutes:
 
 ### Prerequisites
-- Java 21 or higher
+- Java 25 or higher
 - Docker and Docker Compose
 - PostgreSQL 12+ (or use the provided Docker Compose setup)
 - Maven 3.6+
@@ -132,7 +132,7 @@ java -jar common-platform-kycb-mgmt-web/target/common-platform-kycb-mgmt.jar
 ## Technology Stack
 
 ### Core Technologies
-- **Java 21**: Latest LTS version of Java
+- **Java 25**: Latest LTS version of Java
 - **Spring Boot 3.x**: Framework for building microservices
 - **Spring WebFlux**: Reactive web framework
 - **Project Reactor**: Reactive programming library
@@ -218,6 +218,9 @@ The API follows RESTful principles and is organized into the following main cate
 - `/api/v1/documents/verification`: Identity document endpoints
 - `/api/v1/documents/corporate`: Corporate document endpoints
 - `/api/v1/documents/power-of-attorney`: Power of attorney document endpoints
+
+#### Business Profile
+- `/api/v1/identity/parties/{partyId}/business-profile`: Business profile endpoints
 
 #### Corporate Structure
 - `/api/v1/corporate/parties/{partyId}/structure`: Business structure endpoints

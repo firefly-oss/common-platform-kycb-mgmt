@@ -119,7 +119,7 @@ After creating the KYB verification, the next step is to register the business p
 ### API Endpoint for Business Profile
 
 ```
-POST /api/v1/corporate/parties/{partyId}/profile
+POST /api/v1/identity/parties/{partyId}/business-profile
 ```
 
 ### Request Example for Business Profile
@@ -139,7 +139,7 @@ profile.setIndustryCode("SIC-7371");
 profile.setIndustryName("Computer Programming Services");
 
 webClient.post()
-    .uri("/api/v1/corporate/parties/123/profile")
+    .uri("/api/v1/identity/parties/123/business-profile")
     .bodyValue(profile)
     .retrieve()
     .bodyToMono(BusinessProfileDTO.class)
