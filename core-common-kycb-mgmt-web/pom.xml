@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.firefly</groupId>
-        <artifactId>common-platform-kycb-mgmt</artifactId>
+        <artifactId>core-common-kycb-mgmt</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>common-platform-kycb-mgmt-web</artifactId>
+    <artifactId>core-common-kycb-mgmt-web</artifactId>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,11 +19,11 @@
         <!-- Internal modules -->
         <dependency>
             <groupId>com.firefly</groupId>
-            <artifactId>common-platform-kycb-mgmt-core</artifactId>
+            <artifactId>core-common-kycb-mgmt-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.firefly</groupId>
-            <artifactId>common-platform-kycb-mgmt-interfaces</artifactId>
+            <artifactId>core-common-kycb-mgmt-interfaces</artifactId>
         </dependency>
 
         <!-- Common Libraries -->

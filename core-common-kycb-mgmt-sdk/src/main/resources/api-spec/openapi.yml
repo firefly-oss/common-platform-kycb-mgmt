@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: common-platform-kycb-mgmt
+  title: core-common-kycb-mgmt
   description: KYC/B & AML Management Core Application
   contact:
     name: Firefly Software Solutions Inc

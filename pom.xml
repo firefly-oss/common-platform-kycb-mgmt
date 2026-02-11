@@ -11,14 +11,14 @@
     </parent>
 
     <groupId>com.firefly</groupId>
-    <artifactId>common-platform-kycb-mgmt</artifactId>
+    <artifactId>core-common-kycb-mgmt</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>common-platform-kycb-mgmt-core</module>
-        <module>common-platform-kycb-mgmt-interfaces</module>
-        <module>common-platform-kycb-mgmt-models</module>
-        <module>common-platform-kycb-mgmt-web</module>
-        <module>common-platform-kycb-mgmt-sdk</module>
+        <module>core-common-kycb-mgmt-core</module>
+        <module>core-common-kycb-mgmt-interfaces</module>
+        <module>core-common-kycb-mgmt-models</module>
+        <module>core-common-kycb-mgmt-web</module>
+        <module>core-common-kycb-mgmt-sdk</module>
     </modules>
 
     <properties>
@@ -27,9 +27,9 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.release>${java.version}</maven.compiler.release>
         <fireflyframework.bom.version>26.01.01</fireflyframework.bom.version>
-        <common-platform-kycb-mgmt.version>
+        <core-common-kycb-mgmt.version>
             1.0.0-SNAPSHOT
-        </common-platform-kycb-mgmt.version>
+        </core-common-kycb-mgmt.version>
     </properties>
 
     <dependencyManagement>
@@ -44,27 +44,27 @@
             <!-- Internal modules -->
             <dependency>
                 <groupId>com.firefly</groupId>
-                <artifactId>common-platform-kycb-mgmt-interfaces</artifactId>
+                <artifactId>core-common-kycb-mgmt-interfaces</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.firefly</groupId>
-                <artifactId>common-platform-kycb-mgmt-models</artifactId>
+                <artifactId>core-common-kycb-mgmt-models</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.firefly</groupId>
-                <artifactId>common-platform-kycb-mgmt-sdk</artifactId>
+                <artifactId>core-common-kycb-mgmt-sdk</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.firefly</groupId>
-                <artifactId>common-platform-kycb-mgmt-core</artifactId>
+                <artifactId>core-common-kycb-mgmt-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.firefly</groupId>
-                <artifactId>common-platform-kycb-mgmt-web</artifactId>
+                <artifactId>core-common-kycb-mgmt-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

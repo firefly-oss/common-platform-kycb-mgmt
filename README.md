@@ -44,8 +44,8 @@ Get up and running with the KYC/B & AML Management microservice in minutes:
 ### Clone and Build
 ```bash
 # Clone the repository
-git clone https://github.com/firefly-oss/common-platform-kycb-mgmt.git
-cd common-platform-kycb-mgmt
+git clone https://github.com/firefly-oss/core-common-kycb-mgmt.git
+cd core-common-kycb-mgmt
 
 # Build the application
 mvn clean install
@@ -78,7 +78,7 @@ export DB_PASSWORD=postgres
 export DB_SSL_MODE=disable
 
 # Run the application
-java -jar common-platform-kycb-mgmt-web/target/common-platform-kycb-mgmt.jar
+java -jar core-common-kycb-mgmt-web/target/core-common-kycb-mgmt.jar
 ```
 
 ### Access the API
@@ -164,23 +164,23 @@ java -jar common-platform-kycb-mgmt-web/target/common-platform-kycb-mgmt.jar
 ## Project Structure
 The application follows a clean, modular architecture divided into four main modules:
 
-1. **common-platform-kycb-mgmt-interfaces**
+1. **core-common-kycb-mgmt-interfaces**
    - Data Transfer Objects (DTOs) for API communication
    - Enumerations for standardized values
    - API contracts defining service interfaces
 
-2. **common-platform-kycb-mgmt-models**
+2. **core-common-kycb-mgmt-models**
    - Entity definitions representing database tables
    - Repository interfaces for data access
    - Database migrations for schema evolution
 
-3. **common-platform-kycb-mgmt-core**
+3. **core-common-kycb-mgmt-core**
    - Business logic implementation
    - Service interfaces and implementations
    - Mappers for entity-DTO conversion
    - Validation and business rules
 
-4. **common-platform-kycb-mgmt-web**
+4. **core-common-kycb-mgmt-web**
    - REST controllers exposing API endpoints
    - Request/response handling
    - Input validation
@@ -770,7 +770,7 @@ The test suite covers:
 
 Each service implementation has a corresponding test class that follows a consistent structure and testing approach. The tests use JUnit 5, Mockito, and Reactor Test to verify the behavior of the services.
 
-For more details about the test suite, see the [Test Suite README](common-platform-kycb-mgmt-core/src/test/java/com/firefly/core/kycb/core/services/README.md).
+For more details about the test suite, see the [Test Suite README](core-common-kycb-mgmt-core/src/test/java/com/firefly/core/kycb/core/services/README.md).
 
 To run the tests, use the following Maven command:
 ```bash

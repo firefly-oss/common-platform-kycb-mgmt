@@ -1,6 +1,6 @@
 spring:
   application:
-    name: common-platform-kycb-mgmt
+    name: core-common-kycb-mgmt
     version: 1.0.0
     description: KYC/B & AML Management Core Application
     team:
