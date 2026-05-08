@@ -4716,6 +4716,15 @@ components:
           maxLength: 200
           minLength: 0
           type: string
+        email:
+          maxLength: 255
+          minLength: 0
+          type: string
+          format: email
+        signingAuthorized:
+          type: boolean
+        isPep:
+          type: boolean
     CorporateDocumentDTO:
       required:
       - documentReference
@@ -4847,6 +4856,11 @@ components:
         endDate:
           type: string
           format: date-time
+        email:
+          maxLength: 255
+          minLength: 0
+          type: string
+          format: email
     CorporateStructureDTO:
       required:
       - isVerified

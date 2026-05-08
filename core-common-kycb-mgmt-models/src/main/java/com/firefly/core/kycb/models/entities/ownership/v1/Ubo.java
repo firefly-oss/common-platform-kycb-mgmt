@@ -77,4 +77,7 @@ public class Ubo extends BaseEntity {
 
     @Column("end_date")
     private LocalDateTime endDate;
+
+    @Column("email")
+    private String email;
 }

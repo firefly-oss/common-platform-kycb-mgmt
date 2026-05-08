@@ -95,4 +95,18 @@ public class PowerOfAttorney extends BaseEntity {
 
     @Column("verifying_legal_counsel")
     private String verifyingLegalCounsel;
+
+    @Column("email")
+    private String email;
+
+    @Column("signing_authorized")
+    private Boolean signingAuthorized;
+
+    /**
+     * Quick-capture PEP flag at signer registration. The canonical PEP record
+     * lives in core-common-customer-mgmt.PoliticallyExposedPerson — this flag
+     * is for fast triage during onboarding.
+     */
+    @Column("is_pep")
+    private Boolean isPep;
 }
