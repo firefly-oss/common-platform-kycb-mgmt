@@ -87,17 +87,78 @@ class PowerOfAttorneyDTOTest {
     void testPoaCompletedFieldAccess() {
         // Test that the field can be set and retrieved correctly
         PowerOfAttorneyDTO dto = new PowerOfAttorneyDTO();
-        
+
         // Test setting to true
         dto.setIsPoaCompleted(true);
         assertTrue(dto.getIsPoaCompleted());
-        
+
         // Test setting to false
         dto.setIsPoaCompleted(false);
         assertFalse(dto.getIsPoaCompleted());
-        
+
         // Test setting to null
         dto.setIsPoaCompleted(null);
         assertNull(dto.getIsPoaCompleted());
+    }
+
+    // ─── BE-5c: email / signingAuthorized / isPep ─────────────────────────────
+
+    @Test
+    void testEmailFieldHasEmailAnnotation() throws NoSuchFieldException {
+        var field = PowerOfAttorneyDTO.class.getDeclaredField("email");
+        var emailAnnotation = field.getAnnotation(jakarta.validation.constraints.Email.class);
+        assertNotNull(emailAnnotation, "email field should have @Email annotation");
+    }
+
+    @Test
+    void testNewSignerFieldsExistAndAreOptional() throws NoSuchFieldException {
+        // email
+        var emailField = PowerOfAttorneyDTO.class.getDeclaredField("email");
+        assertNull(emailField.getAnnotation(jakarta.validation.constraints.NotNull.class),
+                "email must be optional (no @NotNull)");
+
+        // signingAuthorized
+        var signingField = PowerOfAttorneyDTO.class.getDeclaredField("signingAuthorized");
+        assertNull(signingField.getAnnotation(jakarta.validation.constraints.NotNull.class),
+                "signingAuthorized must be optional (no @NotNull)");
+
+        // isPep
+        var pepField = PowerOfAttorneyDTO.class.getDeclaredField("isPep");
+        assertNull(pepField.getAnnotation(jakarta.validation.constraints.NotNull.class),
+                "isPep must be optional (no @NotNull)");
+    }
+
+    @Test
+    void testInvalidEmailIsRejected() {
+        PowerOfAttorneyDTO dto = new PowerOfAttorneyDTO();
+        dto.setEmail("not-an-email");
+
+        Set<ConstraintViolation<PowerOfAttorneyDTO>> violations =
+                validator.validateProperty(dto, "email");
+        assertFalse(violations.isEmpty(),
+                "Invalid email should produce at least one violation");
+    }
+
+    @Test
+    void testValidEmailIsAccepted() {
+        PowerOfAttorneyDTO dto = new PowerOfAttorneyDTO();
+        dto.setEmail("attorney@example.com");
+
+        Set<ConstraintViolation<PowerOfAttorneyDTO>> violations =
+                validator.validateProperty(dto, "email");
+        assertTrue(violations.isEmpty(),
+                "Valid email should not produce violations");
+    }
+
+    @Test
+    void testNullEmailIsAccepted() {
+        // email is optional — null must not trigger violations
+        PowerOfAttorneyDTO dto = new PowerOfAttorneyDTO();
+        dto.setEmail(null);
+
+        Set<ConstraintViolation<PowerOfAttorneyDTO>> violations =
+                validator.validateProperty(dto, "email");
+        assertTrue(violations.isEmpty(),
+                "Null email must be accepted (optional field)");
     }
 }

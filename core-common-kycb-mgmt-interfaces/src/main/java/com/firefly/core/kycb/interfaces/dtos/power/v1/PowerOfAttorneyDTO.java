@@ -23,6 +23,7 @@ import org.fireflyframework.annotations.ValidDateTime;
 import com.firefly.core.kycb.interfaces.dtos.BaseDTO;
 import org.fireflyframework.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -106,4 +107,17 @@ public class PowerOfAttorneyDTO extends BaseDTO {
 
     @Size(max = 200, message = "Verifying legal counsel must not exceed 200 characters")
     private String verifyingLegalCounsel;
+
+    @Email(message = "Email must be a valid email address")
+    @Size(max = 255, message = "Email must not exceed 255 characters")
+    private String email;
+
+    private Boolean signingAuthorized;
+
+    /**
+     * Quick-capture PEP flag at signer registration. The canonical PEP record
+     * lives in core-common-customer-mgmt.PoliticallyExposedPerson — this flag
+     * is for fast triage during onboarding.
+     */
+    private Boolean isPep;
 }
